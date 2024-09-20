@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0f172a;
+  font-family: "Archivo", sans-serif;
+}
+
+.header {
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.header h1{
+  color: #60A5FA;
+}
+
+.header p{
+ color: #f1f5ff;
+}
+
+.header, .bar, .search {
+  display: flex;
+}
+
+.bar, .search {
+  align-items: center;
+  gap: 10px;
+}
