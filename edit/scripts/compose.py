@@ -121,6 +121,30 @@ def key_pink(v8, a, ya=950, yb=1200, band=40):
     out = a.copy(); out[ya:yb] *= 1 - np.clip(cv2.GaussianBlur(kill, (0, 0), 1.5) * 1.5, 0, 1)
     return out, int(kill.sum())
 
+def key_specks(v8, a, yb=1200, band=30):
+    """Pontinhos do fundo (placa branca/azul atrás do apresentador) grudados no contorno da cabeça e do
+    pescoço, acima do topo do cartão (y=1200), numa faixa de 30 px da borda do recorte:
+    - azul saturado (H 85–135, S>45): nunca é do apresentador (pele, cabelo, camisa branca/roxa);
+      saem os blocos de até 3000 px, de qualquer forma;
+    - claro sem cor (S<60, V>170): pode ser a camisa, então só saem blocos compactos (20–3000 px,
+      ocupando ≥25% da caixa); contornos finos de cabelo e a faixa dos ombros (alongados) ficam."""
+    hsv = cv2.cvtColor(v8[:yb], cv2.COLOR_RGB2HSV)
+    H, S_, V = hsv[..., 0], hsv[..., 1], hsv[..., 2]
+    inner = cv2.erode((a[:yb] > 0.5).astype(np.uint8), ELIPSE(band)) > 0
+    ring = ~inner & (a[:yb] > 0.3)
+    kill = np.zeros(ring.shape, np.uint8)
+    for cand, compact in ((((H >= 85) & (H <= 135) & (S_ > 45) & (V > 60)) & ring, False),
+                          (((S_ < 60) & (V > 170)) & ring, True)):
+        n, lab, st, _ = cv2.connectedComponentsWithStats(cand.astype(np.uint8), connectivity=8)
+        for j in range(1, n):
+            x, y, w_, h_, area = st[j]
+            if 20 <= area <= 3000 and (not compact or area >= 0.25 * w_ * h_):
+                kill[lab == j] = 1
+    if not kill.any(): return a, 0
+    kill = cv2.dilate(kill, ELIPSE(5)).astype(np.float32)
+    out = a.copy(); out[:yb] *= 1 - np.clip(cv2.GaussianBlur(kill, (0, 0), 1.5) * 1.5, 0, 1)
+    return out, int(kill.sum())
+
 def decontaminate(v, a, y1):
     """Borda do recorte: troca a cor contaminada pelo fundo original pela cor do interior vizinho."""
     vv, aa = v[:y1], a[:y1]
@@ -141,6 +165,7 @@ GX, GY = np.meshgrid(np.arange(W, dtype=np.float32), np.arange(H, dtype=np.float
 SIGMA_MAX = 40.0
 mb_log = {}
 pink_log = {}
+speck_log = {}
 
 def _flow(a8, b8):
     ga = cv2.cvtColor(cv2.resize(a8, (W // 2, H // 2), interpolation=cv2.INTER_AREA), cv2.COLOR_RGB2GRAY)
@@ -228,8 +253,11 @@ def frame(i):
         out = g * (1 - M_CARD[..., None]) + v * M_CARD[..., None]
         out = out * (1 - M_BORDA[..., None]) + AMARELO * M_BORDA[..., None]
         a = warp(clean_matte(matte(seg, sf_ - B_SRC0[seg])), y0, cv2.INTER_LINEAR)
-        a, nk = key_pink(warp(v8, y0, cv2.INTER_LINEAR), a)
+        v8w = warp(v8, y0, cv2.INTER_LINEAR)
+        a, nk = key_pink(v8w, a)
         if nk: pink_log[i] = nk
+        a, ns = key_specks(v8w, a)
+        if ns: speck_log[i] = ns
         fg = decontaminate(v, a, CARD["y"] + FEATHER)
         a = a * RAMPA
         out = out * (1 - a[..., None]) + fg * a[..., None]
@@ -268,6 +296,8 @@ p.stdin.close(); p.wait(); raw.close()
 json.dump(mb_log, open(f"{ROOT}/work/motion_blur_log.json", "w"))
 json.dump(pink_log, open(f"{ROOT}/work/pink_key_log.json", "w"))
 print(f"chave rosa: {len(pink_log)} quadros B com pixels removidos na borda pescoço/gola")
+json.dump(speck_log, open(f"{ROOT}/work/speck_key_log.json", "w"))
+print(f"pontinhos do fundo: {len(speck_log)} quadros B com blocos removidos do contorno")
 moving = {k: v for k, v in mb_log.items() if v > 0}
 print(f"borrão de movimento: {len(moving)} quadros com movimento, sigma máx {max(moving.values(), default=0):.1f} px")
 print("ok", args.out)

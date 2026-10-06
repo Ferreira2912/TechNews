@@ -137,7 +137,9 @@ jun = []
 cuts = [j["cut_out"] for j in edl["junctions"]]
 for j in edl["junctions"]:
     c = j["cut_out"] * 1000
-    near = [ms(a, b) for a, b in runs if a <= c + 200 and b >= c - 200 and a > 0]
+    # o silêncio da junção é o trecho que contém o corte de imagem (fim da fala < corte < próxima fala);
+    # oclusões dentro de palavras perto do corte (ex.: "Park|tur") não contam
+    near = [ms(a, b) for a, b in runs if a - 20 <= c <= b + w // hop + 20]
     jun.append(dict(corte_s=round(j["cut_out"], 3), silencio_ms=max(near) if near else 0))
 internas = [dict(inicio_s=round(a / 1000, 3), fim_s=round((b + w // hop - 1) / 1000, 3), ms=ms(a, b)) for a, b in runs
             if a > 200 and b < len(quiet) - 300 and ms(a, b) >= 200 and not any(a - 300 <= c * 1000 <= b + 300 for c in cuts)]
@@ -180,7 +182,7 @@ for c in caps:
     if y1b > 1650 or y0b < 110: probs.append(dict(texto=c["text"], problema="fora da área segura vertical"))
     for i in range(int(round(c["in"] * FPS)), int(round(c["out"] * FPS))):
         fb = face_out(i)
-        if fb: folga.append(y0b - fb[3])
+        if fb and fb[1] < y0b: folga.append(y0b - fb[3])   # rosto acima da faixa: folga queixo → legenda
         if fb and fb[3] > y0b - 5 and fb[1] < y1b:
             probs.append(dict(texto=c["text"], quadro=i, rosto_y=[round(fb[1]), round(fb[3])], faixa=[y0b, y1b])); break
 R["legendas"] = dict(menor_folga_queixo_legenda_px=round(min(folga), 1) if folga else None, blocos_visiveis=sum(c["kind"] != "x" for c in caps), ocultos=sum(c["kind"] == "x" for c in caps),

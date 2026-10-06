@@ -345,7 +345,12 @@ máxima de 4,0 dB.
   2. alfa abaixo de 0,25 zerado com smoothstep;
   3. descontaminação da borda, trocando a cor pela do interior vizinho;
   4. chave localizada para o luminoso rosa do fundo na fresta pescoço/gola de S1 (só numa faixa de
-     40 px da borda, em y 950–1200).
+     40 px da borda, em y 950–1200);
+  5. remoção de pontinhos da placa branca/azul do fundo grudados no contorno da cabeça e do pescoço
+     (faixa de 30 px da borda, acima do topo do cartão):
+     - azul saturado sai em qualquer forma;
+     - branco sem cor só sai em blocos compactos, para não tocar nos ombros da camisa branca nem no
+       contorno do cabelo.
 - O recorte aparece por cima do topo do cartão e some numa transição de 40 px (smoothstep) logo abaixo
   da borda (y 1200–1240). Ali a imagem embaixo é idêntica (é o mesmo vídeo), então a transição não
   aparece e o pescoço cobre o contorno amarelo.
@@ -394,8 +399,8 @@ A primeira montagem (END 38 300 ms) passou pela verificação abaixo e foi corri
    - A tomada 6 entrava 1 quadro antes do necessário. Agora entra 40 ms antes de "Já" (33,50 s), e a
      junção mede cerca de 144 ms.
 5. **Recorte da cabeça.**
-   - Havia halo cinza nas orelhas (vidro do fundo com alfa parcial) e um ponto rosa na fresta
-     pescoço/gola.
+   - Havia halo cinza nas orelhas (vidro do fundo com alfa parcial), um ponto rosa na fresta
+     pescoço/gola (S1) e pontinhos branco/azuis da placa do fundo junto à orelha e ao pescoço (S3c).
    - Corrigido com a limpeza do matte descrita acima. O vídeo do layout B também desceu 20–45 px
      para os ombros ficarem logo abaixo do topo do cartão.
 6. **Borrão de movimento escalonado.** Corrigido com o preenchimento por fluxo óptico.
