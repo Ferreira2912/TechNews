@@ -459,6 +459,9 @@ scripts/clean_voice.sh brutoIndiqueeViaje.mp4 work          # voz limpa
 .venv/bin/python scripts/faces.py                            # rosto/contato visual
 .venv/bin/python scripts/edl.py                              # EDL, trechos, palavras → work/edl.json
 .venv/bin/python scripts/segments.py                         # hf/data/segments.* + data-duration das composições
+.venv/bin/python scripts/matte.py <rvm.onnx> <f0> <f1> <aquecimento> work/matte/<TRECHO>.mkv   # S3c 945, S4b 1343, S6a 2009
+#   (o quadro inicial de cada matte vai em work/matte/bases.json; o matte só serve para medir o topo do cabelo)
+.venv/bin/python scripts/zonas_rosto.py                      # hf/data/zonas_rosto.json (faixas livres para as animações)
 .venv/bin/python scripts/build_voice.py                      # stems/voice.wav
 .venv/bin/python scripts/captions.py                         # hf/data/captions.js + eventos do CTA
 .venv/bin/python scripts/music.py 37.666667 stems/music.wav
