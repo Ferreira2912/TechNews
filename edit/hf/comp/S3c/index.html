@@ -13,14 +13,12 @@
       body {
         background: transparent;
       }
-      /* Zona livre inferior deste trecho: y 1010–1650 (queixo em 957), x 60–920.
-         A pegada inteira (incluindo a var(--sombra), alfa > 8) precisa caber nessa faixa no pico da
-         janela de demonstração (×1,15). A sombra de 120 px de desfoque passa ≈ 67 px dos lados e
-         ≈ 126 px abaixo do box, por isso o box tem 608 × 356 px, centrado em x = 490, y = 1290.
-         Medido nos snapshots: pegada máxima x ≈ 63–916 e y ≈ 1021–1640. */
+      /* Zona livre inferior deste trecho: y 1010–1650 (queixo em 957).
+         Box de 608 × 356 px centrado no meio do quadro (x = 540, pedido do cliente), y = 1290; no pico
+         da janela de demonstração (×1,15) o box sólido fica em x ≈ 190–890 e a sombra não passa de y 1650. */
       #grp {
         position: absolute;
-        left: 186px;
+        left: 236px;
         top: 1112px;
         width: 608px;
         height: 356px;
@@ -195,7 +193,7 @@
         // brilho atravessa o box enquanto a filmagem corta (≈ 2,15)
         tl.to("#brilho", { x: 820, duration: 0.75, ease: "power2.inOut" }, tDemo + 0.3);
 
-        // deriva suave até o fim: só sobe 10 px (a escala fica em 1,15 para a pegada caber em x 60–920)
+        // deriva suave até o fim: só sobe 10 px (a escala fica em 1,15)
         tl.to("#grp", { y: -10, duration: tSai - tDemoFim, ease: "sine.inOut" }, tDemoFim);
 
         // saída curta no fim do trecho

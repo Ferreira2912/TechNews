@@ -10,6 +10,10 @@ sem nenhum arquivo de áudio externo.
 > peças também saíram do início e do fim: a peça 2 em S2 virou texto puro, e a peça 1 (S1) e a foto do
 > lago (S6a) foram removidas. Detalhes em "Revisão 2" no fim deste relatório.
 
+> **Revisão 3 (pedido do cliente).** O box "VOCÊ GANHA R$ 100" (S3c), o box "SEU INDICADO GANHA R$ 50"
+> e o cartão "Contratação da viagem" (S4b) foram centralizados na horizontal (centro em x = 540, o meio
+> do quadro). Nada mais mudou. Detalhes em "Revisão 3" no fim deste relatório.
+
 ## Entregas
 
 | Arquivo | Conteúdo |
@@ -35,6 +39,8 @@ A tabela foi escrita antes dos gráficos, em `PLANO.md`, e atualizada duas vezes
 - depois da verificação das pausas e junções, quando mudaram S2, S3c, S6a, S6b e todos os tempos a
   partir de S2;
 - na revisão 2, quando o layout dividido saiu e S1, S3c, S4b e S6a passaram a câmera cheia.
+
+Na revisão 3 só a posição horizontal das animações de S3c e S4b mudou; a tabela continua a mesma.
 
 "A + animação" é a câmera cheia, intacta, com uma camada gráfica transparente por cima.
 
@@ -147,8 +153,8 @@ mediu a pegada de cada animação (pixels com alfa > 8) contra as zonas do rosto
 | S1 (A) | Só o apresentador e a legenda (a capa ocupa o quadro 0). Sem gráfico e sem a peça 1. | — |
 | S2 (C) | Primeira menção, só com texto e o logotipo, sem nenhuma imagem. Fundo radial roxo (#7A0A74 → #2B0029) com deriva suave.<br>• "Indique": o selo INDIQUE E VIAJE! surge grande e centralizado (1,75×, back.out) e assenta (impacto).<br>• "A nova campanha": o selo recua para a posição fixa (73,138), o logotipo entra (back.out leve) e a frase oficial da peça 2 aparece em texto puro, linha a linha por máscara: "SUA PRÓXIMA / VIAGEM COMEÇA / COM UMA / INDICAÇÃO.", 104 px, com PRÓXIMA, VIAGEM e INDICAÇÃO. em amarelo, base em y≈1228.<br>• O botão de seta aparece no fim. | peça 2 (texto e selo) |
 | S3b (C) | Demonstração da mecânica, sem mudança nesta revisão.<br>• Cartão INDICAR / "Escolha um contato": as linhas Amigo, Familiar e Colega acendem na palavra falada.<br>• Botão ENVIAR INDICAÇÃO (click), avião de papel (envio) e "Indicação enviada".<br>• Passagem rápida de 0,5 s até o cartão de reserva "Sua viagem", com o carimbo verde VIAGEM FECHADA (confirmação). | peças 2, 3 e 5 (linguagem visual) |
-| S3c (A + animação) | Box "VOCÊ GANHA / R$ 100 / em crédito para sua próxima viagem" sobre o peito, longe do rosto. Roxo sólido, borda amarela de 4 px, etiqueta roxa com contorno amarelo, 608×356 centrado em x 490, y 1290.<br>• Entra em "ganha" com back.out (impacto).<br>• Conta de R$ 0 a R$ 100 em "R$ 100".<br>• Cresce até 1,15× (demonstração) em "de crédito", com faíscas presas ao valor.<br>• Some suavemente antes do corte para S4a. | peça 2 (box de valor) |
-| S4b (A + animação) | Na faixa sobre o peito (y 1054–1635):<br>• Box "SEU INDICADO GANHA / R$ 50 / de benefício na contratação" (impacto).<br>• Passagem de 0,5 s em "contratação": o box sai pela esquerda e o cartão branco "Contratação da viagem" entra pela direita (passagem).<br>• O cartão cresce até 1,15×, e a pílula amarela "Benefício Indique e Viaje − R$ 50" é carimbada na vaga, com check verde (confirmação).<br>É o cartão que o cliente indicou como referência. | peças 2 e 5 |
+| S3c (A + animação) | Box "VOCÊ GANHA / R$ 100 / em crédito para sua próxima viagem" sobre o peito, longe do rosto. Roxo sólido, borda amarela de 4 px, etiqueta roxa com contorno amarelo, 608×356 centrado no meio do quadro (x 540), y 1290.<br>• Entra em "ganha" com back.out (impacto).<br>• Conta de R$ 0 a R$ 100 em "R$ 100".<br>• Cresce até 1,15× (demonstração) em "de crédito", com faíscas presas ao valor.<br>• Some suavemente antes do corte para S4a. | peça 2 (box de valor) |
+| S4b (A + animação) | Na faixa sobre o peito (y 1050–1635), box e cartão centrados no meio do quadro (x 540):<br>• Box "SEU INDICADO GANHA / R$ 50 / de benefício na contratação" (impacto).<br>• Passagem de 0,5 s em "contratação": o box sai pela esquerda e o cartão branco "Contratação da viagem" entra pela direita (passagem).<br>• O cartão cresce até 1,15×, e a pílula amarela "Benefício Indique e Viaje − R$ 50" é carimbada na vaga, com check verde (confirmação).<br>É o cartão que o cliente indicou como referência. | peças 2 e 5 |
 | S5b (C) | Tabela da peça 4 (1 indicação = R$ 100 / 3 = R$ 300 / 5 = R$ 500). Cada linha acende na fala, com moedas empilhando e contador R$ 100 → R$ 300 → R$ 500. Sem mudança nesta revisão. | peça 4 (e peça 2) |
 | S6a (A + animação) | Título da peça 3 em texto puro, no alto e acima do cabelo: "JÁ TEM ALGUÉM / EM MENTE? 👀", amarelo, 104 px, em x 66–880 e y 147–376. Fica sobre um degradê escuro suave que some antes do cabelo, sem foto.<br>• Palavras sobem por máscara a partir de "Já".<br>• O 👀 entra em "alguém".<br>• Tudo sai suavemente nos últimos 0,27 s, porque S6b continua o mesmo plano. | peça 3 |
 
@@ -343,14 +349,18 @@ máxima de 4,0 dB.
 - Zonas do rosto medidas em todos os quadros de origem de cada trecho (topo do cabelo pelo matte RVM,
   rosto pelo YuNet), guardadas em `hf/data/zonas_rosto.json`:
 
-  | Trecho | Topo do cabelo (mín.) | Queixo (máx.) | Onde fica a animação | Pegada medida (alfa > 8) |
-  | --- | ---: | ---: | --- | --- |
-  | S3c | 404 | 957 | faixa de baixo, sobre o peito | x 63–916, y 1021–1640 |
-  | S4b | 368 | 1000 | faixa de baixo, sobre o peito | x 61–918, y 1054–1635 |
-  | S6a | 431 | 1026 | faixa de cima, acima do cabelo | x 66–880, y 147–376 |
+  | Trecho | Topo do cabelo (mín.) | Queixo (máx.) | Onde fica a animação | Pegada medida (alfa > 8) | Conteúdo sólido (alfa ≥ 160) |
+  | --- | ---: | ---: | --- | --- | --- |
+  | S3c | 404 | 957 | faixa de baixo, sobre o peito, centrada em x 540 | x 113–966, y 1021–1640 | x 190–889, y 1039–1494 |
+  | S4b | 368 | 1000 | faixa de baixo, sobre o peito, centrada em x 540 | x 21–1007, y 1050–1635 | x 41–933, y 1070–1514 |
+  | S6a | 431 | 1026 | faixa de cima, acima do cabelo | x 66–880, y 147–376 | x 73–872, y 150–367 |
 
-- Nenhum pixel das animações cai na caixa do rosto, à direita de x 940 entre y 900 e 1650, acima de
-  y 110 ou abaixo de y 1650. A conferência foi feita em todos os subquadros (ver Verificação).
+- Nenhum pixel das animações cai na caixa do rosto, acima de y 110 ou abaixo de y 1650. Nenhum conteúdo
+  sólido (alfa ≥ 160) passa de x 940 entre y 900 e 1650, onde fica a interface do Reels. A conferência
+  foi feita em todos os subquadros (ver Verificação).
+- Depois da centralização (revisão 3), só a cauda das sombras (alfa < 160) passa de x 940. Em S4b, o
+  x 41 é o box saindo pela esquerda na passagem. Parados, os três elementos ficam simétricos em torno
+  de x 540: o box R$ 100 em x 190–889, o box R$ 50 em x 180–899 e o cartão em x 150–929.
 - Sobre o vídeo, os boxes e cartões são opacos e têm a sombra de três camadas. Assim leem bem sobre a
   camisa branca.
 
@@ -428,9 +438,37 @@ Consequências:
 - Saíram os efeitos do cartão da peça 1 (S1) e do cartão da peça 2 (S2).
 - A edição da fala, os cortes, as junções, a trilha, o riser e o END não mudaram.
 
+## Revisão 3: centralização pedida pelo cliente
+
+Pedido: "consegue arrumar somente esses três seções pra deixar elas bem no meio, que agora eles estão
+deslocados um pouco para a esquerda, mas de resto está ótimo, apenas centralizar esses 3".
+
+Na revisão 2, as três animações estavam centradas em x ≈ 490, deixando folga extra para a interface do
+Reels à direita. Agora estão no meio do quadro:
+
+| Elemento | Antes (x sólido, parado) | Agora (x sólido, parado) | Centro |
+| --- | --- | --- | --- |
+| S3c, box "VOCÊ GANHA R$ 100" | 140–839 | 190–889 | 539,5 |
+| S4b, box "SEU INDICADO GANHA R$ 50" | 130–849 | 180–899 | 539,5 |
+| S4b, cartão "Contratação da viagem" | 100–879 | 150–929 | 539,5 |
+
+O que mudou no código:
+- `hf/comp/S3c/index.html`: `#grp` passou de `left: 186px` para `236px`.
+- `hf/comp/S4b/index.html`:
+  - `#grpBox` passou de `left: 140px` para `190px`;
+  - `#grpCartao` passou de `left: 154px` para `204px`;
+  - a máscara do `#palco` ficou simétrica em torno de x 540 (esmaece em x 20–52 e 1028–1060).
+- Durante a passagem de 0,5 s, a borda direita da máscara fecha em x 922–954. Assim o cartão que entra
+  pela direita não aparece sólido além de x 940. Ela fecha 0,2 s antes da passagem e reabre logo depois,
+  sempre longe dos elementos parados.
+
+Movimentos, tempos, cores, legendas, áudio, cortes e os demais trechos não mudaram. Foram refeitos só os
+quadros de S3c (886–1132) e S4b (1253–1470); o resto do `final.mp4` reaproveita os mesmos segmentos
+H.264 da revisão 2.
+
 ## Verificação final
 
-Feita com `scripts/verify.py` sobre o `final.mp4` entregue (revisão 2). Dados em
+Feita com `scripts/verify.py` sobre o `final.mp4` entregue (revisão 3). Dados em
 `verificacao/verificacao.json` e pranchas em `verificacao/`, inclusive a prancha de revisão de cada
 composição nova (`prancha_S2.jpg`, `prancha_S3c.jpg`, `prancha_S4b.jpg`, `prancha_S6a.jpg`).
 
@@ -439,7 +477,7 @@ composição nova (`prancha_S2.jpg`, `prancha_S3c.jpg`, `prancha_S4b.jpg`, `pran
 | Formato | h264 High 1080x1920 60/1 yuv420p bt709; 2260 quadros = 37.666667 s; aac 48000 Hz 2 canais 327 kb/s; vídeo e áudio começam em 0 |
 | Layouts | S1 A, S2 C, S3a A, S3b C, S3c A+animação, S4a A, S4b A+animação, S5a A, S5b C, S6a A+animação, S6b A. Nenhum trecho dividido |
 | Imagens | início (capa, S1, S2) e fim (S6a, S6b) sem imagem de peça nem foto: só texto, o logotipo (capa e S2) e a câmera. Fotos desfocadas só no meio: S3b (9,3–14,8 s) e S5b (27,3–31,8 s) |
-| Animações sobre a câmera | conferidas em todos os subquadros de 240 qps: S3c 988, S4b 820, S6a 564. Pixels sobre a caixa do rosto: 0 / 0 / 0. Subquadros com conteúdo fora das áreas seguras: 0 / 0 / 0. Conteúdo sólido em S3c x 140–839, y 1039–1494; S4b x 80–898, y 1070–1514; S6a x 73–872, y 150–367 (o degradê de leitura de S6a começa em y 0 e some até y 417, acima do cabelo) |
+| Animações sobre a câmera | conferidas em todos os subquadros de 240 qps: S3c 988, S4b 820, S6a 564. Pixels sobre a caixa do rosto: 0 / 0 / 0. Subquadros com conteúdo fora das áreas seguras: 0 / 0 / 0. Conteúdo sólido em S3c x 190–889, y 1039–1494; S4b x 41–933, y 1070–1514 (o x 41 é o box saindo pela esquerda; parados, box e cartão ficam centrados em x 540); S6a x 73–872, y 150–367 (o degradê de leitura de S6a começa em y 0 e some até y 417, acima do cabelo) |
 | Quadros brancos / pretos | 0 / 0 (luminância média por quadro entre 46.9 e 158.4) |
 | Quadros parados | maior sequência quase idêntica: 21 quadros (0,35 s), no começo de S2: fundo roxo com a legenda "Chegou o" e deriva lenta, antes de o selo entrar em "Indique" |
 | Cortes | `verificacao/cortes_entre_trechos.jpg`: os cortes entre trechos têm quadros reais dos dois lados e cada trecho de câmera abre na tomada certa. `verificacao/cortes_secos_pausas.jpg`: os cortes secos de S3c (sob o box animado) e de S6b ligam quadros com o apresentador olhando para a lente |

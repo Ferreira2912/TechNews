@@ -9,30 +9,32 @@
     <link rel="stylesheet" href="shared/brand.css" />
     <style>
       /* Camada transparente (layout A): o compositor aplica estes PNGs RGBA sobre a câmera intacta.
-         Zona livre inferior deste trecho: y 1050–1650 (queixo em 1000), x 60–920.
-         As duas estações ficam centradas em x = 490, y = 1310. */
+         Zona livre inferior deste trecho: y 1050–1650 (queixo em 1000).
+         As duas estações ficam centradas no meio do quadro (x = 540, pedido do cliente), y = 1310. */
       html,
       body {
         background: transparent;
       }
 
-      /* palco único da faixa livre: nenhum pixel (nem a cauda da var(--sombra), alfa > 8) sai de
-         x 60–920 nem de y 1050–1650. Os gráficos em si ficam sempre em x ≥ 100 e ≤ 880; a máscara
-         só esmaece a cauda da sombra em x 60–92 / 888–920 e serve de janela para a passagem
-         (o box sai pela esquerda, o cartão entra pela direita). */
+      /* palco único da faixa livre: nada sai de y 1050–1650. Parada, a máscara é simétrica em torno de
+         x = 540 e esmaece só a cauda da sombra em x 20–52 / 1028–1060. Na passagem (o box sai pela
+         esquerda, o cartão entra pela direita) a borda direita fecha em x 922–954, para o cartão que entra
+         não passar de x 940 (área segura da interface). Os gráficos sólidos ficam em x 150–930. */
       #palco {
         position: absolute;
         inset: 0;
-        -webkit-mask-image: linear-gradient(90deg, transparent 60px, #000 92px, #000 888px, transparent 920px);
-        mask-image: linear-gradient(90deg, transparent 60px, #000 92px, #000 888px, transparent 920px);
+        --dir0: 1028px;
+        --dir1: 1060px;
+        -webkit-mask-image: linear-gradient(90deg, transparent 20px, #000 52px, #000 var(--dir0), transparent var(--dir1));
+        mask-image: linear-gradient(90deg, transparent 20px, #000 52px, #000 var(--dir0), transparent var(--dir1));
         clip-path: inset(1050px 0 270px 0);
       }
 
       /* ---------- estação 1: box de valor (mesmo estilo do S3c) ---------- */
-      /* 700 × 390, x 140–840, y 1115–1505 (etiqueta a partir de 1079); na deriva (×1,03): y 1072–1511 */
+      /* 700 × 390, x 190–890, y 1115–1505 (etiqueta a partir de 1079); na deriva (×1,03): y 1072–1511 */
       #grpBox {
         position: absolute;
-        left: 140px;
+        left: 190px;
         top: 1115px;
         width: 700px;
         height: 390px;
@@ -126,11 +128,11 @@
       }
 
       /* ---------- estação 2: cartão de contratação (UI branca) ---------- */
-      /* 672 × 302, x 154–826, y 1159–1461; na demonstração + respiro (×1,16): x 100–880, y 1135–1485.
-         Com a var(--sombra) a pegada cabe em x 60–920 (a máscara do #palco esmaece só a cauda). */
+      /* 672 × 302, x 204–876, y 1159–1461; na demonstração + respiro (×1,16): x 150–930, y 1135–1485.
+         A máscara do #palco esmaece só a cauda da sombra nas bordas. */
       #grpCartao {
         position: absolute;
-        left: 154px;
+        left: 204px;
         top: 1159px;
         width: 672px;
         height: 302px;
@@ -328,6 +330,7 @@
         const tOut = D - 0.2; // saída curta, termina no corte para S5a
 
         // quadro 0: nada visível
+        gsap.set("#palco", { "--dir0": "1028px", "--dir1": "1060px" });
         gsap.set("#grpBox", { scale: 1, y: 0 });
         gsap.set("#box", { opacity: 0, scale: 0.86, y: 50, x: 0, filter: "blur(0px)" });
         gsap.set("#sublinhado", { scaleX: 0 });
@@ -360,9 +363,12 @@
         tl.to("#grpBox", { scale: 1.03, y: -6, duration: tPass - 0.5, ease: "sine.inOut" }, 0.5);
 
         // passagem (0,5 s power3.inOut): o box sai pela esquerda, o cartão entra pela direita no mesmo lugar;
-        // a máscara do #palco recorta os dois suavemente nas bordas x 60–92 / 888–920
+        // a máscara do #palco recorta os dois suavemente nas bordas: x 20–52 à esquerda e, só durante a
+        // passagem, x 922–954 à direita (box parado ≤ 899 e cartão parado ≤ 930 nunca tocam essa borda)
+        tl.to("#palco", { "--dir0": "922px", "--dir1": "954px", duration: 0.2, ease: "sine.inOut" }, tPass - 0.2);
         tl.to("#box", { x: -900, opacity: 0.7, filter: "blur(14px)", duration: 0.5, ease: "power3.inOut" }, tPass);
         tl.to("#grpCartao", { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.inOut" }, tPass);
+        tl.to("#palco", { "--dir0": "1028px", "--dir1": "1060px", duration: 0.2, ease: "sine.inOut" }, tPass + 0.5);
 
         // cartão parado: janela de demonstração 1,0 → 1,15 (power2.inOut 0,55 s)
         tl.to("#contrato", { scale: 1.15, duration: 0.55, ease: "power2.inOut" }, tZoom);

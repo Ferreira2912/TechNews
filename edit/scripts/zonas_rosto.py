@@ -31,7 +31,7 @@ def face_ok(d):
 
 out = {"_nota": "Coordenadas do quadro 1080x1920 da câmera (layout A, sem reescala). Medido em todos os quadros "
                 "de origem do trecho: topo do cabelo pelo matte RVM, caixa do rosto pelo YuNet (detecções isoladas "
-                "descartadas). 'livre' = faixas onde gráficos podem ficar sem cobrir o rosto (x 60–920 quando y entre "
+                "descartadas). 'livre' = faixas onde gráficos podem ficar sem cobrir o rosto (conteúdo sólido em x ≤ 940 quando y entre "
                 "900 e 1650). Gerado por scripts/zonas_rosto.py."}
 start = 0
 for k, s in segs.items():

@@ -7,7 +7,7 @@
   "duracao_audio": 37.666,
   "inicio_video": 0.0,
   "inicio_audio": 0.0,
-  "tamanho_mb": 60.0
+  "tamanho_mb": 60.2
  },
  "quadros": {
   "luminancia_min": 46.9,
@@ -134,15 +134,15 @@
   "S3c": {
    "subquadros": 988,
    "caixa_qualquer_alfa_xyxy": [
-    63,
+    113,
     1021,
-    916,
+    966,
     1640
    ],
    "caixa_conteudo_solido_xyxy": [
-    140,
+    190,
     1039,
-    839,
+    889,
     1494
    ],
    "pixels_sobre_o_rosto_max": 0,
@@ -152,15 +152,15 @@
   "S4b": {
    "subquadros": 820,
    "caixa_qualquer_alfa_xyxy": [
-    61,
-    1052,
-    918,
+    21,
+    1050,
+    1007,
     1635
    ],
    "caixa_conteudo_solido_xyxy": [
-    80,
+    41,
     1070,
-    898,
+    933,
     1514
    ],
    "pixels_sobre_o_rosto_max": 0,
