@@ -1,3 +1,3 @@
 [
-  { "word": "ganha", "offset": 0.24, "type": "impacto", "nota": "box VOCÊ GANHA R$ 100 assenta (entra em at('ganha') − 0,05, back.out)" }
+  { "word": "ganha", "offset": 0.15, "type": "impacto", "nota": "box VOCÊ GANHA R$ 100 assenta sobre a câmera (entra em at('ganha') − 0,05 com back.out e atinge o tamanho final ≈ 0,53 s)" }
 ]
