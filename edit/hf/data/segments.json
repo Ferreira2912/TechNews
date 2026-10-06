@@ -1,7 +1,7 @@
 {
  "S1": {
   "id": "S1",
-  "layout": "B",
+  "layout": "A",
   "start_ms": 0.0,
   "end_ms": 4500.0,
   "duration": 4.5,
@@ -110,18 +110,7 @@
     "filler": false
    }
   ],
-  "content": "Gancho: 'E se eu te dissesse que indicar um amigo pode te auxiliar a pagar sua próxima viagem?'",
-  "b": {
-   "video_y": 61,
-   "card": {
-    "x": -65,
-    "y": 1200,
-    "w": 1210,
-    "h": 864
-   },
-   "head_top_typical": 534,
-   "head_top_min": 497
-  }
+  "content": "Gancho: 'E se eu te dissesse que indicar um amigo pode te auxiliar a pagar sua próxima viagem?' — só câmera e legenda"
  },
  "S2": {
   "id": "S2",
@@ -198,7 +187,7 @@
     "filler": false
    }
   ],
-  "content": "'Chegou o Indique e Viaje, a nova campanha aqui da Parktur.' — selo grande, logotipo, peça oficial"
+  "content": "'Chegou o Indique e Viaje, a nova campanha aqui da Parktur.' — selo grande, logotipo, texto puro"
  },
  "S3a": {
   "id": "S3a",
@@ -356,7 +345,7 @@
  },
  "S3c": {
   "id": "S3c",
-  "layout": "B",
+  "layout": "A",
   "start_ms": 14766.7,
   "end_ms": 18883.3,
   "duration": 4.116667,
@@ -429,18 +418,8 @@
     "filler": false
    }
   ],
-  "content": "'você ganha R$ 100 de crédito para utilizar na sua próxima viagem' — box VOCÊ GANHA R$ 100",
-  "b": {
-   "video_y": 136,
-   "card": {
-    "x": -65,
-    "y": 1200,
-    "w": 1210,
-    "h": 864
-   },
-   "head_top_typical": 637,
-   "head_top_min": 588
-  }
+  "content": "'você ganha R$ 100 de crédito para utilizar na sua próxima viagem' — câmera + box VOCÊ GANHA R$ 100 animado por cima",
+  "overlay": true
  },
  "S4a": {
   "id": "S4a",
@@ -497,7 +476,7 @@
  },
  "S4b": {
   "id": "S4b",
-  "layout": "B",
+  "layout": "A",
   "start_ms": 21100.0,
   "end_ms": 24516.7,
   "duration": 3.416667,
@@ -546,18 +525,8 @@
     "filler": false
    }
   ],
-  "content": "'R$ 50 de benefício na contratação da viagem.' — box SEU INDICADO GANHA R$ 50",
-  "b": {
-   "video_y": 88,
-   "card": {
-    "x": -65,
-    "y": 1200,
-    "w": 1210,
-    "h": 864
-   },
-   "head_top_typical": 653,
-   "head_top_min": 501
-  }
+  "content": "'R$ 50 de benefício na contratação da viagem.' — câmera + box SEU INDICADO GANHA R$ 50 e cartão de contratação por cima",
+  "overlay": true
  },
  "S5a": {
   "id": "S5a",
@@ -721,7 +690,7 @@
  },
  "S6a": {
   "id": "S6a",
-  "layout": "B",
+  "layout": "A",
   "start_ms": 31766.7,
   "end_ms": 34116.7,
   "duration": 2.35,
@@ -776,18 +745,8 @@
     "filler": false
    }
   ],
-  "content": "'Já pensou em alguém que tá querendo viajar?' 👀",
-  "b": {
-   "video_y": 76,
-   "card": {
-    "x": -65,
-    "y": 1200,
-    "w": 1210,
-    "h": 864
-   },
-   "head_top_typical": 598,
-   "head_top_min": 559
-  }
+  "content": "'Já pensou em alguém que tá querendo viajar?' — câmera + título JÁ TEM ALGUÉM EM MENTE? 👀 (texto puro) por cima",
+  "overlay": true
  },
  "S6b": {
   "id": "S6b",

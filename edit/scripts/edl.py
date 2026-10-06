@@ -42,16 +42,16 @@ JUNCTION_TAIL = 0.07  # imagem da frase anterior continua ~70 ms após o fim ver
 
 # Trechos (layout) em tempo de origem: (id, tomada, início, layout, conteúdo)
 SEGMENTS = [
-    ("S1", 0, None, "B", "Gancho: 'E se eu te dissesse que indicar um amigo pode te auxiliar a pagar sua próxima viagem?'"),
-    ("S2", 1, None, "C", "'Chegou o Indique e Viaje, a nova campanha aqui da Parktur.' — selo grande, logotipo, peça oficial"),
+    ("S1", 0, None, "A", "Gancho: 'E se eu te dissesse que indicar um amigo pode te auxiliar a pagar sua próxima viagem?' — só câmera e legenda"),
+    ("S2", 1, None, "C", "'Chegou o Indique e Viaje, a nova campanha aqui da Parktur.' — selo grande, logotipo, texto puro"),
     ("S3a", 2, None, "A", "'E é muito simples,'"),
     ("S3b", 2, 9.90, "C", "'você indica um amigo, um familiar ou um colega. Se essa pessoa fechar uma viagem com a Parktur,' — demonstração indicou → fechou"),
-    ("S3c", 2, 15.75, "B", "'você ganha R$ 100 de crédito para utilizar na sua próxima viagem' — box VOCÊ GANHA R$ 100"),
+    ("S3c", 2, 15.75, "A", "'você ganha R$ 100 de crédito para utilizar na sua próxima viagem' — câmera + box VOCÊ GANHA R$ 100 animado por cima"),
     ("S4a", 3, None, "A", "'E quem você indicar também ganha, é,'"),
-    ("S4b", 3, 22.38, "B", "'R$ 50 de benefício na contratação da viagem.' — box SEU INDICADO GANHA R$ 50"),
+    ("S4b", 3, 22.38, "A", "'R$ 50 de benefício na contratação da viagem.' — câmera + box SEU INDICADO GANHA R$ 50 e cartão de contratação por cima"),
     ("S5a", 4, None, "A", "'E tem mais, o seu crédito é acumulativo.'"),
     ("S5b", 4, 28.72, "C", "'Então, quanto mais pessoas você indicar para viajar com a gente, mais você vai ganhar.' — tabela 1/3/5 e moedas"),
-    ("S6a", 5, None, "B", "'Já pensou em alguém que tá querendo viajar?' 👀"),
+    ("S6a", 5, None, "A", "'Já pensou em alguém que tá querendo viajar?' — câmera + título JÁ TEM ALGUÉM EM MENTE? 👀 (texto puro) por cima"),
     ("S6b", 5, 35.85, "A", "CTA: 'Então mande o nome pra gente e faça sua primeira indicação.' + botão INDIQUE AGORA"),
 ]
 

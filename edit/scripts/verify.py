@@ -15,7 +15,6 @@ import numpy as np, cv2, soundfile as sf
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
-from alpha_io import read_alpha
 W, H, FPS = 1080, 1920, 60
 OUT = f"{ROOT}/work/verif"; os.makedirs(OUT, exist_ok=True)
 FINAL = f"{ROOT}/final.mp4"
@@ -46,7 +45,7 @@ for k, s in segs.items():
     bounds.append((k, f)); f += s["frames"]
 cut_frames = {b for _, b in bounds[1:]} | {b - 1 for _, b in bounds[1:]}
 sheet_frames = set(range(0, NF, 30)) | {NF - 1}
-b_first = {b for k, b in bounds if segs[k]["layout"] == "B"}
+b_first = set()
 for i in range(NF):
     buf = p.stdout.read(W * H * 3)
     img = np.frombuffer(buf, np.uint8).reshape(H, W, 3)
@@ -91,16 +90,45 @@ while len(t) % 10: t.append(np.zeros_like(t[0]))
 cv2.imwrite(f"{OUT}/contato.jpg", cv2.cvtColor(np.vstack([np.hstack(t[i:i + 10]) for i in range(0, len(t), 10)]), cv2.COLOR_RGB2BGR),
             [cv2.IMWRITE_JPEG_QUALITY, 82])
 
-# ---------- cabeça no 1º quadro de cada B ----------
-heads = {}
-for k, b in bounds:
-    if segs[k]["layout"] != "B": continue
-    img = full[b].astype(np.int16)
-    # região acima do cartão e abaixo de 900 (fora do gráfico): pele/cabelo do apresentador vs. fundo roxo
-    reg = img[1000:1195, 200:880]
-    purple = (np.abs(reg[..., 0] - 0x63) < 60) & (reg[..., 1] < 60) & (np.abs(reg[..., 2] - 0x5e) < 70)
-    heads[k] = dict(quadro=b, fracao_nao_fundo=round(1 - float(purple.mean()), 3))
-R["cabeca_primeiro_quadro_B"] = heads
+# ---------- layouts e imagens ----------
+import glob as _glob, re as _re
+R["layouts"] = {k: s_["layout"] + ("+animação" if s_.get("overlay") else "") for k, s_ in segs.items()}
+assert "B" not in {s_["layout"] for s_ in segs.values()}, "ainda há trecho dividido (B)"
+imgs = {}
+for k, s_ in segs.items():
+    pth = f"{ROOT}/hf/comp/{k}/index.html"
+    if os.path.exists(pth):
+        refs = sorted(set(_re.findall(r'assets/[\w./-]+\.(?:png|jpg|webp)', open(pth).read())))
+        if refs: imgs[k] = dict(inicio_s=round(s_["start_ms"] / 1000, 3), fim_s=round(s_["end_ms"] / 1000, 3), imagens=refs)
+R["imagens_por_trecho"] = imgs
+
+# ---------- animações transparentes × rosto e áreas seguras (todos os subquadros de 240 qps) ----------
+faces_all = json.load(open(f"{ROOT}/work/faces.json")); fidx_all = {d["f"]: d for d in faces_all}
+def _face_ok(d):
+    near = [fidx_all[q] for q in range(d["f"] - 12, d["f"] + 13) if q in fidx_all]
+    my = np.median([n_["y"] + n_["h"] / 2 for n_ in near]); mx = np.median([n_["x"] + n_["w"] / 2 for n_ in near])
+    return abs(d["y"] + d["h"] / 2 - my) < 150 and abs(d["x"] + d["w"] / 2 - mx) < 150
+anim = {}
+for k, b0 in bounds:
+    if not segs[k].get("overlay"): continue
+    files = sorted(_glob.glob(f"{ROOT}/work/gfx/{k}_240/*.png"))
+    worst = 0; worst_at = None; bb = [9999, 9999, -1, -1]; fora = 0
+    for q, fp in enumerate(files):
+        al = cv2.imread(fp, cv2.IMREAD_UNCHANGED)[..., 3]
+        m = al > 8
+        if not m.any(): continue
+        ys, xs = np.nonzero(m)
+        bb = [min(bb[0], xs.min()), min(bb[1], ys.min()), max(bb[2], xs.max()), max(bb[3], ys.max())]
+        if ys.min() < 110 or ys.max() > 1650 or (m[900:1651, 941:].any()): fora += 1
+        j = min(q // 4, segs[k]["frames"] - 1); src = fmap[b0 + j][1]
+        near = [fidx_all[qq] for qq in sorted(range(src - 3, src + 4), key=lambda z: abs(z - src)) if qq in fidx_all and _face_ok(fidx_all[qq])]
+        if near:
+            d = near[0]; x0, y0_, x1, y1 = int(d["x"]), int(d["y"]), int(d["x"] + d["w"]), int(d["y"] + d["h"])
+            ov = int(m[max(0, y0_):y1, max(0, x0):x1].sum())
+            if ov > worst: worst, worst_at = ov, round((b0 + j) / FPS, 3)
+    anim[k] = dict(subquadros=len(files), caixa_total_xyxy=[int(v) for v in bb], pixels_sobre_o_rosto_max=worst,
+                   quando_s=worst_at, subquadros_fora_da_area_segura=fora)
+R["animacoes_sobre_camera"] = anim
 
 # ---------- áudio ----------
 tmp = f"{OUT}/final_audio.wav"

@@ -9,6 +9,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 e = json.load(open(f"{ROOT}/work/edl.json"))
 geo = json.load(open(f"{ROOT}/work/b_geometry.json"))
 old = json.load(open(f"{ROOT}/hf/data/segments.json")) if os.path.exists(f"{ROOT}/hf/data/segments.json") else {}
+# trechos de câmera (A) com animação por cima: composição transparente renderizada em sequência PNG RGBA
+OVERLAY = {"S3c", "S4b", "S6a"}
 segs = {}
 for s in e["segments"]:
     a, b = s["out_in"], s["out_out"]
@@ -16,6 +18,8 @@ for s in e["segments"]:
           for w in e["words"] if a - 1e-6 <= w["start"] < b - 1e-6]
     d = dict(id=s["id"], layout=s["layout"], start_ms=round(a * 1000, 1), end_ms=round(b * 1000, 1),
              duration=round(s["frames"] / 60, 6), frames=s["frames"], words=ws, content=s["content"])
+    if s["id"] in OVERLAY:
+        d["overlay"] = True
     if s["layout"] == "B":
         d["b"] = dict(old.get(s["id"], {}).get("b", {}), video_y=geo[s["id"]]["y0"],
                       card={"x": -65, "y": 1200, "w": 1210, "h": 864})
