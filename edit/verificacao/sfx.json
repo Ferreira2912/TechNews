@@ -1,27 +1,11 @@
 [
  {
-  "t": 0.7,
-  "seg": "S1",
+  "t": 5.173,
+  "seg": "S2",
   "type": "impacto",
   "var": 1,
   "peak_db": -11.5,
-  "nota": "cartão da peça 1 (E se seus amigos ajudassem...) assenta no lugar"
- },
- {
-  "t": 5.283,
-  "seg": "S2",
-  "type": "impacto",
-  "var": 2,
-  "peak_db": -11.5,
-  "nota": "selo INDIQUE E VIAJE! grande e centralizado assenta (entra em at('Indique') − 0,1, back.out)"
- },
- {
-  "t": 6.977,
-  "seg": "S2",
-  "type": "impacto",
-  "var": 3,
-  "peak_db": -11.5,
-  "nota": "cartão da peça oficial (peca2) assenta no centro (sobe em at('nova') + 0,07, back.out)"
+  "nota": "selo INDIQUE E VIAJE! grande e centralizado assenta (entra em at('Indique') − 0,1; back.out(1.6) de 0,45 s atinge o tamanho final 0,173 s depois)"
  },
  {
   "t": 11.823,
@@ -56,20 +40,20 @@
   "nota": "carimbo verde VIAGEM FECHADA assenta no cartão de reserva"
  },
  {
-  "t": 15.387,
+  "t": 15.267,
   "seg": "S3c",
   "type": "impacto",
-  "var": 4,
+  "var": 2,
   "peak_db": -11.5,
-  "nota": "box VOCÊ GANHA R$ 100 assenta (entra em at('ganha') − 0,05, back.out)"
+  "nota": "box VOCÊ GANHA R$ 100 assenta sobre a câmera: entra em at('ganha') − 0,05 com back.out(1.6) e alcança o tamanho final em ≈ 0,50 s (pico da ultrapassagem ≈ 0,60 s)"
  },
  {
-  "t": 21.4,
+  "t": 21.307,
   "seg": "S4b",
   "type": "impacto",
-  "var": 1,
+  "var": 3,
   "peak_db": -11.5,
-  "nota": "box SEU INDICADO GANHA R$50 assenta sobre a foto"
+  "nota": "box SEU INDICADO GANHA R$ 50 assenta sobre a filmagem (cruza a escala final em ≈ 0,20 s, já opaco)"
  },
  {
   "t": 23.197,
@@ -77,15 +61,15 @@
   "type": "passagem",
   "var": 2,
   "peak_db": -10.5,
-  "nota": "ponto médio da passagem rápida da câmera até o cartão de contratação"
+  "nota": "ponto médio da passagem: o box sai pela esquerda e o cartão Contratação da viagem entra pela direita"
  },
  {
-  "t": 23.737,
+  "t": 23.747,
   "seg": "S4b",
   "type": "confirmacao",
   "var": 2,
   "peak_db": -11.5,
-  "nota": "desconto Benefício Indique e Viaje − R$ 50 carimbado no cartão de contratação"
+  "nota": "pílula Benefício Indique e Viaje − R$ 50 carimbada na vaga do cartão (pousa em ≈ 2,65 s, meio da janela de demonstração), check verde"
  },
  {
   "t": 28.543,
@@ -115,7 +99,7 @@
   "t": 34.637,
   "seg": "S6b",
   "type": "impacto",
-  "var": 2,
+  "var": 4,
   "peak_db": -11.5,
   "nota": "pílula INDIQUE AGORA → assenta (entrada com impacto leve)"
  },

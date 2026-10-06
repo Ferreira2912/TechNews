@@ -19,7 +19,7 @@ sem nenhum arquivo de áudio externo.
 | `stems/sfx.wav` | efeitos sintetizados, 37,667 s |
 | `stems/riser.wav` | riser grave do gancho, 37,667 s |
 | `stems/music.wav` | trilha sintetizada, 37,667 s |
-| `verificacao/` | pranchas de contato e de cortes, medições (JSON) de loudness, efeitos, legendas e verificação |
+| `verificacao/` | pranchas de contato, de cortes e das composições novas; medições (JSON) de loudness, efeitos, legendas e verificação |
 
 Todas as stems são WAV float 32 bits, 48 kHz, estéreo, com a duração exata do vídeo e começando em 0.
 A soma das quatro stems (com o limitador do master) é o áudio do `final.mp4`.
@@ -430,25 +430,28 @@ Consequências:
 
 ## Verificação final
 
-Feita com `scripts/verify.py` sobre o `final.mp4` entregue. Dados em `verificacao/verificacao.json` e
-pranchas em `verificacao/`.
+Feita com `scripts/verify.py` sobre o `final.mp4` entregue (revisão 2). Dados em
+`verificacao/verificacao.json` e pranchas em `verificacao/`, inclusive a prancha de revisão de cada
+composição nova (`prancha_S2.jpg`, `prancha_S3c.jpg`, `prancha_S4b.jpg`, `prancha_S6a.jpg`).
 
 | Item | Resultado |
 | --- | --- |
 | Formato | h264 High 1080x1920 60/1 yuv420p bt709; 2260 quadros = 37.666667 s; aac 48000 Hz 2 canais 327 kb/s; vídeo e áudio começam em 0 |
-| Quadros brancos / pretos | 0 / 0 (luminância média por quadro entre 75.2 e 158.4) |
-| Quadros congelados | maior sequência idêntica: 9 quadros (0,15 s), no quadro 0 parado de S3b (por regra) |
-| Cortes | `verificacao/cortes_entre_trechos.jpg`: os 10 cortes entre trechos têm quadros reais dos dois lados e cada trecho A abre na tomada certa. `verificacao/cortes_secos_pausas.jpg`: os cortes secos de S3c e S6b ligam quadros com o apresentador olhando para a lente |
+| Layouts | S1 A, S2 C, S3a A, S3b C, S3c A+animação, S4a A, S4b A+animação, S5a A, S5b C, S6a A+animação, S6b A. Nenhum trecho dividido |
+| Imagens | início (capa, S1, S2) e fim (S6a, S6b) sem imagem de peça nem foto: só texto, o logotipo (capa e S2) e a câmera. Fotos desfocadas só no meio: S3b (9,3–14,8 s) e S5b (27,3–31,8 s) |
+| Animações sobre a câmera | conferidas em todos os subquadros de 240 qps: S3c 988, S4b 820, S6a 564. Pixels sobre a caixa do rosto: 0 / 0 / 0. Subquadros com conteúdo fora das áreas seguras: 0 / 0 / 0. Conteúdo sólido em S3c x 140–839, y 1039–1494; S4b x 80–898, y 1070–1514; S6a x 73–872, y 150–367 (o degradê de leitura de S6a começa em y 0 e some até y 417, acima do cabelo) |
+| Quadros brancos / pretos | 0 / 0 (luminância média por quadro entre 46.9 e 158.4) |
+| Quadros parados | maior sequência quase idêntica: 21 quadros (0,35 s), no começo de S2: fundo roxo com a legenda "Chegou o" e deriva lenta, antes de o selo entrar em "Indique" |
+| Cortes | `verificacao/cortes_entre_trechos.jpg`: os cortes entre trechos têm quadros reais dos dois lados e cada trecho de câmera abre na tomada certa. `verificacao/cortes_secos_pausas.jpg`: os cortes secos de S3c (sob o box animado) e de S6b ligam quadros com o apresentador olhando para a lente |
 | Prancha completa | `verificacao/prancha_de_contato.jpg`: 1 quadro a cada 0,5 s |
-| Cabeça × cartão | o recorte usa o mesmo quadro de origem do cartão em todos os quadros (por construção: um único índice de origem por quadro). Nos movimentos rápidos só o gráfico se move. A cabeça aparece desde o 1º quadro de cada B (fração da faixa y 1000–1195 fora do fundo roxo: S1 0.30, S3c 0.52, S4b 0.45, S6a 0.36) |
-| Sincronia | atraso entre o áudio do MP4 e o master: 0 amostras. A imagem da câmera é sempre o quadro de origem da mesma tomada do áudio (J-cut só antecipa o som) |
+| Sincronia | atraso entre o áudio do MP4 e o master: 0 amostras. A imagem da câmera é sempre o quadro de origem da mesma tomada do áudio (o J-cut só antecipa o som) |
 | Loudness do MP4 | -13.6 LUFS, -1.3 dBTP (alvo −14 ± 0,5 LU e ≤ −1 dBTP) |
 | Stems | as quatro com 37.666667 s = END |
 | Silêncio nas junções | 136, 130, 144, 122, 145 ms (todas ≤ 150 ms; regra do fim de frase, −35 dB na voz limpa, passo de 1 ms) |
 | Pausas internas | maior: 249 ms (tomada 4, abaixo de 250 ms); nenhuma outra ≥ 200 ms |
 | Riser | audível de 2.014 s a 4.4996 s (junção em 4,500 s); pico -15.51 dBFS = voz -1.51 − 14 dB |
 | Música | primeira amostra audível em 16.77 ms (quadro 1), fade-out terminando em END |
-| Efeitos | passagens com pico no ponto médio dos movimentos (12,776 s e 23,197 s); 3 moedas; nenhum efeito em troca de layout |
+| Efeitos | 14 eventos; passagens com pico no ponto médio dos movimentos (12,776 s e 23,197 s); 3 moedas; nenhum efeito em troca de layout |
 | Legendas | 42 blocos visíveis e 6 ocultos pelo gráfico; largura máx. 800 px (x 140–940); nenhum bloco sobre o rosto (menor folga entre queixo e faixa: 49 px); nenhum acima de y 110 ou abaixo de y 1650 |
 
 ## Como reproduzir

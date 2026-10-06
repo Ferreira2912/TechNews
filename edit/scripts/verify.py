@@ -112,22 +112,26 @@ anim = {}
 for k, b0 in bounds:
     if not segs[k].get("overlay"): continue
     files = sorted(_glob.glob(f"{ROOT}/work/gfx/{k}_240/*.png"))
-    worst = 0; worst_at = None; bb = [9999, 9999, -1, -1]; fora = 0
+    worst = 0; worst_at = None; bb = [9999, 9999, -1, -1]; bs = [9999, 9999, -1, -1]; fora = 0
     for q, fp in enumerate(files):
         al = cv2.imread(fp, cv2.IMREAD_UNCHANGED)[..., 3]
         m = al > 8
         if not m.any(): continue
         ys, xs = np.nonzero(m)
         bb = [min(bb[0], xs.min()), min(bb[1], ys.min()), max(bb[2], xs.max()), max(bb[3], ys.max())]
-        if ys.min() < 110 or ys.max() > 1650 or (m[900:1651, 941:].any()): fora += 1
-        j = min(q // 4, segs[k]["frames"] - 1); src = fmap[b0 + j][1]
+        sol = al >= 160          # conteúdo sólido (texto, cartões); degradês de leitura ficam abaixo disso
+        if sol.any():
+            ys2, xs2 = np.nonzero(sol)
+            bs = [min(bs[0], xs2.min()), min(bs[1], ys2.min()), max(bs[2], xs2.max()), max(bs[3], ys2.max())]
+            if ys2.min() < 110 or ys2.max() > 1650 or sol[900:1651, 941:].any(): fora += 1
+        j = min(q // 4, segs[k]["frames"] - 1); src = edl["frame_map"][b0 + j][1]
         near = [fidx_all[qq] for qq in sorted(range(src - 3, src + 4), key=lambda z: abs(z - src)) if qq in fidx_all and _face_ok(fidx_all[qq])]
         if near:
             d = near[0]; x0, y0_, x1, y1 = int(d["x"]), int(d["y"]), int(d["x"] + d["w"]), int(d["y"] + d["h"])
             ov = int(m[max(0, y0_):y1, max(0, x0):x1].sum())
             if ov > worst: worst, worst_at = ov, round((b0 + j) / FPS, 3)
-    anim[k] = dict(subquadros=len(files), caixa_total_xyxy=[int(v) for v in bb], pixels_sobre_o_rosto_max=worst,
-                   quando_s=worst_at, subquadros_fora_da_area_segura=fora)
+    anim[k] = dict(subquadros=len(files), caixa_qualquer_alfa_xyxy=[int(v) for v in bb], caixa_conteudo_solido_xyxy=[int(v) for v in bs],
+                   pixels_sobre_o_rosto_max=worst, quando_s=worst_at, subquadros_com_conteudo_fora_da_area_segura=fora)
 R["animacoes_sobre_camera"] = anim
 
 # ---------- áudio ----------

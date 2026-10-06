@@ -7,16 +7,16 @@
   "duracao_audio": 37.666,
   "inicio_video": 0.0,
   "inicio_audio": 0.0,
-  "tamanho_mb": 55.5
+  "tamanho_mb": 60.0
  },
  "quadros": {
-  "luminancia_min": 75.2,
+  "luminancia_min": 46.9,
   "luminancia_max": 158.4,
   "brancos": 0,
   "pretos": 0,
   "maior_sequencia_identica": {
-   "quadros": 9,
-   "a_partir_do_quadro": 565
+   "quadros": 21,
+   "a_partir_do_quadro": 280
   }
  },
  "cortes": [
@@ -24,14 +24,14 @@
    "trecho_anterior": "S1",
    "trecho": "S2",
    "quadro": 270,
-   "lum_antes": 128.2,
-   "lum_depois": 77.9
+   "lum_antes": 148.5,
+   "lum_depois": 47.0
   },
   {
    "trecho_anterior": "S2",
    "trecho": "S3a",
    "quadro": 482,
-   "lum_antes": 79.4,
+   "lum_antes": 57.4,
    "lum_depois": 113.2
   },
   {
@@ -46,13 +46,13 @@
    "trecho": "S3c",
    "quadro": 886,
    "lum_antes": 85.3,
-   "lum_depois": 106.5
+   "lum_depois": 147.7
   },
   {
    "trecho_anterior": "S3c",
    "trecho": "S4a",
    "quadro": 1133,
-   "lum_antes": 104.0,
+   "lum_antes": 131.1,
    "lum_depois": 125.3
   },
   {
@@ -60,13 +60,13 @@
    "trecho": "S4b",
    "quadro": 1266,
    "lum_antes": 124.6,
-   "lum_depois": 90.1
+   "lum_depois": 125.6
   },
   {
    "trecho_anterior": "S4b",
    "trecho": "S5a",
    "quadro": 1471,
-   "lum_antes": 137.8,
+   "lum_antes": 114.5,
    "lum_depois": 129.9
   },
   {
@@ -81,32 +81,109 @@
    "trecho": "S6a",
    "quadro": 1906,
    "lum_antes": 84.9,
-   "lum_depois": 126.0
+   "lum_depois": 122.0
   },
   {
    "trecho_anterior": "S6a",
    "trecho": "S6b",
    "quadro": 2047,
-   "lum_antes": 135.6,
-   "lum_depois": 154.2
+   "lum_antes": 152.8,
+   "lum_depois": 154.3
   }
  ],
- "cabeca_primeiro_quadro_B": {
-  "S1": {
-   "quadro": 0,
-   "fracao_nao_fundo": 0.302
+ "layouts": {
+  "S1": "A",
+  "S2": "C",
+  "S3a": "A",
+  "S3b": "C",
+  "S3c": "A+animação",
+  "S4a": "A",
+  "S4b": "A+animação",
+  "S5a": "A",
+  "S5b": "C",
+  "S6a": "A+animação",
+  "S6b": "A"
+ },
+ "imagens_por_trecho": {
+  "S2": {
+   "inicio_s": 4.5,
+   "fim_s": 8.033,
+   "imagens": [
+    "assets/logo_parktur.png"
+   ]
   },
+  "S3b": {
+   "inicio_s": 9.283,
+   "fim_s": 14.767,
+   "imagens": [
+    "assets/fotos/costa_amalfi.png",
+    "assets/fotos/praia_sorriso.png",
+    "assets/logo_parktur.png"
+   ]
+  },
+  "S5b": {
+   "inicio_s": 27.3,
+   "fim_s": 31.767,
+   "imagens": [
+    "assets/fotos/paris_casal.png",
+    "assets/logo_parktur.png"
+   ]
+  }
+ },
+ "animacoes_sobre_camera": {
   "S3c": {
-   "quadro": 886,
-   "fracao_nao_fundo": 0.519
+   "subquadros": 988,
+   "caixa_qualquer_alfa_xyxy": [
+    63,
+    1021,
+    916,
+    1640
+   ],
+   "caixa_conteudo_solido_xyxy": [
+    140,
+    1039,
+    839,
+    1494
+   ],
+   "pixels_sobre_o_rosto_max": 0,
+   "quando_s": null,
+   "subquadros_com_conteudo_fora_da_area_segura": 0
   },
   "S4b": {
-   "quadro": 1266,
-   "fracao_nao_fundo": 0.454
+   "subquadros": 820,
+   "caixa_qualquer_alfa_xyxy": [
+    61,
+    1052,
+    918,
+    1635
+   ],
+   "caixa_conteudo_solido_xyxy": [
+    80,
+    1070,
+    898,
+    1514
+   ],
+   "pixels_sobre_o_rosto_max": 0,
+   "quando_s": null,
+   "subquadros_com_conteudo_fora_da_area_segura": 0
   },
   "S6a": {
-   "quadro": 1906,
-   "fracao_nao_fundo": 0.358
+   "subquadros": 564,
+   "caixa_qualquer_alfa_xyxy": [
+    0,
+    0,
+    1079,
+    417
+   ],
+   "caixa_conteudo_solido_xyxy": [
+    73,
+    150,
+    872,
+    367
+   ],
+   "pixels_sobre_o_rosto_max": 0,
+   "quando_s": null,
+   "subquadros_com_conteudo_fora_da_area_segura": 0
   }
  },
  "sincronia": {

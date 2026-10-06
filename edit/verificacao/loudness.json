@@ -4,8 +4,8 @@
   "true_peak_dbtp": -1.5
  },
  "sfx": {
-  "lufs": -24.4,
-  "true_peak_dbtp": -10.3
+  "lufs": -24.1,
+  "true_peak_dbtp": -10.2
  },
  "riser": {
   "lufs": -26.5,
@@ -25,6 +25,6 @@
   "duracao_s": 37.666666666666664,
   "limitador": true,
   "reducao_max_db": 1.71,
-  "ms_com_reducao": 1785.3
+  "ms_com_reducao": 1820.4
  }
 }
