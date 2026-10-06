@@ -1,0 +1,183 @@
+{
+ "formato": {
+  "video": "h264 High 1080x1920 60/1 yuv420p bt709",
+  "quadros": 2260,
+  "duracao_video": 37.666667,
+  "audio": "aac 48000 Hz 2 canais 327 kb/s",
+  "duracao_audio": 37.666,
+  "inicio_video": 0.0,
+  "inicio_audio": 0.0,
+  "tamanho_mb": 55.5
+ },
+ "quadros": {
+  "luminancia_min": 75.2,
+  "luminancia_max": 158.4,
+  "brancos": 0,
+  "pretos": 0,
+  "maior_sequencia_identica": {
+   "quadros": 9,
+   "a_partir_do_quadro": 565
+  }
+ },
+ "cortes": [
+  {
+   "trecho_anterior": "S1",
+   "trecho": "S2",
+   "quadro": 270,
+   "lum_antes": 128.2,
+   "lum_depois": 77.9
+  },
+  {
+   "trecho_anterior": "S2",
+   "trecho": "S3a",
+   "quadro": 482,
+   "lum_antes": 79.4,
+   "lum_depois": 113.2
+  },
+  {
+   "trecho_anterior": "S3a",
+   "trecho": "S3b",
+   "quadro": 557,
+   "lum_antes": 125.6,
+   "lum_depois": 82.1
+  },
+  {
+   "trecho_anterior": "S3b",
+   "trecho": "S3c",
+   "quadro": 886,
+   "lum_antes": 85.3,
+   "lum_depois": 106.5
+  },
+  {
+   "trecho_anterior": "S3c",
+   "trecho": "S4a",
+   "quadro": 1133,
+   "lum_antes": 104.0,
+   "lum_depois": 125.3
+  },
+  {
+   "trecho_anterior": "S4a",
+   "trecho": "S4b",
+   "quadro": 1266,
+   "lum_antes": 124.6,
+   "lum_depois": 90.1
+  },
+  {
+   "trecho_anterior": "S4b",
+   "trecho": "S5a",
+   "quadro": 1471,
+   "lum_antes": 137.8,
+   "lum_depois": 129.9
+  },
+  {
+   "trecho_anterior": "S5a",
+   "trecho": "S5b",
+   "quadro": 1638,
+   "lum_antes": 150.9,
+   "lum_depois": 76.9
+  },
+  {
+   "trecho_anterior": "S5b",
+   "trecho": "S6a",
+   "quadro": 1906,
+   "lum_antes": 84.9,
+   "lum_depois": 126.0
+  },
+  {
+   "trecho_anterior": "S6a",
+   "trecho": "S6b",
+   "quadro": 2047,
+   "lum_antes": 135.6,
+   "lum_depois": 154.2
+  }
+ ],
+ "cabeca_primeiro_quadro_B": {
+  "S1": {
+   "quadro": 0,
+   "fracao_nao_fundo": 0.302
+  },
+  "S3c": {
+   "quadro": 886,
+   "fracao_nao_fundo": 0.519
+  },
+  "S4b": {
+   "quadro": 1266,
+   "fracao_nao_fundo": 0.454
+  },
+  "S6a": {
+   "quadro": 1906,
+   "fracao_nao_fundo": 0.358
+  }
+ },
+ "sincronia": {
+  "atraso_audio_mp4_vs_master_amostras": 0,
+  "atraso_ms": 0.0,
+  "inicio_video": 0.0,
+  "inicio_audio": 0.0
+ },
+ "loudness_mp4": {
+  "lufs": -13.6,
+  "true_peak_dbtp": -1.3
+ },
+ "stems_duracao_s": {
+  "voice": 37.666667,
+  "sfx": 37.666667,
+  "riser": 37.666667,
+  "music": 37.666667
+ },
+ "juncoes_voz": {
+  "regra": "RMS 10 ms (passo 1 ms) < −35 dB na voz limpa",
+  "limiar_stem_db": -28.25,
+  "juncoes": [
+   {
+    "corte_s": 4.5,
+    "silencio_ms": 136
+   },
+   {
+    "corte_s": 8.033,
+    "silencio_ms": 130
+   },
+   {
+    "corte_s": 18.883,
+    "silencio_ms": 144
+   },
+   {
+    "corte_s": 24.517,
+    "silencio_ms": 122
+   },
+   {
+    "corte_s": 31.767,
+    "silencio_ms": 145
+   }
+  ],
+  "pausas_internas_200ms_ou_mais": [
+   {
+    "inicio_s": 22.65,
+    "fim_s": 22.899,
+    "ms": 249
+   }
+  ]
+ },
+ "riser": {
+  "inicio_audivel_s": 2.0142,
+  "fim_audivel_s": 4.4996,
+  "juncao_s": 4.5,
+  "pico_dbfs": -15.51,
+  "pico_voz_dbfs": -1.51
+ },
+ "musica": {
+  "primeira_amostra_audivel_ms": 16.77,
+  "ultima_amostra_audivel_s": 37.6169
+ },
+ "legendas": {
+  "menor_folga_queixo_legenda_px": 49.0,
+  "blocos_visiveis": 42,
+  "ocultos": 6,
+  "largura_max_px": 800,
+  "x": [
+   140,
+   940
+  ],
+  "problemas": []
+ }
+}

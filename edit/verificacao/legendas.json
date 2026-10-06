@@ -1,0 +1,674 @@
+[
+ {
+  "seg": "S1",
+  "kind": "n",
+  "text": "E se eu",
+  "start": 0.03,
+  "word_end": 0.46,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 0.016666666666666666,
+  "out": 0.45
+ },
+ {
+  "seg": "S1",
+  "kind": "n",
+  "text": "te dissesse que",
+  "start": 0.46,
+  "word_end": 1.33,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 0.45,
+  "out": 1.3166666666666667
+ },
+ {
+  "seg": "S1",
+  "kind": "h",
+  "text": "INDICAR",
+  "start": 1.33,
+  "word_end": 1.81,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 1.3166666666666667,
+  "out": 1.8
+ },
+ {
+  "seg": "S1",
+  "kind": "n",
+  "text": "um amigo",
+  "start": 1.81,
+  "word_end": 2.32,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 1.8,
+  "out": 2.316666666666667
+ },
+ {
+  "seg": "S1",
+  "kind": "n",
+  "text": "pode te auxiliar",
+  "start": 2.32,
+  "word_end": 3.25,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 2.316666666666667,
+  "out": 3.25
+ },
+ {
+  "seg": "S1",
+  "kind": "n",
+  "text": "a pagar sua",
+  "start": 3.25,
+  "word_end": 3.74,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 3.25,
+  "out": 3.7333333333333334
+ },
+ {
+  "seg": "S1",
+  "kind": "h",
+  "text": "PRÓXIMA VIAGEM?",
+  "start": 3.74,
+  "word_end": 4.43,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 3.7333333333333334,
+  "out": 4.5
+ },
+ {
+  "seg": "S2",
+  "kind": "n",
+  "text": "Chegou o",
+  "start": 4.553,
+  "word_end": 5.103,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 4.55,
+  "out": 5.1
+ },
+ {
+  "seg": "S2",
+  "kind": "x",
+  "text": "Indique e Viaje,",
+  "start": 5.103,
+  "word_end": 6.357,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 5.1,
+  "out": 6.35
+ },
+ {
+  "seg": "S2",
+  "kind": "n",
+  "text": "A nova campanha",
+  "start": 6.357,
+  "word_end": 7.087,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 6.35,
+  "out": 7.083333333333333
+ },
+ {
+  "seg": "S2",
+  "kind": "n",
+  "text": "aqui da Parktur.",
+  "start": 7.087,
+  "word_end": 7.967,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 7.083333333333333,
+  "out": 8.033333333333333
+ },
+ {
+  "seg": "S3a",
+  "kind": "n",
+  "text": "E é",
+  "start": 8.0833,
+  "word_end": 8.3933,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "A",
+  "in": 8.066666666666666,
+  "out": 8.383333333333333
+ },
+ {
+  "seg": "S3a",
+  "kind": "h",
+  "text": "MUITO SIMPLES,",
+  "start": 8.3933,
+  "word_end": 9.2833,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "A",
+  "in": 8.383333333333333,
+  "out": 9.283333333333333
+ },
+ {
+  "seg": "S3b",
+  "kind": "n",
+  "text": "você indica",
+  "start": 9.3033,
+  "word_end": 10.0133,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 9.3,
+  "out": 10.0
+ },
+ {
+  "seg": "S3b",
+  "kind": "x",
+  "text": "um amigo,",
+  "start": 10.0133,
+  "word_end": 10.5033,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 10.0,
+  "out": 10.5
+ },
+ {
+  "seg": "S3b",
+  "kind": "x",
+  "text": "um familiar",
+  "start": 10.5033,
+  "word_end": 11.1733,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 10.5,
+  "out": 11.166666666666666
+ },
+ {
+  "seg": "S3b",
+  "kind": "x",
+  "text": "ou um colega.",
+  "start": 11.1733,
+  "word_end": 12.2463,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 11.166666666666666,
+  "out": 12.233333333333333
+ },
+ {
+  "seg": "S3b",
+  "kind": "n",
+  "text": "Se essa pessoa",
+  "start": 12.2463,
+  "word_end": 12.7763,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 12.233333333333333,
+  "out": 12.766666666666667
+ },
+ {
+  "seg": "S3b",
+  "kind": "h",
+  "text": "FECHAR",
+  "start": 12.7763,
+  "word_end": 13.2363,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 12.766666666666667,
+  "out": 13.233333333333333
+ },
+ {
+  "seg": "S3b",
+  "kind": "n",
+  "text": "uma viagem",
+  "start": 13.2363,
+  "word_end": 13.7163,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 13.233333333333333,
+  "out": 13.7
+ },
+ {
+  "seg": "S3b",
+  "kind": "n",
+  "text": "com a Parktur,",
+  "start": 13.7163,
+  "word_end": 14.7663,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 13.7,
+  "out": 14.766666666666667
+ },
+ {
+  "seg": "S3c",
+  "kind": "x",
+  "text": "você ganha R$ 100 de crédito para utilizar na sua próxima viagem",
+  "start": 14.8567,
+  "word_end": 18.8167,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 14.85,
+  "out": 18.883333333333333
+ },
+ {
+  "seg": "S4a",
+  "kind": "n",
+  "text": "e quem você",
+  "start": 18.9563,
+  "word_end": 19.6063,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "A",
+  "in": 18.95,
+  "out": 19.6
+ },
+ {
+  "seg": "S4a",
+  "kind": "n",
+  "text": "indicar também",
+  "start": 19.6063,
+  "word_end": 20.4063,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "A",
+  "in": 19.6,
+  "out": 20.4
+ },
+ {
+  "seg": "S4a",
+  "kind": "h",
+  "text": "GANHA",
+  "start": 20.4063,
+  "word_end": 20.8163,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "A",
+  "in": 20.4,
+  "out": 21.1
+ },
+ {
+  "seg": "S4b",
+  "kind": "x",
+  "text": "R$ 50 de benefício na contratação da viagem",
+  "start": 21.117,
+  "word_end": 24.447,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 21.116666666666667,
+  "out": 24.516666666666666
+ },
+ {
+  "seg": "S5a",
+  "kind": "h",
+  "text": "E TEM MAIS",
+  "start": 24.5737,
+  "word_end": 25.3837,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "A",
+  "in": 24.566666666666666,
+  "out": 25.383333333333333
+ },
+ {
+  "seg": "S5a",
+  "kind": "n",
+  "text": "o seu",
+  "start": 25.3837,
+  "word_end": 25.7537,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "A",
+  "in": 25.383333333333333,
+  "out": 25.75
+ },
+ {
+  "seg": "S5a",
+  "kind": "n",
+  "text": "crédito é",
+  "start": 25.7537,
+  "word_end": 26.4237,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "A",
+  "in": 25.75,
+  "out": 26.416666666666668
+ },
+ {
+  "seg": "S5a",
+  "kind": "h",
+  "text": "ACUMULATIVO.",
+  "start": 26.4237,
+  "word_end": 27.2997,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "A",
+  "in": 26.416666666666668,
+  "out": 27.3
+ },
+ {
+  "seg": "S5b",
+  "kind": "n",
+  "text": "Então,",
+  "start": 27.313,
+  "word_end": 27.773,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 27.3,
+  "out": 27.766666666666666
+ },
+ {
+  "seg": "S5b",
+  "kind": "n",
+  "text": "quanto mais pessoas",
+  "start": 27.773,
+  "word_end": 28.763,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 27.766666666666666,
+  "out": 28.75
+ },
+ {
+  "seg": "S5b",
+  "kind": "n",
+  "text": "você indicar para",
+  "start": 28.763,
+  "word_end": 29.713,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 28.75,
+  "out": 29.7
+ },
+ {
+  "seg": "S5b",
+  "kind": "h",
+  "text": "VIAJAR",
+  "start": 29.713,
+  "word_end": 30.113,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 29.7,
+  "out": 30.1
+ },
+ {
+  "seg": "S5b",
+  "kind": "n",
+  "text": "com a gente,",
+  "start": 30.113,
+  "word_end": 30.66,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 30.1,
+  "out": 30.65
+ },
+ {
+  "seg": "S5b",
+  "kind": "n",
+  "text": "mais você vai",
+  "start": 30.66,
+  "word_end": 31.35,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 30.65,
+  "out": 31.35
+ },
+ {
+  "seg": "S5b",
+  "kind": "h",
+  "text": "GANHAR.",
+  "start": 31.35,
+  "word_end": 31.69,
+  "band": [
+   1267,
+   1536
+  ],
+  "pos": "C",
+  "in": 31.35,
+  "out": 31.766666666666666
+ },
+ {
+  "seg": "S6a",
+  "kind": "n",
+  "text": "Já pensou",
+  "start": 31.8067,
+  "word_end": 32.4467,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 31.8,
+  "out": 32.43333333333333
+ },
+ {
+  "seg": "S6a",
+  "kind": "n",
+  "text": "em alguém",
+  "start": 32.4467,
+  "word_end": 32.8567,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 32.43333333333333,
+  "out": 32.85
+ },
+ {
+  "seg": "S6a",
+  "kind": "n",
+  "text": "que tá querendo",
+  "start": 32.8567,
+  "word_end": 33.4467,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 32.85,
+  "out": 33.43333333333333
+ },
+ {
+  "seg": "S6a",
+  "kind": "h",
+  "text": "VIAJAR?",
+  "start": 33.4467,
+  "word_end": 34.1167,
+  "band": [
+   1530,
+   1640
+  ],
+  "pos": "B",
+  "in": 33.43333333333333,
+  "out": 34.11666666666667
+ },
+ {
+  "seg": "S6b",
+  "kind": "n",
+  "text": "Então",
+  "start": 34.1367,
+  "word_end": 34.4667,
+  "band": [
+   1037,
+   1306
+  ],
+  "pos": "FECHO",
+  "in": 34.13333333333333,
+  "out": 34.46666666666667
+ },
+ {
+  "seg": "S6b",
+  "kind": "n",
+  "text": "mande o",
+  "start": 34.4667,
+  "word_end": 34.9267,
+  "band": [
+   1037,
+   1306
+  ],
+  "pos": "FECHO",
+  "in": 34.46666666666667,
+  "out": 34.916666666666664
+ },
+ {
+  "seg": "S6b",
+  "kind": "h",
+  "text": "NOME",
+  "start": 34.9267,
+  "word_end": 35.1967,
+  "band": [
+   1037,
+   1306
+  ],
+  "pos": "FECHO",
+  "in": 34.916666666666664,
+  "out": 35.18333333333333
+ },
+ {
+  "seg": "S6b",
+  "kind": "n",
+  "text": "pra gente",
+  "start": 35.1967,
+  "word_end": 35.7837,
+  "band": [
+   1037,
+   1306
+  ],
+  "pos": "FECHO",
+  "in": 35.18333333333333,
+  "out": 35.78333333333333
+ },
+ {
+  "seg": "S6b",
+  "kind": "n",
+  "text": "e faça",
+  "start": 35.7837,
+  "word_end": 36.3137,
+  "band": [
+   1037,
+   1306
+  ],
+  "pos": "FECHO",
+  "in": 35.78333333333333,
+  "out": 36.3
+ },
+ {
+  "seg": "S6b",
+  "kind": "n",
+  "text": "sua primeira",
+  "start": 36.3137,
+  "word_end": 36.8937,
+  "band": [
+   1037,
+   1306
+  ],
+  "pos": "FECHO",
+  "in": 36.3,
+  "out": 36.88333333333333
+ },
+ {
+  "seg": "S6b",
+  "kind": "h",
+  "text": "INDICAÇÃO.",
+  "start": 36.8937,
+  "word_end": 37.3337,
+  "band": [
+   1037,
+   1306
+  ],
+  "pos": "FECHO",
+  "in": 36.88333333333333,
+  "out": 37.666666666666664
+ }
+]

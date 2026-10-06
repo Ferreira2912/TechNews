@@ -8,11 +8,12 @@ sem nenhum arquivo de áudio externo.
 
 | Arquivo | Conteúdo |
 | --- | --- |
-| `final.mp4` | 1080×1920, 60 qps, H.264 High (CRF 14, preset slow, BT.709), AAC estéreo 48 kHz 320 kb/s |
+| `final.mp4` | 1080×1920, 60 qps (CFR), H.264 High (CRF 14, preset slow, BT.709), ~12 Mb/s, AAC estéreo 48 kHz 320 kb/s, 37,667 s |
 | `stems/voice.wav` | voz montada (J-cuts, pausas comprimidas), 37,667 s |
 | `stems/sfx.wav` | efeitos sintetizados, 37,667 s |
 | `stems/riser.wav` | riser grave do gancho, 37,667 s |
 | `stems/music.wav` | trilha sintetizada, 37,667 s |
+| `verificacao/` | pranchas de contato e de cortes, medições (JSON) de loudness, efeitos, legendas e verificação |
 
 Todas as stems são WAV float 32 bits, 48 kHz, estéreo, com a duração exata do vídeo e começando em 0.
 A soma das quatro stems (com o limitador do master) é o áudio do `final.mp4`.
@@ -92,11 +93,11 @@ limpa, passo de 1 ms; ver Verificação).
 
 | Junção (s) | Fim da fala anterior (s) | Próxima fala (s) | Silêncio medido | J-cut (áudio antes da imagem) |
 | ---: | ---: | ---: | ---: | ---: |
-| 4,500 | 4,430 | 4,548 | ⟨j1⟩ | 50 ms |
-| 8,033 | 7,967 | 8,073 | ⟨j2⟩ | 33,3 ms* |
-| 18,883 | 18,817 | 18,927 | ⟨j3⟩ | 50 ms |
-| 24,517 | 24,447 | 24,558 | ⟨j4⟩ | 50 ms |
-| 31,767 | 31,690 | 31,822 | ⟨j5⟩ | 50 ms |
+| 4,500 | 4,430 | 4,548 | 136 ms | 50 ms |
+| 8,033 | 7,967 | 8,073 | 130 ms | 33,3 ms* |
+| 18,883 | 18,817 | 18,927 | 144 ms | 50 ms |
+| 24,517 | 24,447 | 24,558 | 122 ms | 50 ms |
+| 31,767 | 31,690 | 31,822 | 145 ms | 50 ms |
 
 \* Na tomada 3, o bruto só tem 33,3 ms de áudio dessa tomada antes do corte (o resto pertence à tomada
 anterior). Para não puxar som de outra tomada, o J-cut ficou limitado ao material disponível.
@@ -200,7 +201,7 @@ Nenhum valor, prazo ou regra fora dessa lista foi mostrado.
   longe da câmera) e o cartão em y 1200.
 
 **Legendas**
-- Geradas de `work/captions.json` a partir dos tempos finais das palavras (`scripts/captions.py`).
+- Geradas por `scripts/captions.py` a partir dos tempos finais das palavras (lista completa, com tempos de entrada e saída, em `verificacao/legendas.json`).
 - A primeira entra no quadro 1 (16,7 ms); a capa ocupa o quadro 0.
 - Blocos de 1 a 3 palavras, 74 px, Inter Tight 700, branco com contorno preto de 9 px (traço de 18 px
   atrás do preenchimento, juntas arredondadas) e sem caixa.
@@ -293,7 +294,7 @@ Contagens:
 | music | −24,0 | −9,3 dBTP |
 | soma das stems (antes do limitador) | −13,5 | +0,4 dBTP |
 | **master** | **−13,6** | **−1,3 dBTP** |
-| áudio dentro do final.mp4 (AAC) | ⟨mp4_lufs⟩ | ⟨mp4_tp⟩ |
+| áudio dentro do final.mp4 (AAC) | −13,6 | −1,3 dBTP |
 
 O master é a soma das stems sem mexer nos níveis. A soma passou de −1 dBTP (+0,4), então entrou um
 limitador transparente de pico verdadeiro:
@@ -407,7 +408,26 @@ A primeira montagem (END 38 300 ms) passou pela verificação abaixo e foi corri
 
 ## Verificação final
 
-⟨verificacao⟩
+Feita com `scripts/verify.py` sobre o `final.mp4` entregue. Dados em `verificacao/verificacao.json` e
+pranchas em `verificacao/`.
+
+| Item | Resultado |
+| --- | --- |
+| Formato | h264 High 1080x1920 60/1 yuv420p bt709; 2260 quadros = 37.666667 s; aac 48000 Hz 2 canais 327 kb/s; vídeo e áudio começam em 0 |
+| Quadros brancos / pretos | 0 / 0 (luminância média por quadro entre 75.2 e 158.4) |
+| Quadros congelados | maior sequência idêntica: 9 quadros (0,15 s), no quadro 0 parado de S3b (por regra) |
+| Cortes | `verificacao/cortes_entre_trechos.jpg`: os 10 cortes entre trechos têm quadros reais dos dois lados e cada trecho A abre na tomada certa. `verificacao/cortes_secos_pausas.jpg`: os cortes secos de S3c e S6b ligam quadros com o apresentador olhando para a lente |
+| Prancha completa | `verificacao/prancha_de_contato.jpg`: 1 quadro a cada 0,5 s |
+| Cabeça × cartão | o recorte usa o mesmo quadro de origem do cartão em todos os quadros (por construção: um único índice de origem por quadro). Nos movimentos rápidos só o gráfico se move. A cabeça aparece desde o 1º quadro de cada B (fração da faixa y 1000–1195 fora do fundo roxo: S1 0.30, S3c 0.52, S4b 0.45, S6a 0.36) |
+| Sincronia | atraso entre o áudio do MP4 e o master: 0 amostras. A imagem da câmera é sempre o quadro de origem da mesma tomada do áudio (J-cut só antecipa o som) |
+| Loudness do MP4 | -13.6 LUFS, -1.3 dBTP (alvo −14 ± 0,5 LU e ≤ −1 dBTP) |
+| Stems | as quatro com 37.666667 s = END |
+| Silêncio nas junções | 136, 130, 144, 122, 145 ms (todas ≤ 150 ms; regra do fim de frase, −35 dB na voz limpa, passo de 1 ms) |
+| Pausas internas | maior: 249 ms (tomada 4, abaixo de 250 ms); nenhuma outra ≥ 200 ms |
+| Riser | audível de 2.014 s a 4.4996 s (junção em 4,500 s); pico -15.51 dBFS = voz -1.51 − 14 dB |
+| Música | primeira amostra audível em 16.77 ms (quadro 1), fade-out terminando em END |
+| Efeitos | passagens com pico no ponto médio dos movimentos (12,776 s e 23,197 s); 3 moedas; nenhum efeito em troca de layout |
+| Legendas | 42 blocos visíveis e 6 ocultos pelo gráfico; largura máx. 800 px (x 140–940); nenhum bloco sobre o rosto (menor folga entre queixo e faixa: 49 px); nenhum acima de y 110 ou abaixo de y 1650 |
 
 ## Como reproduzir
 
@@ -426,9 +446,14 @@ scripts/clean_voice.sh brutoIndiqueeViaje.mp4 work          # voz limpa
 .venv/bin/python scripts/master.py                           # work/master.wav + loudness
 (cd hf && npx hyperframes render comp/<C|B> --fps 240 --crf 10 -o ../work/gfx/<TRECHO>_240.mp4)
 (cd hf && npx hyperframes render comp/OVERLAY --format png-sequence --fps 60 -o ../work/overlay)
-.venv/bin/python scripts/compose.py --audio work/master.wav --out final.mp4
+.venv/bin/python scripts/compose.py --audio work/master.wav --out final.mp4      # numa passada só
+# (ou em partes paralelas: compose.py --frames a:b --out work/part_a.mkv; depois cada parte → MPEG-TS
+#  com h264_mp4toannexb, junção com o protocolo concat e carimbos ajustados à grade exata de 1/60 s:
+#  ffmpeg -i "concat:a.ts|b.ts|…" -i work/master.wav -c:v copy
+#         -bsf:v "setts=pts=round(PTS*TB*60)/(60*TB):dts=round(DTS*TB*60)/(60*TB)" -c:a aac -b:a 320k final.mp4)
 .venv/bin/python scripts/verify.py
 ```
 
 Os modelos (Parakeet, Whisper, YuNet, RVM) ficam em `edit/.models` e o venv em `edit/.venv`. Os dois
-estão fora do git.
+estão fora do git, assim como `work/` (arquivos intermediários, todos regeneráveis). O bruto
+`brutoIndiqueeViaje.mp4` também fica fora do repositório: para reproduzir, coloque-o em `edit/`.

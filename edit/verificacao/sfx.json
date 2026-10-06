@@ -1,0 +1,130 @@
+[
+ {
+  "t": 0.7,
+  "seg": "S1",
+  "type": "impacto",
+  "var": 1,
+  "peak_db": -11.5,
+  "nota": "cartão da peça 1 (E se seus amigos ajudassem...) assenta no lugar"
+ },
+ {
+  "t": 5.283,
+  "seg": "S2",
+  "type": "impacto",
+  "var": 2,
+  "peak_db": -11.5,
+  "nota": "selo INDIQUE E VIAJE! grande e centralizado assenta (entra em at('Indique') − 0,1, back.out)"
+ },
+ {
+  "t": 6.977,
+  "seg": "S2",
+  "type": "impacto",
+  "var": 3,
+  "peak_db": -11.5,
+  "nota": "cartão da peça oficial (peca2) assenta no centro (sobe em at('nova') + 0,07, back.out)"
+ },
+ {
+  "t": 11.823,
+  "seg": "S3b",
+  "type": "click",
+  "var": 1,
+  "peak_db": -11.5,
+  "nota": "botão ENVIAR INDICAÇÃO pressionado (afunda e volta)"
+ },
+ {
+  "t": 11.863,
+  "seg": "S3b",
+  "type": "envio",
+  "var": 1,
+  "peak_db": -17.5,
+  "nota": "avião de papel sai do botão e voa até o contato Colega (chega em 2,98 s; check amarelo + 'Indicação enviada')"
+ },
+ {
+  "t": 12.776,
+  "seg": "S3b",
+  "type": "passagem",
+  "var": 1,
+  "peak_db": -10.5,
+  "nota": "ponto médio da passagem rápida da câmera (3,243 → 3,743 s): cartão INDICAR → cartão Sua viagem"
+ },
+ {
+  "t": 13.396,
+  "seg": "S3b",
+  "type": "confirmacao",
+  "var": 1,
+  "peak_db": -11.5,
+  "nota": "carimbo verde VIAGEM FECHADA assenta no cartão de reserva"
+ },
+ {
+  "t": 15.387,
+  "seg": "S3c",
+  "type": "impacto",
+  "var": 4,
+  "peak_db": -11.5,
+  "nota": "box VOCÊ GANHA R$ 100 assenta (entra em at('ganha') − 0,05, back.out)"
+ },
+ {
+  "t": 21.4,
+  "seg": "S4b",
+  "type": "impacto",
+  "var": 1,
+  "peak_db": -11.5,
+  "nota": "box SEU INDICADO GANHA R$50 assenta sobre a foto"
+ },
+ {
+  "t": 23.197,
+  "seg": "S4b",
+  "type": "passagem",
+  "var": 2,
+  "peak_db": -10.5,
+  "nota": "ponto médio da passagem rápida da câmera até o cartão de contratação"
+ },
+ {
+  "t": 23.737,
+  "seg": "S4b",
+  "type": "confirmacao",
+  "var": 2,
+  "peak_db": -11.5,
+  "nota": "desconto Benefício Indique e Viaje − R$ 50 carimbado no cartão de contratação"
+ },
+ {
+  "t": 28.543,
+  "seg": "S5b",
+  "type": "moeda",
+  "var": 1,
+  "peak_db": -11.5,
+  "nota": "1ª moeda cai na pilha e o contador aparece em R$100 (linha 1 indicação = R$ 100)"
+ },
+ {
+  "t": 30.188,
+  "seg": "S5b",
+  "type": "moeda",
+  "var": 2,
+  "peak_db": -11.5,
+  "nota": "contador chega a R$300 com a 3ª moeda na pilha (linha 3 indicações = R$ 300)"
+ },
+ {
+  "t": 31.435,
+  "seg": "S5b",
+  "type": "moeda",
+  "var": 3,
+  "peak_db": -11.5,
+  "nota": "contador chega a R$500 com a 5ª moeda na pilha (linha 5 indicações = R$ 500)"
+ },
+ {
+  "t": 34.637,
+  "seg": "S6b",
+  "type": "impacto",
+  "var": 2,
+  "peak_db": -11.5,
+  "nota": "pílula INDIQUE AGORA → assenta (entrada com impacto leve)"
+ },
+ {
+  "t": 36.9,
+  "seg": "S6b",
+  "type": "click",
+  "var": 2,
+  "peak_db": -11.5,
+  "nota": "toque do dedo na pílula + pulsação 1,0→1,06→1,0"
+ }
+]
