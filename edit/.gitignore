@@ -1,0 +1,9 @@
+# ambiente local (venv, modelos, dependências npm) e arquivos de trabalho regeneráveis
+.venv/
+.models/
+hf/node_modules/
+work/
+__pycache__/
+*.pyc
+# material bruto de entrada (fica com o cliente)
+brutoIndiqueeViaje.mp4

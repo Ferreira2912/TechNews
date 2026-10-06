@@ -1,0 +1,234 @@
+/* Sistema visual da campanha "INDIQUE E VIAJE!" (Parktur), extraído das peças em referencias/.
+   Tipografia: Inter Tight (substituta da Helvetica Neue Bold, indisponível localmente), -2% de espaçamento. */
+@font-face {
+  font-family: "Inter Tight";
+  src: url("fonts/InterTight-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Noto Color Emoji";
+  src: url("fonts/NotoColorEmoji-eyes.woff2") format("woff2");
+}
+:root {
+  --roxo: #63005e;
+  --amarelo: #ffc300;
+  --verde: #34c759;
+  --roxo-centro: #7a0a74;
+  --roxo-borda: #2b0029;
+  --sombra: 0 60px 120px rgba(0, 0, 0, 0.28), 0 24px 48px rgba(0, 0, 0, 0.18), 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--roxo-borda);
+}
+#root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Inter Tight", "Noto Color Emoji", sans-serif;
+  color: #fff;
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
+}
+.emoji {
+  font-family: "Noto Color Emoji", sans-serif;
+  letter-spacing: 0;
+}
+
+/* ---------- fundos ---------- */
+.fundo-roxo {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, var(--roxo-centro) 0%, var(--roxo-borda) 78%);
+}
+/* degradê de leitura das peças: preto 0,55 da esquerda e do topo até transparente em ~60% */
+.grad-leitura {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 60%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 60%);
+  pointer-events: none;
+}
+.foto {
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+}
+
+/* ---------- elementos fixos ---------- */
+.selo {
+  position: absolute;
+  left: 73px;
+  top: 138px;
+  width: 538px;
+  height: 106px;
+  border-radius: 999px;
+  background: var(--roxo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 44px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+  box-shadow: var(--sombra);
+}
+.logo {
+  position: absolute;
+  left: 770px;
+  top: 110px;
+  width: 262px;
+  height: auto;
+}
+.btn-seta {
+  position: absolute;
+  left: 477px;
+  top: 1651px;
+  width: 126px;
+  height: 126px;
+  border-radius: 50%;
+  background: var(--roxo);
+  box-shadow: var(--sombra);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-seta svg {
+  width: 62px;
+  height: 62px;
+}
+
+/* ---------- tipografia ---------- */
+.titulo {
+  font-weight: 700;
+  font-size: 110px;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.am {
+  color: var(--amarelo);
+}
+.subtitulo {
+  font-weight: 700;
+  font-size: 52px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.corpo {
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- boxes de valor (peça principal) ---------- */
+.box-valor {
+  position: absolute;
+  border: 4px solid var(--amarelo);
+  border-radius: 40px;
+  background: transparent;
+  box-sizing: border-box;
+}
+.etiqueta {
+  position: absolute;
+  top: -36px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+.etiqueta > span {
+  display: block;
+  height: 68px;
+  line-height: 68px;
+  padding: 0 34px;
+  border-radius: 999px;
+  background: var(--roxo);
+  font-weight: 700;
+  font-size: 44px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: var(--sombra);
+}
+.valor {
+  font-weight: 800;
+  font-size: 260px;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.valor .rs {
+  font-size: 0.45em;
+  letter-spacing: -0.03em;
+  margin-right: 0.04em;
+  position: relative;
+  top: -0.12em;
+}
+
+/* ---------- faixa amarela ---------- */
+.faixa-amarela {
+  position: absolute;
+  background: var(--amarelo);
+  color: var(--roxo);
+  border-radius: 999px;
+  box-shadow: var(--sombra);
+  text-align: center;
+}
+.faixa-amarela .linha1 {
+  font-weight: 700;
+  font-size: 52px;
+  letter-spacing: -0.03em;
+}
+.faixa-amarela .linha2 {
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ---------- cartões ---------- */
+.cartao {
+  position: absolute;
+  overflow: hidden;
+  box-shadow: var(--sombra);
+  background: #fff;
+}
+/* moldura fixa de prova (peça oficial nítida) */
+.prova-fundo {
+  position: absolute;
+  inset: -80px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(40px) saturate(0.8) brightness(0.7);
+}
+.prova-veu {
+  position: absolute;
+  inset: 0;
+  background: rgba(99, 0, 94, 0.45);
+}
+.prova-moldura {
+  position: absolute;
+  left: 140px;
+  top: 200px;
+  width: 800px;
+  height: 1422px;
+  border-radius: 36px;
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+.prova-moldura > .prova-conteudo {
+  position: absolute;
+  inset: 0;
+  background-size: 100% 100%;
+}

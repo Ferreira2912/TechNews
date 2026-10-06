@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>S3b · Indicou, fechou</title>
+    <script src="shared/gsap.min.js"></script>
+    <script src="data/segments.js"></script>
+    <link rel="stylesheet" href="shared/brand.css" />
+    <style>
+      /* Layout C (gráfico inteiro): elemento principal com borda inferior em y = 1215 (faixa 1200–1230);
+         legendas em y 1267–1536 livres; botão de seta centrado em y≈1714; nada importante à direita de x 940 (y 900–1650).
+         Mundo da câmera: estação 1 (cartão INDICAR) em x 0–1080, estação 2 (cartão Sua viagem) em x 1080–2160. */
+      #fundo {
+        position: absolute;
+        left: -140px;
+        top: -140px;
+        width: 1600px;
+        height: 2200px;
+        background: url("assets/fotos/praia_sorriso.png") 18% 40% / cover no-repeat;
+        filter: blur(28px) saturate(1.2) brightness(1.08);
+      }
+      #veu {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 45%, rgba(99, 0, 94, 0.14) 0%, rgba(43, 0, 41, 0.5) 92%);
+      }
+      #cam {
+        position: absolute;
+        inset: 0;
+      }
+      #hud {
+        position: absolute;
+        inset: 0;
+      }
+      .btn-seta svg {
+        overflow: visible;
+      }
+
+      /* ---------- cartões de interface (720 px, raio 3% = 22 px) ---------- */
+      .card {
+        position: absolute;
+        top: 421px;
+        width: 720px;
+        height: 794px;
+        border-radius: 22px;
+        background: #fff;
+        color: #2b0029;
+      }
+      #cardA {
+        left: 180px;
+      }
+      #cardB {
+        left: 1260px;
+        overflow: visible; /* o carimbo cai de fora para dentro sem ser recortado */
+      }
+
+      /* estação 1: INDICAR */
+      .cab-tit {
+        position: absolute;
+        left: 48px;
+        top: 46px;
+        font-weight: 800;
+        font-size: 64px;
+        line-height: 64px;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        color: var(--roxo);
+      }
+      .cab-sub {
+        position: absolute;
+        left: 48px;
+        top: 124px;
+        font-weight: 500;
+        font-size: 36px;
+        line-height: 40px;
+        color: #6e6470;
+      }
+      .lbg {
+        position: absolute;
+        left: 48px;
+        width: 624px;
+        height: 132px;
+        border-radius: 30px;
+        background: #f6f4f6;
+      }
+      #sel {
+        position: absolute;
+        left: 48px;
+        top: 196px;
+        width: 624px;
+        height: 132px;
+        border-radius: 30px;
+        background: #f7ebf6;
+        box-shadow: inset 0 0 0 4px var(--roxo);
+      }
+      .linha {
+        position: absolute;
+        left: 48px;
+        width: 624px;
+        height: 132px;
+      }
+      .av {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #e6e0e7;
+      }
+      .av svg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 92px;
+        height: 92px;
+      }
+      .av-on {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        background: var(--roxo);
+      }
+      .nome {
+        position: absolute;
+        left: 140px;
+        top: 40px;
+        font-weight: 700;
+        font-size: 52px;
+        line-height: 52px;
+        color: #3a2e3b;
+        white-space: nowrap;
+      }
+      .nota-env {
+        position: absolute;
+        left: 140px;
+        top: 78px;
+        font-weight: 600;
+        font-size: 34px;
+        line-height: 36px;
+        color: var(--roxo);
+        white-space: nowrap;
+      }
+      .radio {
+        position: absolute;
+        left: 546px;
+        top: 40px;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 4px #cdc4ce;
+      }
+      .radio-on {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--amarelo);
+      }
+      .ponto {
+        position: absolute;
+        left: 16px;
+        top: 16px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--roxo);
+      }
+      .chk {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 52px;
+        height: 52px;
+      }
+      #btnEnviar {
+        position: absolute;
+        left: 48px;
+        top: 652px;
+        width: 624px;
+        height: 112px;
+        border-radius: 999px;
+        background: var(--roxo);
+        box-shadow: var(--sombra);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        color: #fff;
+        font-weight: 700;
+        font-size: 44px;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      #btnEnviar svg {
+        width: 46px;
+        height: 46px;
+        flex: 0 0 46px;
+      }
+      #ripple {
+        position: absolute;
+        left: 48px;
+        top: -4px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.45);
+      }
+      /* avião de papel: nasce sobre o ícone do botão (centro ≈ 156, 708) e voa até o rádio de Colega (620, 550) */
+      #aviao {
+        position: absolute;
+        left: 116px;
+        top: 668px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--amarelo);
+        box-shadow: 0 0 0 5px #fff, var(--sombra);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #aviao svg {
+        width: 44px;
+        height: 44px;
+      }
+
+      /* estação 2: Sua viagem (reserva genérica) */
+      .faixa-cab {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 720px;
+        height: 180px;
+        border-radius: 22px 22px 0 0;
+        background: var(--roxo);
+      }
+      /* logotipo oficial como fundo (evita img duplicada); 266x164 → 202x124,6, proporção preservada */
+      .logo-cab {
+        position: absolute;
+        left: 44px;
+        top: 28px;
+        width: 202px;
+        height: 124.6px;
+        background: url("assets/logo_parktur.png") center / contain no-repeat;
+      }
+      .cab-txt {
+        position: absolute;
+        right: 44px;
+        top: 62px;
+        font-weight: 700;
+        font-size: 52px;
+        line-height: 56px;
+        letter-spacing: -0.02em;
+        color: #fff;
+        white-space: nowrap;
+      }
+      .thumb {
+        position: absolute;
+        left: 44px;
+        top: 222px;
+        width: 260px;
+        height: 330px;
+        border-radius: 20px;
+        background: url("assets/fotos/costa_amalfi.png") center 60% / cover no-repeat;
+      }
+      .cli-av {
+        position: absolute;
+        left: 336px;
+        top: 222px;
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: var(--roxo);
+      }
+      .cli-av svg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 76px;
+        height: 76px;
+      }
+      .cli-nome {
+        position: absolute;
+        left: 430px;
+        top: 234px;
+        font-weight: 700;
+        font-size: 44px;
+        line-height: 52px;
+        color: var(--roxo);
+        white-space: nowrap;
+      }
+      .ph {
+        position: absolute;
+        left: 336px;
+        height: 26px;
+        border-radius: 13px;
+        background: #e8e3e9;
+      }
+      #slot {
+        position: absolute;
+        left: 44px;
+        top: 594px;
+        width: 632px;
+        height: 160px;
+        border-radius: 999px;
+        border: 4px dashed #d9d0da;
+        box-sizing: border-box;
+      }
+      #slot .ph {
+        left: 162px;
+        top: 63px;
+        width: 300px;
+      }
+      #carimbo {
+        position: absolute;
+        left: 50px;
+        top: 609px;
+        width: 620px;
+        height: 130px;
+        border-radius: 999px;
+        background: var(--verde);
+        box-shadow: var(--sombra);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        color: #fff;
+        text-shadow: 0 2px 3px rgba(0, 70, 25, 0.45); /* define o branco sobre o verde de confirmação */
+        font-weight: 800;
+        font-size: 50px;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .chk-circ {
+        width: 78px;
+        height: 78px;
+        flex: 0 0 78px;
+        border-radius: 50%;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .chk-circ svg {
+        width: 50px;
+        height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="S3b" data-start="0" data-width="1080" data-height="1920" data-duration="5.483333" data-fps="60">
+      <div class="fundo-roxo"></div>
+      <div id="fundo" data-layout-allow-overflow></div>
+      <div id="veu"></div>
+      <div class="grad-leitura"></div>
+
+      <div id="cam">
+        <!-- ESTAÇÃO 1: cartão INDICAR (você escolhe o contato e envia a indicação) -->
+        <div id="cardA" class="card cartao" data-layout-allow-overflow>
+          <div class="cab-tit">INDICAR</div>
+          <div class="cab-sub">Escolha um contato</div>
+          <div class="lbg" style="top: 196px"></div>
+          <div class="lbg" style="top: 340px"></div>
+          <div class="lbg" style="top: 484px"></div>
+          <div id="sel"></div>
+          <div id="l1" class="linha" style="top: 196px">
+            <div class="av">
+              <svg viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="37" r="16" fill="#b3a8b4" /><path d="M16 92 C16 66 30 58 46 58 C62 58 76 66 76 92 Z" fill="#b3a8b4" /></svg>
+              <div class="av-on"><svg viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="37" r="16" fill="#fff" /><path d="M16 92 C16 66 30 58 46 58 C62 58 76 66 76 92 Z" fill="#fff" /></svg></div>
+            </div>
+            <div class="nome">Amigo</div>
+            <div class="radio"><div class="radio-on"><div class="ponto"></div></div></div>
+          </div>
+          <div id="l2" class="linha" style="top: 340px">
+            <div class="av">
+              <svg viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="37" r="16" fill="#b3a8b4" /><path d="M16 92 C16 66 30 58 46 58 C62 58 76 66 76 92 Z" fill="#b3a8b4" /></svg>
+              <div class="av-on"><svg viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="37" r="16" fill="#fff" /><path d="M16 92 C16 66 30 58 46 58 C62 58 76 66 76 92 Z" fill="#fff" /></svg></div>
+            </div>
+            <div class="nome">Familiar</div>
+            <div class="radio"><div class="radio-on"><div class="ponto"></div></div></div>
+          </div>
+          <div id="l3" class="linha" style="top: 484px">
+            <div class="av">
+              <svg viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="37" r="16" fill="#b3a8b4" /><path d="M16 92 C16 66 30 58 46 58 C62 58 76 66 76 92 Z" fill="#b3a8b4" /></svg>
+              <div class="av-on"><svg viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="37" r="16" fill="#fff" /><path d="M16 92 C16 66 30 58 46 58 C62 58 76 66 76 92 Z" fill="#fff" /></svg></div>
+            </div>
+            <div class="nome">Colega</div>
+            <div class="nota-env">Indicação enviada</div>
+            <div class="radio">
+              <div class="radio-on">
+                <div class="ponto"></div>
+                <svg class="chk" viewBox="0 0 52 52" aria-hidden="true"><path d="M15 27 L23 35 L38 18" fill="none" stroke="#63005e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </div>
+            </div>
+          </div>
+          <div id="btnEnviar">
+            <div id="ripple"></div>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 L21 3.5 L14.5 20.5 L11.2 12.8 Z M11.2 12.8 L21 3.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            <span>ENVIAR INDICAÇÃO</span>
+          </div>
+          <div id="aviao">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 L21 3.5 L14.5 20.5 L11.2 12.8 Z M11.2 12.8 L21 3.5" fill="none" stroke="#63005e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </div>
+        </div>
+
+        <!-- ESTAÇÃO 2: reserva genérica Parktur (essa pessoa fecha a viagem) -->
+        <div id="cardB" class="card cartao" data-layout-allow-overflow>
+          <div class="faixa-cab">
+            <div class="logo-cab" role="img" aria-label="Parktur"></div>
+            <div class="cab-txt">Sua viagem</div>
+          </div>
+          <div class="thumb"></div>
+          <div class="cli-av">
+            <svg viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="37" r="16" fill="#fff" /><path d="M16 92 C16 66 30 58 46 58 C62 58 76 66 76 92 Z" fill="#fff" /></svg>
+          </div>
+          <div class="cli-nome">Colega</div>
+          <div class="ph" style="top: 336px; width: 320px"></div>
+          <div class="ph" style="top: 386px; width: 250px"></div>
+          <div class="ph" style="top: 436px; width: 290px"></div>
+          <div class="ph" style="top: 486px; width: 190px"></div>
+          <div id="slot"><div class="ph"></div></div>
+          <div id="carimbo">
+            <div class="chk-circ">
+              <svg viewBox="0 0 52 52" aria-hidden="true"><path d="M13 27 L22 36 L39 17" fill="none" stroke="#34c759" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <span>VIAGEM FECHADA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- elementos fixos da campanha (fora da câmera) -->
+      <div id="hud">
+        <img class="logo" src="assets/logo_parktur.png" alt="Parktur" />
+        <div class="btn-seta">
+          <svg viewBox="0 0 62 62" aria-hidden="true">
+            <path d="M10 31 H51 M36 16 L51 31 L36 46" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="selo">INDIQUE E VIAJE!</div>
+      </div>
+    </div>
+    <script type="application/json" id="sfx-events">
+      [
+        { "t": 2.54, "type": "click", "nota": "botão ENVIAR INDICAÇÃO pressionado (afunda e volta)" },
+        { "t": 2.58, "type": "envio", "nota": "avião de papel sai do botão e voa até o contato Colega (chega em 2,98 s; check amarelo + 'Indicação enviada')" },
+        { "t": 3.493, "type": "passagem", "nota": "ponto médio da passagem rápida da câmera (3,243 → 3,743 s): cartão INDICAR → cartão Sua viagem" },
+        { "t": 4.113, "type": "confirmacao", "nota": "carimbo verde VIAGEM FECHADA assenta no cartão de reserva" }
+      ]
+    </script>
+    <script>
+      (function () {
+        const S = window.SEGMENTS.S3b;
+        const at = (w) => S.words.find((x) => x.w.startsWith(w)).t;
+        const tl = gsap.timeline({ paused: true });
+        const D = S.duration;
+        const OFF = "#3a2e3b"; // cor neutra do nome do contato
+        const ON = "#63005e"; // roxo da marca
+
+        // ---------- quadro 0: tudo parado e nítido ----------
+        // câmera: escala em torno do centro do cartão (540, 818)
+        gsap.set("#cam", { x: 0, scale: 1, transformOrigin: "540px 818px" });
+        gsap.set("#fundo", { x: 0 });
+        // a janela INDICAR começa em 0,86 e cresce 1,16x em "indica" (origem na base: borda inferior fica em y = 1215)
+        gsap.set("#cardA", { scale: 0.86, opacity: 1, filter: "blur(0px)", transformOrigin: "50% 100%" });
+        gsap.set("#cardB", { scale: 1, transformOrigin: "50% 50%" });
+        gsap.set("#sel", { opacity: 0, scale: 0.94, y: 0, transformOrigin: "50% 50%" });
+        gsap.set(".av-on", { opacity: 0 });
+        gsap.set(".radio-on", { opacity: 0, scale: 0.5, transformOrigin: "50% 50%" });
+        gsap.set("#l3 .chk", { scale: 0, transformOrigin: "50% 50%" });
+        gsap.set("#l3 .nota-env", { opacity: 0, y: 12 });
+        gsap.set(".nome", { y: 0 });
+        gsap.set("#btnEnviar", { scale: 1, transformOrigin: "50% 50%" });
+        gsap.set("#ripple", { opacity: 0, scale: 0.2, transformOrigin: "50% 50%" });
+        gsap.set("#aviao", { opacity: 0, scale: 0.4, x: 0, y: 0, transformOrigin: "50% 50%" });
+        gsap.set("#carimbo", { opacity: 0, scale: 1.55, rotation: -9, transformOrigin: "50% 50%" });
+
+        // ---------- ESTAÇÃO 1 ----------
+        // "indica": a janela cresce 0,86 → 1 (×1,16) em 0,55 s, power2.inOut, com a câmera parada
+        const tInd = at("indica") - 0.02;
+        tl.to("#cardA", { scale: 1, duration: 0.55, ease: "power2.inOut" }, tInd);
+
+        // deriva suave da câmera (≤ 0,04) até a passagem
+        const tPass = at("fechar") - 0.25; // passagem rápida: 0,5 s antes de "fechar"
+        const tDrift1 = tInd + 0.6;
+        tl.to("#cam", { scale: 1.015, duration: tPass - tDrift1, ease: "sine.inOut" }, tDrift1);
+
+        // cada contato acende exatamente na sua palavra (seleção desliza entre as linhas)
+        const rowOn = (r, t) => {
+          tl.to(r + " .av-on", { opacity: 1, duration: 0.2, ease: "power2.out" }, t - 0.06);
+          tl.to(r + " .radio-on", { opacity: 1, scale: 1, duration: 0.28, ease: "back.out(2)" }, t - 0.06);
+          tl.to(r + " .nome", { color: ON, duration: 0.2, ease: "power2.out" }, t - 0.06);
+        };
+        const rowOff = (r, t) => {
+          tl.to(r + " .av-on", { opacity: 0, duration: 0.2, ease: "power2.out" }, t - 0.08);
+          tl.to(r + " .radio-on", { opacity: 0, scale: 0.5, duration: 0.18, ease: "power2.in" }, t - 0.1);
+          tl.to(r + " .nome", { color: OFF, duration: 0.2, ease: "power2.out" }, t - 0.08);
+        };
+        const tAmigo = at("amigo");
+        const tFam = at("familiar");
+        const tCol = at("colega");
+        tl.to("#sel", { opacity: 1, scale: 1, duration: 0.24, ease: "power2.out" }, tAmigo - 0.1);
+        rowOn("#l1", tAmigo);
+        tl.to("#sel", { y: 144, duration: 0.3, ease: "power3.inOut" }, tFam - 0.16);
+        rowOff("#l1", tFam);
+        rowOn("#l2", tFam);
+        tl.to("#sel", { y: 288, duration: 0.3, ease: "power3.inOut" }, tCol - 0.16);
+        rowOff("#l2", tCol);
+        rowOn("#l3", tCol);
+
+        // enviar: o botão é pressionado (click no fundo do toque) ...
+        const tP = tCol + 0.2;
+        const tClick = tP + 0.09;
+        tl.to("#btnEnviar", { scale: 0.93, duration: 0.09, ease: "power2.in" }, tP);
+        tl.to("#btnEnviar", { scale: 1, duration: 0.28, ease: "back.out(2.2)" }, tClick);
+        tl.to("#ripple", { opacity: 0.55, duration: 0.05, ease: "power1.out" }, tClick);
+        tl.to("#ripple", { scale: 2.8, duration: 0.45, ease: "power2.out" }, tClick);
+        tl.to("#ripple", { opacity: 0, duration: 0.38, ease: "power2.out" }, tClick + 0.07);
+
+        // ... e a indicação (avião de papel) voa do botão até o contato Colega (envio)
+        const tA = tClick + 0.02;
+        tl.to("#aviao", { opacity: 1, scale: 1, duration: 0.14, ease: "power2.out" }, tA);
+        tl.to("#aviao", { x: 464, duration: 0.38, ease: "power2.out" }, tA + 0.04);
+        tl.to("#aviao", { y: -158, duration: 0.38, ease: "power2.in" }, tA + 0.04);
+        const tChega = tA + 0.42;
+        tl.to("#aviao", { opacity: 0, scale: 0.45, duration: 0.12, ease: "power2.in" }, tChega - 0.08);
+        tl.to("#l3 .ponto", { scale: 0, duration: 0.12, ease: "power2.in" }, tChega - 0.06);
+        tl.to("#l3 .chk", { scale: 1, duration: 0.3, ease: "back.out(2.4)" }, tChega);
+        tl.to("#l3 .nome", { y: -22, duration: 0.28, ease: "power2.out" }, tChega);
+        tl.to("#l3 .nota-env", { opacity: 1, y: 0, duration: 0.28, ease: "power2.out" }, tChega + 0.02);
+
+        // ---------- PASSAGEM (único movimento rápido): 0,5 s power3.inOut, começa 0,25 s antes de "fechar" ----------
+        tl.to("#cam", { x: -1080, scale: 1, duration: 0.5, ease: "power3.inOut" }, tPass);
+        tl.to("#fundo", { x: -220, duration: 0.5, ease: "power3.inOut" }, tPass); // paralaxe do fundo
+        tl.to("#cardA", { filter: "blur(12px)", opacity: 0.7, duration: 0.32, ease: "power2.in" }, tPass);
+
+        // ---------- ESTAÇÃO 2 ----------
+        // "uma viagem": carimbo verde VIAGEM FECHADA cai com leve ultrapassagem; toca 1,0 em ~31% (back.out 2,2)
+        const tC = at("viagem") - 0.14;
+        const tToca = tC + 0.45 * 0.3125;
+        tl.to("#carimbo", { opacity: 1, duration: 0.1, ease: "power1.out" }, tC);
+        tl.to("#carimbo", { scale: 1, rotation: -4, duration: 0.45, ease: "back.out(2.2)" }, tC);
+        tl.to("#slot", { opacity: 0, duration: 0.2, ease: "power1.out" }, tToca);
+        tl.to("#cardB", { scale: 0.985, duration: 0.07, ease: "power2.out" }, tToca);
+        tl.to("#cardB", { scale: 1, duration: 0.3, ease: "power2.out" }, tToca + 0.07);
+
+        // deriva suave até o fim (escala 1 → 1,03 em torno do centro do cartão: x = -1080·s)
+        const tFim = tPass + 0.5;
+        tl.to("#cam", { scale: 1.03, x: -1080 * 1.03, duration: D - tFim, ease: "sine.inOut" }, tFim);
+
+        window.__timelines["S3b"] = tl;
+      })();
+    </script>
+  </body>
+</html>

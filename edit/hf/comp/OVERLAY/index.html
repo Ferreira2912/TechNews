@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Camada de capa, legendas e CTA</title>
+    <script src="shared/gsap.min.js"></script>
+    <script src="data/segments.js"></script>
+    <script src="data/captions.js"></script>
+    <link rel="stylesheet" href="shared/brand.css" />
+    <style>
+      /* Camada transparente renderizada como sequência PNG RGBA e aplicada por cima de todo o vídeo. */
+      html,
+      body {
+        background: transparent;
+      }
+      /* ---------- capa (somente no quadro 0) ---------- */
+      #capa {
+        position: absolute;
+        inset: 0;
+      }
+      #capa .caixa {
+        position: absolute;
+        left: 50%;
+        top: 282px;
+        transform: translateX(-50%);
+        padding: 56px 50px;
+        border-radius: 30px; /* ~2,8% da largura */
+        background: var(--roxo);
+        box-shadow: var(--sombra);
+        white-space: nowrap;
+        text-align: center;
+      }
+      #capa .titulo {
+        font-size: 110px;
+      }
+      /* ---------- legendas ---------- */
+      #legendas svg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: visible;
+      }
+      .leg {
+        opacity: 0;
+      }
+      .leg text {
+        font-family: "Inter Tight", sans-serif;
+        font-weight: 700;
+        font-size: 74px;
+        letter-spacing: -0.02em;
+        text-anchor: middle;
+        dominant-baseline: central;
+        paint-order: stroke fill;
+        stroke: #000;
+        stroke-width: 18px; /* contorno visível de 9 px fora da letra */
+        stroke-linejoin: round;
+        fill: #fff;
+      }
+      .leg.hl text {
+        fill: var(--amarelo);
+      }
+      /* ---------- CTA (somente no encerramento) — área x 43, y 1344, 994×276 ---------- */
+      #cta {
+        position: absolute;
+        left: 43px;
+        top: 1344px;
+        width: 994px;
+        height: 276px;
+      }
+      #pilula {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        height: 148px;
+        padding: 0 70px;
+        border-radius: 999px;
+        background: var(--roxo);
+        box-shadow: var(--sombra);
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        font-weight: 700;
+        font-size: 68px;
+        letter-spacing: -0.02em;
+        color: #fff;
+        white-space: nowrap;
+      }
+      #pilula svg {
+        width: 64px;
+        height: 64px;
+      }
+      #toque {
+        position: absolute;
+        width: 96px;
+        height: 96px;
+        margin: -48px 0 0 -48px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.45);
+      }
+      #onda {
+        position: absolute;
+        width: 96px;
+        height: 96px;
+        margin: -48px 0 0 -48px;
+        border-radius: 50%;
+        border: 4px solid rgba(255, 255, 255, 0.7);
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="OVERLAY" data-start="0" data-width="1080" data-height="1920" data-duration="38.3" data-fps="60">
+      <div id="legendas">
+        <svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <div id="cta">
+        <div id="ctaWrap" style="position: absolute; inset: 0">
+          <div id="pilula">
+            <span>INDIQUE AGORA</span>
+            <svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 32h42M36 16l16 16-16 16" />
+            </svg>
+          </div>
+          <div id="toque"></div>
+          <div id="onda"></div>
+        </div>
+      </div>
+      <div id="capa">
+        <img class="logo" src="assets/logo_parktur.png" alt="Parktur" />
+        <div class="caixa">
+          <div class="titulo">INDIQUE AMIGOS<br />E <span class="am">VIAJE MAIS</span></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        const FPS = 60;
+        const EPS = 0.002; // eventos um pouco antes do quadro-alvo (evita erro de arredondamento no seek)
+        const S6b = window.SEGMENTS.S6b;
+        const t6 = S6b.start_ms / 1000;
+        const at6 = (w) => t6 + S6b.words.find((x) => x.w.startsWith(w)).t;
+        const tl = gsap.timeline({ paused: true });
+
+        // capa: só no quadro 0
+        tl.set("#capa", { opacity: 0 }, 1 / FPS - EPS);
+
+        // legendas (tempos de scripts/captions.py, já quantizados ao quadro)
+        const svg = document.querySelector("#legendas svg");
+        const NS = "http://www.w3.org/2000/svg";
+        window.CAPTIONS.forEach((c, i) => {
+          const g = document.createElementNS(NS, "g");
+          g.setAttribute("class", "leg" + (c.hl ? " hl" : ""));
+          g.setAttribute("id", "leg" + i);
+          const t = document.createElementNS(NS, "text");
+          t.setAttribute("x", "540");
+          t.setAttribute("y", String((c.y0 + c.y1) / 2));
+          t.textContent = c.text;
+          g.appendChild(t);
+          svg.appendChild(g);
+          // largura máxima 800 px (x 140–940): reduz a fonte só se precisar
+          const w = t.getComputedTextLength();
+          if (w > 800) t.style.fontSize = (74 * 800) / w + "px";
+          gsap.set(g, { opacity: 0, scale: 0.92, svgOrigin: "540 " + (c.y0 + c.y1) / 2 });
+          tl.set(g, { opacity: 1 }, c.t_in - EPS);
+          tl.to(g, { scale: 1, duration: 0.1, ease: "power2.out" }, c.t_in - EPS);
+          tl.set(g, { opacity: 0 }, c.t_out - EPS);
+        });
+
+        // CTA: entra em "mande" com impacto leve; toque e pulsação em "indicação"
+        const tIn = Math.round(at6("mande") * FPS) / FPS;
+        const tTap = Math.round(at6("indicação") * FPS) / FPS;
+        gsap.set("#pilula", { xPercent: -50, yPercent: -50, opacity: 0, scale: 0.72, y: 40 });
+        gsap.set(["#toque", "#onda"], { opacity: 0, scale: 0.5, left: 760, top: 150 });
+        tl.to("#pilula", { opacity: 1, duration: 0.12, ease: "power1.out" }, tIn - EPS);
+        tl.to("#pilula", { scale: 1, y: 0, duration: 0.5, ease: "back.out(1.8)" }, tIn - EPS);
+        tl.to("#toque", { opacity: 1, scale: 1, duration: 0.12, ease: "power2.out" }, tTap - 0.12);
+        tl.to("#toque", { opacity: 0, scale: 0.85, duration: 0.3, ease: "power2.in" }, tTap + 0.08);
+        tl.to("#onda", { opacity: 1, duration: 0.05 }, tTap);
+        tl.to("#onda", { scale: 2.6, opacity: 0, duration: 0.55, ease: "power2.out" }, tTap + 0.05);
+        tl.to("#pilula", { scale: 1.06, duration: 0.18, ease: "power2.out" }, tTap);
+        tl.to("#pilula", { scale: 1.0, duration: 0.22, ease: "power2.inOut" }, tTap + 0.18);
+        tl.set({}, {}, 38.3);
+
+        window.__overlayEvents = [
+          { t: tIn + 0.2, type: "impacto", nota: "pílula INDIQUE AGORA assenta" },
+          { t: tTap, type: "click", nota: "toque do dedo na pílula" },
+        ];
+        window.__timelines["OVERLAY"] = tl;
+      })();
+    </script>
+  </body>
+</html>

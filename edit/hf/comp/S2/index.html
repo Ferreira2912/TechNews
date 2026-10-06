@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>S2 · Chegou o Indique e Viaje</title>
+    <script src="shared/gsap.min.js"></script>
+    <script src="data/segments.js"></script>
+    <link rel="stylesheet" href="shared/brand.css" />
+    <style>
+      /* Layout C (gráfico inteiro): elemento principal com borda inferior entre y 1200 e 1230;
+         faixa de legendas (y 1267–1536) livre; botão de seta centrado em y≈1714. */
+      #cam {
+        position: absolute;
+        inset: 0;
+        transform-origin: 540px 757px; /* centro do cartão da peça */
+      }
+      /* fundo calmo: foto ensolarada desfocada + véu roxo, por cima do .fundo-roxo */
+      #fundoFoto {
+        position: absolute;
+        inset: -120px;
+        background: url("assets/fotos/costa_amalfi.png") center 40% / cover no-repeat;
+        filter: blur(40px) saturate(1) brightness(0.92);
+      }
+      #fundoVeu {
+        position: absolute;
+        inset: -120px;
+        background: radial-gradient(circle at 50% 45%, rgba(99, 0, 94, 0.24) 0%, rgba(43, 0, 41, 0.74) 88%);
+      }
+      /* peça principal (peca2) como cartão flutuante: 515 x 915, borda inferior em y = 1215 */
+      #peca {
+        left: 283px;
+        top: 300px;
+        width: 515px;
+        height: 915px;
+        border-radius: 15px; /* 3% da largura */
+        background: #2b0029 url("assets/pecas/peca2.png") center / cover no-repeat;
+      }
+      /* elementos fixos da campanha (fora da câmera) */
+      #hud {
+        position: absolute;
+        inset: 0;
+      }
+      .btn-seta svg {
+        overflow: visible;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="S2" data-start="0" data-width="1080" data-height="1920" data-duration="3.766667" data-fps="60">
+      <div class="fundo-roxo"></div>
+      <div id="cam">
+        <div id="fundoFoto"></div>
+        <div id="fundoVeu"></div>
+        <div id="peca" class="cartao"></div>
+      </div>
+      <div id="hud">
+        <img id="logo" class="logo" src="assets/logo_parktur.png" alt="Parktur" />
+        <div id="btn" class="btn-seta">
+          <svg viewBox="0 0 62 62" aria-hidden="true">
+            <path d="M10 31 H51 M36 16 L51 31 L36 46" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div id="selo" class="selo">INDIQUE E VIAJE!</div>
+      </div>
+    </div>
+    <script type="application/json" id="sfx-events">
+      [
+        { "t": 0.85, "type": "impacto", "nota": "selo INDIQUE E VIAJE! grande e centralizado assenta" },
+        { "t": 2.71, "type": "impacto", "nota": "cartão da peça oficial (peca2) assenta no centro" }
+      ]
+    </script>
+    <script>
+      (function () {
+        const S = window.SEGMENTS.S2;
+        const at = (w) => S.words.find((x) => x.w.startsWith(w)).t;
+        const tl = gsap.timeline({ paused: true });
+
+        // selo: posição fixa (x73 y138, 538x106) → centro em (342, 191). Grande = 1,75x (942x186), centrado na horizontal
+        // e no centro óptico (y = 800): a pílula termina em y≈893, acima da área reservada à direita (x>940, y 900–1650).
+        const SELO_X = 540 - 342;
+        const SELO_Y = 800 - 191;
+
+        // quadro 0: só o fundo, parado e nítido
+        gsap.set("#selo", { x: SELO_X, y: SELO_Y, scale: 1.75 * 0.55, opacity: 0, transformOrigin: "50% 50%" });
+        gsap.set("#logo", { opacity: 0, scale: 0.92, transformOrigin: "50% 50%" });
+        gsap.set("#peca", { opacity: 0, y: 160, scale: 0.95, transformOrigin: "50% 100%" });
+        gsap.set("#btn", { opacity: 0, scale: 0.82, transformOrigin: "50% 50%" });
+
+        // deriva suave da câmera (≤ 0,04) durante todo o trecho
+        tl.to("#cam", { scale: 1.025, duration: S.duration - 0.12, ease: "sine.inOut" }, 0.1);
+
+        // "Indique": o selo surge grande e centralizado, com leve ultrapassagem (impacto ao assentar ≈ 0,85 s)
+        const tSelo = at("Indique") - 0.1;
+        tl.to("#selo", { opacity: 1, duration: 0.16, ease: "power1.out" }, tSelo);
+        tl.to("#selo", { scale: 1.75, duration: 0.45, ease: "back.out(1.6)" }, tSelo);
+
+        // "a nova campanha": o selo encolhe e viaja para a posição fixa (sem SFX)
+        const tVai = at("A") - 0.11;
+        tl.to("#selo", { x: 0, y: 0, scale: 1, duration: 0.6, ease: "power2.inOut" }, tVai);
+
+        // a peça principal sobe como cartão flutuante (impacto ao assentar ≈ 2,7 s)
+        const tPeca = at("nova") + 0.07;
+        tl.to("#peca", { opacity: 1, duration: 0.25, ease: "power1.out" }, tPeca);
+        tl.to("#peca", { y: 0, scale: 1, duration: 0.62, ease: "back.out(1.2)" }, tPeca);
+
+        // logotipo aparece suave na posição fixa (sem SFX)
+        tl.to("#logo", { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, at("nova") + 0.15);
+
+        // botão de seta aparece suave no fim (marcador do próximo passo)
+        tl.to("#btn", { opacity: 1, scale: 1, duration: 0.45, ease: "power2.out" }, at("aqui") + 0.2);
+
+        window.__timelines["S2"] = tl;
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>S3c · Você ganha R$ 100</title>
+    <script src="shared/gsap.min.js"></script>
+    <script src="data/segments.js"></script>
+    <link rel="stylesheet" href="shared/brand.css" />
+    <style>
+      /* Layout dividido (B): conteúdo entre y 40 e 900; o ambiente some de 900 a 1060. */
+      #ambiente {
+        position: absolute;
+        inset: 0;
+        -webkit-mask-image: linear-gradient(180deg, #000 0px, #000 900px, transparent 1060px);
+        mask-image: linear-gradient(180deg, #000 0px, #000 900px, transparent 1060px);
+      }
+      #cam {
+        position: absolute;
+        inset: 0;
+        transform-origin: 540px 342px;
+      }
+      /* elemento principal: cartão de foto de destino (peça 1), borda inferior em y = 890 */
+      #foto {
+        left: 40px;
+        top: 40px;
+        width: 1000px;
+        height: 850px;
+        border-radius: 30px; /* 3% da largura */
+        background: #000;
+      }
+      #foto .img {
+        position: absolute;
+        inset: 0;
+        background: url("assets/fotos/amigas_selfie.png") center 30% / cover no-repeat;
+      }
+      #foto .escurece {
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 0, 20, 0.28);
+      }
+      #box {
+        left: 290px;
+        top: 206px;
+        width: 500px;
+        height: 272px;
+        border-width: 3px;
+      }
+      #box .etiqueta {
+        top: -26px;
+      }
+      #box .etiqueta > span {
+        height: 50px;
+        line-height: 50px;
+        padding: 0 24px;
+        font-size: 32px;
+      }
+      #box .valor {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 34px;
+        text-align: center;
+        font-size: 160px;
+      }
+      #box .corpo {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 18px;
+        text-align: center;
+        font-size: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="S3c" data-start="0" data-width="1080" data-height="1920" data-duration="4.366667" data-fps="60">
+      <div class="fundo-roxo"></div>
+      <div id="ambiente">
+        <div id="cam">
+          <div id="foto" class="cartao">
+            <div class="img"></div>
+            <div class="escurece"></div>
+            <div class="grad-leitura"></div>
+          </div>
+          <div id="boxWrap" style="position: absolute; inset: 0">
+            <div id="box" class="box-valor">
+              <div class="etiqueta"><span>VOCÊ GANHA</span></div>
+              <div class="valor"><span class="rs">R$</span><span id="num">0</span></div>
+              <div class="corpo">em crédito para sua próxima viagem</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="application/json" id="sfx-events">
+      [{ "t": 0.62, "type": "impacto", "nota": "box VOCÊ GANHA assenta" }]
+    </script>
+    <script>
+      (function () {
+        const S = window.SEGMENTS.S3c;
+        const at = (w) => S.words.find((x) => x.w.startsWith(w)).t;
+        const tl = gsap.timeline({ paused: true });
+
+        // quadro 0: cartão de foto parado e nítido; o box ainda não existe
+        gsap.set("#box", { opacity: 0, scale: 0.86, transformOrigin: "50% 50%" });
+
+        // "ganha": o box chega com leve ultrapassagem (impacto abafado ao assentar)
+        tl.to("#box", { opacity: 1, duration: 0.18, ease: "power1.out" }, at("ganha") - 0.05);
+        tl.to("#box", { scale: 1, duration: 0.42, ease: "back.out(1.6)" }, at("ganha") - 0.05);
+
+        // "R$ 100": contador R$ 0 → R$ 100
+        tl.to("#num", { innerText: 100, snap: { innerText: 1 }, duration: 0.7, ease: "power2.out" }, at("R$ 100"));
+
+        // aproximação ao box (1,2–2 s, power2.inOut, ~1,6x), depois deriva mínima
+                // ~1,5x: o box termina entre y≈120 e y≈550 (acima de y=110 e da cabeça, que começa em ~575)
+        tl.to("#cam", { scale: 1.5, duration: 1.6, ease: "power2.inOut" }, at("de") + 0.05);
+        tl.to("#cam", { scale: 1.52, duration: S.duration - (at("de") + 1.65), ease: "sine.inOut" }, at("de") + 1.65);
+
+        window.__timelines["S3c"] = tl;
+      })();
+    </script>
+  </body>
+</html>

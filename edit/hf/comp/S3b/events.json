@@ -1,0 +1,6 @@
+[
+  { "t": 2.54, "type": "click", "nota": "botão ENVIAR INDICAÇÃO pressionado (afunda e volta)" },
+  { "t": 2.58, "type": "envio", "nota": "avião de papel sai do botão e voa até o contato Colega (chega em 2,98 s; check amarelo + 'Indicação enviada')" },
+  { "t": 3.493, "type": "passagem", "nota": "ponto médio da passagem rápida da câmera (3,243 → 3,743 s): cartão INDICAR → cartão Sua viagem" },
+  { "t": 4.113, "type": "confirmacao", "nota": "carimbo verde VIAGEM FECHADA assenta no cartão de reserva" }
+]

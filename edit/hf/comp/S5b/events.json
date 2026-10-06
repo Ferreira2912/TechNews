@@ -1,0 +1,17 @@
+[
+  {
+    "t": 1.243,
+    "type": "moeda",
+    "nota": "1ª moeda cai na pilha e o contador aparece em R$100 (linha 1 indicação = R$ 100)"
+  },
+  {
+    "t": 2.888,
+    "type": "moeda",
+    "nota": "contador chega a R$300 com a 3ª moeda na pilha (linha 3 indicações = R$ 300)"
+  },
+  {
+    "t": 4.135,
+    "type": "moeda",
+    "nota": "contador chega a R$500 com a 5ª moeda na pilha (linha 5 indicações = R$ 500)"
+  }
+]

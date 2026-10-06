@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>S5b · Quanto mais você indica, mais você ganha</title>
+    <script src="shared/gsap.min.js"></script>
+    <script src="data/segments.js"></script>
+    <link rel="stylesheet" href="shared/brand.css" />
+    <style>
+      /* Layout C (gráfico inteiro): elemento principal (contador + pilha de moedas) com borda inferior em y = 1215;
+         faixa de legendas (y 1267–1536) livre; botão de seta centrado em y≈1714. */
+      #cam {
+        position: absolute;
+        inset: 0;
+        transform-origin: 540px 800px; /* centro do contador + moedas */
+      }
+      /* fundo: foto da peça 4 (casal em Paris) desfocada + véu roxo + degradê de leitura */
+      #fundoFoto {
+        position: absolute;
+        inset: -120px;
+        background: url("assets/fotos/paris_casal.png") 100% 40% / 6800px auto no-repeat; /* só o céu e a torre Eiffel */
+        filter: blur(48px) saturate(1.35) brightness(0.95);
+      }
+      #fundoVeu {
+        position: absolute;
+        inset: -120px;
+        background: radial-gradient(circle at 50% 50%, rgba(99, 0, 94, 0.38) 0%, rgba(43, 0, 41, 0.8) 90%);
+      }
+
+      /* ---------- apoio: tabela da peça 4 (abaixo do selo) ---------- */
+      #tabela {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 326px;
+        display: flex;
+        justify-content: center;
+      }
+      #tabela .bloco {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .linha {
+        font-weight: 400;
+        font-size: 64px;
+        line-height: 1.16;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+        color: #fff;
+      }
+      .linha b {
+        font-weight: 700;
+        color: var(--amarelo);
+        letter-spacing: -0.03em;
+      }
+
+      /* ---------- principal: contador + pilha de moedas ---------- */
+      #contador {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 590px;
+        text-align: center;
+        font-size: 256px;
+        color: #fff;
+      }
+      #moedas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1300px;
+        filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.28)) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.12));
+      }
+      #sombraChao {
+        position: absolute;
+        left: 340px;
+        top: 1180px;
+        width: 400px;
+        height: 70px;
+        border-radius: 50%;
+        background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 70%);
+      }
+      /* vaga da pilha: contorno tracejado da 1ª moeda, visível desde o quadro 0 */
+      #vaga {
+        position: absolute;
+        left: 390px;
+        top: 1111px;
+        width: 300px;
+        height: 104px;
+        border-radius: 50%;
+        border: 4px dashed rgba(255, 255, 255, 0.45);
+        box-sizing: border-box;
+      }
+      .moeda {
+        position: absolute;
+        width: 300px;
+        height: 146px;
+      }
+      .moeda svg {
+        display: block;
+        width: 300px;
+        height: 146px;
+      }
+
+      /* ---------- elementos fixos da campanha (fora da câmera) ---------- */
+      #hud {
+        position: absolute;
+        inset: 0;
+      }
+      .btn-seta svg {
+        overflow: visible;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="S5b" data-start="0" data-width="1080" data-height="1920" data-duration="4.466667" data-fps="60">
+      <div class="fundo-roxo"></div>
+      <div id="cam">
+        <div id="fundoFoto"></div>
+        <div id="fundoVeu"></div>
+        <div class="grad-leitura"></div>
+
+        <div id="tabela">
+          <div class="bloco">
+            <div id="l1" class="linha">1 indicação = <b>R$ 100</b></div>
+            <div id="l2" class="linha">3 indicações = <b>R$ 300</b></div>
+            <div id="l3" class="linha">5 indicações = <b>R$ 500</b></div>
+          </div>
+        </div>
+
+        <div id="sombraChao"></div>
+        <div id="vaga"></div>
+        <div id="moedas">
+          <!-- moeda base: cilindro achatado (topo #FFC300, borda mais escura); 5 moedas = R$ 500 -->
+          <div id="m1" class="moeda" style="left: 390px; top: 1069px">
+            <svg viewBox="0 0 300 146" aria-hidden="true">
+              <path d="M0 52 V94 A150 52 0 0 0 300 94 V52 Z" fill="#D99A00" />
+              <path d="M0 94 A150 52 0 0 0 300 94" fill="none" stroke="#B77F00" stroke-width="4" />
+              <ellipse cx="150" cy="52" rx="150" ry="52" fill="#FFC300" />
+              <ellipse cx="150" cy="52" rx="112" ry="37" fill="none" stroke="#E6A800" stroke-width="7" />
+            </svg>
+          </div>
+          <div id="m2" class="moeda" style="left: 382px; top: 1027px">
+            <svg viewBox="0 0 300 146" aria-hidden="true">
+              <path d="M0 52 V94 A150 52 0 0 0 300 94 V52 Z" fill="#D99A00" />
+              <path d="M0 94 A150 52 0 0 0 300 94" fill="none" stroke="#B77F00" stroke-width="4" />
+              <ellipse cx="150" cy="52" rx="150" ry="52" fill="#FFC300" />
+              <ellipse cx="150" cy="52" rx="112" ry="37" fill="none" stroke="#E6A800" stroke-width="7" />
+            </svg>
+          </div>
+          <div id="m3" class="moeda" style="left: 396px; top: 985px">
+            <svg viewBox="0 0 300 146" aria-hidden="true">
+              <path d="M0 52 V94 A150 52 0 0 0 300 94 V52 Z" fill="#D99A00" />
+              <path d="M0 94 A150 52 0 0 0 300 94" fill="none" stroke="#B77F00" stroke-width="4" />
+              <ellipse cx="150" cy="52" rx="150" ry="52" fill="#FFC300" />
+              <ellipse cx="150" cy="52" rx="112" ry="37" fill="none" stroke="#E6A800" stroke-width="7" />
+            </svg>
+          </div>
+          <div id="m4" class="moeda" style="left: 386px; top: 943px">
+            <svg viewBox="0 0 300 146" aria-hidden="true">
+              <path d="M0 52 V94 A150 52 0 0 0 300 94 V52 Z" fill="#D99A00" />
+              <path d="M0 94 A150 52 0 0 0 300 94" fill="none" stroke="#B77F00" stroke-width="4" />
+              <ellipse cx="150" cy="52" rx="150" ry="52" fill="#FFC300" />
+              <ellipse cx="150" cy="52" rx="112" ry="37" fill="none" stroke="#E6A800" stroke-width="7" />
+            </svg>
+          </div>
+          <div id="m5" class="moeda" style="left: 394px; top: 901px">
+            <svg viewBox="0 0 300 146" aria-hidden="true">
+              <path d="M0 52 V94 A150 52 0 0 0 300 94 V52 Z" fill="#D99A00" />
+              <path d="M0 94 A150 52 0 0 0 300 94" fill="none" stroke="#B77F00" stroke-width="4" />
+              <ellipse cx="150" cy="52" rx="150" ry="52" fill="#FFC300" />
+              <ellipse cx="150" cy="52" rx="112" ry="37" fill="none" stroke="#E6A800" stroke-width="7" />
+            </svg>
+          </div>
+        </div>
+
+        <div id="contador" class="valor"><span class="rs">R$</span><span id="num">100</span></div>
+      </div>
+
+      <div id="hud">
+        <img id="logo" class="logo" src="assets/logo_parktur.png" alt="Parktur" />
+        <div id="btn" class="btn-seta">
+          <svg viewBox="0 0 62 62" aria-hidden="true">
+            <path d="M10 31 H51 M36 16 L51 31 L36 46" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div id="selo" class="selo">INDIQUE E VIAJE!</div>
+      </div>
+    </div>
+    <script type="application/json" id="sfx-events">
+      [
+        { "t": 1.243, "type": "moeda", "nota": "1ª moeda cai na pilha e o contador aparece em R$100 (linha 1 indicação = R$ 100)" },
+        { "t": 2.888, "type": "moeda", "nota": "contador chega a R$300 com a 3ª moeda na pilha (linha 3 indicações = R$ 300)" },
+        { "t": 4.135, "type": "moeda", "nota": "contador chega a R$500 com a 5ª moeda na pilha (linha 5 indicações = R$ 500)" }
+      ]
+    </script>
+    <script>
+      (function () {
+        const S = window.SEGMENTS.S5b;
+        const at = (w, from) => S.words.find((x) => x.w.startsWith(w) && x.t >= (from || 0)).t;
+        const tl = gsap.timeline({ paused: true });
+        const D = S.duration;
+
+        const t1 = at("pessoas"); // ≈ 1,07
+        const t2 = at("viajar"); // ≈ 2,41
+        const t3 = at("você", 3); // ≈ 3,66 ("você vai ganhar")
+
+        // quadro 0: fundo, selo, logo, botão e a tabela (linhas ainda apagadas), tudo parado e nítido
+        gsap.set(".linha", { opacity: 0.4, transformOrigin: "0% 50%" });
+        gsap.set("#contador", { opacity: 0, scale: 0.82, transformOrigin: "50% 60%" });
+        gsap.set(".moeda", { opacity: 0, y: -70 });
+        gsap.set("#sombraChao", { opacity: 0.35, scaleX: 0.7, transformOrigin: "50% 50%" });
+
+        // deriva suave da câmera (Ken Burns, variação 0,03) durante todo o trecho
+        tl.to("#cam", { scale: 1.03, duration: D - 0.12, ease: "sine.inOut" }, 0.1);
+
+        // uma linha da tabela acende (40% → 100%) com leve ênfase
+        const acende = (sel, t) => {
+          tl.to(sel, { opacity: 1, duration: 0.3, ease: "power2.out" }, t - 0.08);
+          tl.to(sel, { scale: 1.05, duration: 0.2, ease: "power2.out" }, t - 0.08);
+          tl.to(sel, { scale: 1, duration: 0.35, ease: "power2.inOut" }, t + 0.12);
+        };
+        // uma moeda cai na pilha e assenta em tPouso
+        const cai = (sel, tPouso) => {
+          tl.to(sel, { opacity: 1, duration: 0.08, ease: "power1.out" }, tPouso - 0.22);
+          tl.to(sel, { y: 0, duration: 0.22, ease: "power2.in" }, tPouso - 0.22);
+          tl.to(sel, { y: -10, duration: 0.09, ease: "power2.out" }, tPouso);
+          tl.to(sel, { y: 0, duration: 0.12, ease: "power2.in" }, tPouso + 0.09);
+        };
+        // o contador sobe com power2.out e algarismos inteiros; chega ao valor em ≈ 95% da duração (0,475 s)
+        const conta = (valor, t) => {
+          tl.to("#num", { innerText: valor, snap: { innerText: 1 }, duration: 0.5, ease: "power2.out" }, t);
+          tl.to("#contador", { scale: 1.05, duration: 0.14, ease: "power2.out" }, t + 0.475);
+          tl.to("#contador", { scale: 1, duration: 0.28, ease: "power2.inOut" }, t + 0.615);
+        };
+        const sombra = (s, t) => {
+          tl.to("#sombraChao", { opacity: 0.35 + s * 0.13, scaleX: 0.7 + s * 0.06, duration: 0.3, ease: "power2.out" }, t);
+        };
+
+        // passo 1 — "pessoas": 1 indicação = R$ 100 → 1ª moeda + contador R$100 (moeda ≈ 1,24 s)
+        acende("#l1", t1);
+        cai("#m1", t1 + 0.17);
+        sombra(1, t1 + 0.17);
+        tl.to("#contador", { opacity: 1, duration: 0.15, ease: "power1.out" }, t1 - 0.05);
+        tl.to("#contador", { scale: 1, duration: 0.42, ease: "back.out(1.6)" }, t1 - 0.05);
+
+        // passo 2 — "viajar": 3 indicações = R$ 300 → moedas 2 e 3 + contador R$100 → R$300 (moeda ≈ 2,89 s)
+        acende("#l2", t2);
+        cai("#m2", t2 + 0.22);
+        cai("#m3", t2 + 0.475);
+        sombra(3, t2 + 0.22);
+        conta(300, t2);
+
+        // passo 3 — "você vai ganhar": 5 indicações = R$ 500 → moedas 4 e 5 + contador R$300 → R$500 (moeda ≈ 4,14 s)
+        acende("#l3", t3);
+        cai("#m4", t3 + 0.22);
+        cai("#m5", t3 + 0.475);
+        sombra(5, t3 + 0.22);
+        conta(500, t3);
+
+        window.__timelines["S5b"] = tl;
+      })();
+    </script>
+  </body>
+</html>
