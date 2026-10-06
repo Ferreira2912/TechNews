@@ -60,8 +60,10 @@ for a in e["audio"]:
     buf[i0:i1] *= ramp(i1 - i0, False)
     buf[i1:] = 0
     o = int(round(t0 * SR))
-    end = min(N, o + len(buf))
-    out[o:end] += buf[:end - o]
+    parts = [(buf, o)]
+    for pb, po in parts:
+        end = min(N, po + len(pb))
+        out[po:end] += pb[:end - po]
     report.append(dict(take=k, out_start=round(t0, 4), out_end=round(t0 + fe_out, 4), fade_ms=round((fe_out - fs_out) * 1000, 1)))
 
 from scipy.signal import resample_poly

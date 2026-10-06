@@ -239,9 +239,11 @@ def frame(i):
         out = out * (1 - oa) + o[..., 2::-1].astype(np.float32) / 255 * oa
     return np.clip(out * 255 + 0.5, 0, 255).astype(np.uint8)
 
-B_SRC0 = {s["id"]: s["src_frames"][0] for s in edl["segments"] if s["layout"] == "B"}
-for k, n in [("S1", 270), ("S3c", 262), ("S4b", 205), ("S6a", 142)]:
-    assert segs[k]["frames"] == n
+# quadro de origem do 1º quadro de cada arquivo de matte (scripts/matte.py <f0>): S1 0, S3c 945, S4b 1343, S6a 2009
+B_SRC0 = json.load(open(f"{ROOT}/work/matte/bases.json"))
+for s in edl["segments"]:
+    if s["layout"] == "B":
+        assert s["src_frames"][0] >= B_SRC0[s["id"]], (s["id"], s["src_frames"], B_SRC0[s["id"]])
 
 if args.stills:
     os.makedirs(args.out, exist_ok=True)

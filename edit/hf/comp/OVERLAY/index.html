@@ -112,7 +112,7 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="OVERLAY" data-start="0" data-width="1080" data-height="1920" data-duration="38.3" data-fps="60">
+    <div id="root" data-composition-id="OVERLAY" data-start="0" data-width="1080" data-height="1920" data-duration="37.666667" data-fps="60">
       <div id="legendas">
         <svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
       </div>
@@ -182,7 +182,8 @@
         tl.to("#onda", { scale: 2.6, opacity: 0, duration: 0.55, ease: "power2.out" }, tTap + 0.05);
         tl.to("#pilula", { scale: 1.06, duration: 0.18, ease: "power2.out" }, tTap);
         tl.to("#pilula", { scale: 1.0, duration: 0.22, ease: "power2.inOut" }, tTap + 0.18);
-        tl.set({}, {}, 38.3);
+        const END = Object.values(window.SEGMENTS).reduce((a, s) => a + s.frames, 0) / FPS;
+        tl.set({}, {}, END);
 
         window.__overlayEvents = [
           { t: tIn + 0.2, type: "impacto", nota: "pílula INDIQUE AGORA assenta" },

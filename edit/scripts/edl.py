@@ -24,12 +24,15 @@ RAW_CUTS = [round(c * FPS) / FPS for c in RAW_CUTS]
 # ambos medidos no envelope (ver relatório). Pausas internas > 250 ms são comprimidas para ~120 ms.
 TAKES = [
     dict(onset=0.035, end=4.43, pauses=[]),
-    dict(onset=4.80, end=8.45, pauses=[]),
-    dict(onset=8.69, end=20.05, pauses=[(12.74, 13.23)]),
+    # início de "Chegou" (1ª janela ≥ −35 dB); antes disso é só ambiente (4,80 media ruído, não fala)
+    dict(onset=4.865, end=8.45, pauses=[(6.58, 6.86)]),                       # pausa depois de "Viaje," (280 ms)
+    dict(onset=8.69, end=20.05, pauses=[(12.74, 13.23), (17.86, 18.23)]),    # "...colega. | Se" e "de crédito | para"
     dict(onset=20.21, end=25.73, pauses=[]),
     dict(onset=25.975, end=33.29, pauses=[(31.93, 32.23)]),
-    dict(onset=33.535, end=39.20, pauses=[]),
+    dict(onset=33.555, end=39.20, pauses=[(37.39, 37.65)]),                  # "Já" em 33,54 → 40 ms antes = 33,50; "pra gente | e faça" (260 ms)
 ]
+# Pausas internas medidas com a mesma regra do fim de frase (janelas de 10 ms < −35 dB na voz limpa);
+# todas as que passam de 250 ms são comprimidas para 120 ms. A de 240 ms em 23,94–24,18 (tomada 4) fica.
 NOISE = -55.0     # nível em que a cauda chega ao ruído de fundo
 FADE = 0.170      # saída gradual depois do ruído
 JLEAD = 0.050     # J-cut: o áudio da nova frase começa 50 ms antes do corte de imagem

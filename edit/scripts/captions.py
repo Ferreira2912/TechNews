@@ -73,5 +73,12 @@ open(f"{ROOT}/hf/data/captions.js", "w").write(
     "/* Gerado por scripts/captions.py. Não editar. */\nwindow.CAPTIONS = " +
     json.dumps([dict(text=b["text"], hl=b["kind"] == "h", t_in=round(b["in"], 6), t_out=round(b["out"], 6),
                      y0=b["band"][0], y1=b["band"][1], seg=b["seg"]) for b in vis], ensure_ascii=False) + ";\n")
+# eventos sonoros do CTA (mesmos tempos usados em hf/comp/OVERLAY): entrada em "mande", toque em "indicação"
+s6 = segs["S6b"]; t6 = s6["start_ms"] / 1000
+at6 = lambda w: t6 + next(x["t"] for x in s6["words"] if x["w"].startswith(w))
+t_in, t_tap = round(at6("mande") * FPS) / FPS, round(at6("indicação") * FPS) / FPS
+json.dump([dict(t=round(t_in + 0.17, 4), type="impacto", seg="S6b", nota="pílula INDIQUE AGORA → assenta (entrada com impacto leve)"),
+           dict(t=round(t_tap, 4), type="click", seg="S6b", nota="toque do dedo na pílula + pulsação 1,0→1,06→1,0")],
+          open(f"{ROOT}/work/overlay_events.json", "w"), ensure_ascii=False, indent=1)
 for b in blocks:
     print(f"{b['seg']:4s} {b['kind']} {b['in']:7.3f}–{b['out']:7.3f}  {b['pos']:6s} {b['text']}")

@@ -1,12 +1,4 @@
 [
-  {
-    "t": 0.85,
-    "type": "impacto",
-    "nota": "selo INDIQUE E VIAJE! grande e centralizado assenta"
-  },
-  {
-    "t": 2.71,
-    "type": "impacto",
-    "nota": "cartão da peça oficial (peca2) assenta no centro"
-  }
+  { "word": "Indique", "offset": 0.18, "type": "impacto", "nota": "selo INDIQUE E VIAJE! grande e centralizado assenta (entra em at('Indique') − 0,1, back.out)" },
+  { "word": "nova", "offset": 0.46, "type": "impacto", "nota": "cartão da peça oficial (peca2) assenta no centro (sobe em at('nova') + 0,07, back.out)" }
 ]

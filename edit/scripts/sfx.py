@@ -4,7 +4,8 @@ Tipos e variações (4 por tipo; rodízio, nunca a mesma variação duas vezes s
   click, tecla, envio, impacto, confirmacao, moeda, passagem
 Níveis (pico de amostra relativo ao pico da voz): click/impacto/confirmacao/moeda −10 dB,
 passagem −9 dB, tecla/envio −16 dB.
-Eventos: hf/comp/<SEG>/events.json (tempo local da seção, somado a start_ms) e
+Eventos: hf/comp/<SEG>/events.json (tempo local "t", ou "word" + "offset" quando o gesto da composição
+está preso a uma palavra; somado a start_ms) e
 work/overlay_events.json (tempo global). "passagem" usa t = ponto médio do movimento (pico do som).
 Uso: sfx.py <END_s> <voice.wav> <saida.wav>      |  sfx.py --preview <saida.wav>
 """
@@ -127,7 +128,11 @@ ev = []
 for p in sorted(glob.glob(f"{ROOT}/hf/comp/*/events.json")):
     seg = os.path.basename(os.path.dirname(p))
     for e in json.load(open(p)):
-        ev.append(dict(e, t=segs[seg]["start_ms"] / 1000 + e["t"], seg=seg))
+        if "word" in e:      # evento preso a uma palavra: t = início da palavra (tempo local) + deslocamento
+            t_loc = next(w["t"] for w in segs[seg]["words"] if w["w"].startswith(e["word"])) + e["offset"]
+        else:
+            t_loc = e["t"]
+        ev.append(dict(e, t=segs[seg]["start_ms"] / 1000 + t_loc, seg=seg))
 ov = f"{ROOT}/work/overlay_events.json"
 if os.path.exists(ov):
     ev += [dict(e, seg=e.get("seg", "overlay")) for e in json.load(open(ov))]
