@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=2560, height=1440">
+    <title>Claude Opus 5.5 — trailer de lançamento</title>
+    <script src="vendor/gsap.min.js"></script>
+    <script src="timing.js"></script>
+    <script src="assets/score-wave.js"></script>
+    <script src="assets/code-lines.js"></script>
+    <style>
+      @font-face {
+        font-family: "Newsreader";
+        src: url("fonts/Newsreader-Variable.woff2") format("woff2");
+        font-weight: 200 800;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Newsreader";
+        src: url("fonts/Newsreader-Italic-Variable.woff2") format("woff2");
+        font-weight: 200 800;
+        font-style: italic;
+      }
+      @font-face {
+        font-family: "Inter";
+        src: url("fonts/Inter-Variable.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+      }
+      :root {
+        --cream: #f0eee6;
+        --ink: #1f1e1d;
+        --clay: #d97757;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--ink);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--ink);
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .layer {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #stage {
+        position: absolute;
+        inset: 0;
+        transform-origin: 1280px 720px;
+      }
+      #bg {
+        background: radial-gradient(120% 95% at 50% 46%, #282624 0%, var(--ink) 52%, #171615 100%);
+      }
+      #glow {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1900px;
+        height: 1900px;
+        border-radius: 50%;
+        background: radial-gradient(
+          closest-side,
+          rgba(217, 119, 87, 0.22),
+          rgba(217, 119, 87, 0.08) 42%,
+          rgba(217, 119, 87, 0) 100%
+        );
+        opacity: 0;
+      }
+      canvas.layer {
+        display: block;
+      }
+
+      /* ---------- código ---------- */
+      #camWrap {
+        position: absolute;
+        inset: 0;
+      }
+      #cam {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 2560px;
+        height: 1440px;
+        transform-origin: 0 0;
+        perspective: 5200px;
+      }
+      #tilt {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+      }
+      #code {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-family: "Inter", sans-serif;
+        font-size: 160px;
+        font-weight: 400;
+        line-height: 290px;
+        letter-spacing: -0.01em;
+        white-space: pre;
+        transform-style: preserve-3d;
+        color: rgba(240, 238, 230, 0.8);
+      }
+      .ln {
+        display: block;
+        height: 290px;
+        opacity: 0;
+      }
+      .ln.hookline {
+        opacity: 1;
+      }
+      .kw {
+        color: var(--clay);
+      }
+      .num {
+        color: rgba(217, 119, 87, 0.85);
+      }
+      .str {
+        font-family: "Newsreader", serif;
+        font-size: 1.25em;
+        color: var(--cream);
+        letter-spacing: -0.012em;
+      }
+      .com {
+        color: rgba(240, 238, 230, 0.36);
+      }
+      .key {
+        color: rgba(240, 238, 230, 0.6);
+      }
+      .pun {
+        color: rgba(240, 238, 230, 0.42);
+      }
+      .id {
+        color: rgba(240, 238, 230, 0.82);
+      }
+      .hookline .fade {
+        opacity: 0;
+      }
+      .ch {
+        opacity: 0;
+      }
+      .dp {
+        display: inline-block;
+        width: 0.105em;
+        height: 0.105em;
+        border-radius: 50%;
+        background: var(--clay);
+        margin: 0 0.025em 0 0.012em;
+      }
+      #dotIn {
+        opacity: 0;
+      }
+
+      /* ---------- títulos ---------- */
+      .hl {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 520px;
+        height: 240px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0 0.24em;
+        font-family: "Newsreader", serif;
+        font-weight: 400;
+        font-size: 156px;
+        letter-spacing: -0.014em;
+        color: var(--cream);
+        white-space: nowrap;
+      }
+      .hl .w {
+        display: block;
+        overflow: hidden;
+        padding: 0.08em 0.02em 0.2em;
+        margin: -0.08em -0.02em -0.2em;
+      }
+      .hl .wi {
+        display: block;
+      }
+      .hl em {
+        font-style: italic;
+      }
+
+      /* ---------- o ponto ---------- */
+      #pt {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 0;
+      }
+      #ptPulse {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 0;
+        transform-origin: 0px -14px;
+      }
+      #ptShape {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 21px;
+        height: 21px;
+        border-radius: 999px;
+        background: var(--clay);
+        box-shadow: 0 0 0 var(--halo, 0px) rgba(31, 30, 29, 0.92);
+      }
+      #ptGlow {
+        position: absolute;
+        left: -260px;
+        top: -274px;
+        width: 520px;
+        height: 520px;
+        opacity: 0;
+      }
+      #ptGlowIn {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(217, 119, 87, 0.55), rgba(217, 119, 87, 0) 100%);
+      }
+      svg.layer {
+        overflow: visible;
+      }
+
+      /* ---------- mundo creme ---------- */
+      #cream {
+        position: absolute;
+        inset: 0;
+        visibility: hidden;
+        clip-path: circle(0px at 50% 50%);
+      }
+      #creamBg {
+        background: radial-gradient(110% 90% at 50% 48%, #f5f3ec 0%, var(--cream) 50%, #e6e3d9 100%);
+      }
+      #nameBox {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #nameInner {
+        display: block;
+      }
+      #name {
+        display: block;
+        font-family: "Newsreader", serif;
+        font-weight: 400;
+        font-size: 250px;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        white-space: nowrap;
+        padding: 0.12em 0 0.18em;
+      }
+      #endInfo {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 1440px;
+      }
+      #rule {
+        position: absolute;
+        left: 1200px;
+        top: 806px;
+        width: 160px;
+        height: 3px;
+        background: var(--clay);
+        transform-origin: 50% 50%;
+      }
+      .mask {
+        position: absolute;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .mask > div {
+        display: block;
+      }
+      #maker {
+        top: 846px;
+        height: 76px;
+        font-family: "Inter", sans-serif;
+        font-weight: 500;
+        font-size: 60px;
+        line-height: 76px;
+        letter-spacing: 0.03em;
+        color: rgba(31, 30, 29, 0.88);
+      }
+      #modelId {
+        top: 934px;
+        height: 58px;
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+        font-size: 40px;
+        line-height: 58px;
+        letter-spacing: 0.015em;
+        color: rgba(31, 30, 29, 0.52);
+        font-variant-numeric: tabular-nums;
+      }
+
+      #vigDark {
+        background: radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(10, 9, 9, 0.62) 100%);
+      }
+      #vigCream {
+        background: radial-gradient(ellipse 80% 75% at 50% 50%, rgba(31, 30, 29, 0) 60%, rgba(31, 30, 29, 0.09) 100%);
+      }
+      #grain {
+        mix-blend-mode: overlay;
+        opacity: 0.09;
+        background-repeat: repeat;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-ietj" id="root" data-composition-id="main" data-start="0" data-width="2560" data-height="1440" data-duration="18" data-fps="60">
+      <audio data-hf-id="hf-evk8" id="score" src="assets/score.wav" data-start="0" data-duration="18" data-track-index="9" data-volume="1"></audio>
+
+      <div data-hf-id="hf-1rt5" id="stage">
+        <div data-hf-id="hf-qawk" id="bg" class="layer"></div>
+        <div data-hf-id="hf-27c6" id="glow"></div>
+        <canvas data-hf-id="hf-kvnf" id="dustBack" data-layout-ignore="" class="layer" width="2560" height="1440"></canvas>
+
+        <div data-hf-id="hf-ndth" id="camWrap" data-layout-allow-overflow="">
+          <div data-hf-id="hf-ftaq" id="cam"><div data-hf-id="hf-plaw" id="tilt"><div data-hf-id="hf-c1o2" id="code"></div></div></div>
+        </div>
+
+        <canvas data-hf-id="hf-f22x" id="wave" data-layout-ignore="" class="layer" width="2560" height="1440"></canvas>
+
+        <div data-hf-id="hf-wcns" id="hl2" class="hl">
+          <span data-hf-id="hf-fr20" class="w"><span data-hf-id="hf-ikae" class="wi">Cada</span></span><span data-hf-id="hf-xths" class="w"><span data-hf-id="hf-ql4l" class="wi">quadro</span></span><span data-hf-id="hf-wmkp" class="w"><span data-hf-id="hf-tyqg" class="wi">é</span></span><span data-hf-id="hf-x0vq" class="w"><span data-hf-id="hf-i069" class="wi"><em data-hf-id="hf-mvfi">código.</em></span></span>
+        </div>
+        <div data-hf-id="hf-zbxd" id="hl3" class="hl">
+          <span data-hf-id="hf-vtyn" class="w"><span data-hf-id="hf-xymy" class="wi">Cada</span></span><span data-hf-id="hf-w89o" class="w"><span data-hf-id="hf-ay5x" class="wi"><em data-hf-id="hf-c9h8">som</em></span></span><span data-hf-id="hf-v1cl" class="w"><span data-hf-id="hf-qogv" class="wi">também.</span></span>
+        </div>
+        <div data-hf-id="hf-ogfq" id="hl4" class="hl">
+          <span data-hf-id="hf-vfnm" class="w"><span data-hf-id="hf-3rmm" class="wi">Escrito</span></span><span data-hf-id="hf-u8qj" class="w"><span data-hf-id="hf-tmzz" class="wi">pelo</span></span><span data-hf-id="hf-un1k" class="w"><span data-hf-id="hf-c530" class="wi"><em data-hf-id="hf-hcm8">próprio</em></span></span><span data-hf-id="hf-ikf4" class="w"><span data-hf-id="hf-1t5b" class="wi">modelo.</span></span>
+        </div>
+
+        <svg data-hf-id="hf-t4ke" id="rings" class="layer" viewBox="0 0 2560 1440">
+          <circle data-hf-id="hf-bzmq" id="ring1" cx="1280" cy="720" r="0" fill="none" stroke="#D97757" />
+          <circle data-hf-id="hf-n9r9" id="ring2" cx="1280" cy="720" r="0" fill="none" stroke="#F0EEE6" />
+        </svg>
+
+        <div data-hf-id="hf-thul" id="vigDark" class="layer"></div>
+
+        <div data-hf-id="hf-9z61" id="cream">
+          <div data-hf-id="hf-a4xs" id="creamBg" class="layer"></div>
+          <canvas data-hf-id="hf-jp6q" id="creamDust" data-layout-ignore="" class="layer" width="2560" height="1440"></canvas>
+          <svg data-hf-id="hf-6nl4" id="creamRings" class="layer" viewBox="0 0 2560 1440">
+            <circle data-hf-id="hf-v3um" class="cr" cx="1280" cy="720" r="0" fill="none" stroke="#1F1E1D" />
+            <circle data-hf-id="hf-hmhu" class="cr" cx="1280" cy="720" r="0" fill="none" stroke="#1F1E1D" />
+            <circle data-hf-id="hf-xz2d" class="cr" cx="1280" cy="720" r="0" fill="none" stroke="#D97757" />
+          </svg>
+          <div data-hf-id="hf-iorr" id="nameBox">
+            <div data-hf-id="hf-tjfg" id="nameInner">
+              <div data-hf-id="hf-f7r1" id="name">Claude Opus 5<span data-hf-id="hf-3n02" class="dp" id="namePt"></span>5</div>
+            </div>
+          </div>
+          <div data-hf-id="hf-5rxs" id="endInfo">
+            <div data-hf-id="hf-8e4z" id="rule"></div>
+            <div data-hf-id="hf-q5qy" id="maker" class="mask"><div data-hf-id="hf-pr6y" id="makerIn">Anthropic</div></div>
+            <div data-hf-id="hf-jq26" id="modelId" class="mask"><div data-hf-id="hf-gr50" id="modelIdIn">claude-opus-5-5</div></div>
+          </div>
+          <div data-hf-id="hf-nqux" id="vigCream" class="layer"></div>
+        </div>
+
+        <svg data-hf-id="hf-azno" id="edge" class="layer" viewBox="0 0 2560 1440">
+          <circle data-hf-id="hf-erei" id="edgeRing" cx="1280" cy="720" r="0" fill="none" stroke="#D97757" opacity="0" />
+        </svg>
+
+        <div data-hf-id="hf-8in5" id="pt">
+          <div data-hf-id="hf-batm" id="ptGlow"><div data-hf-id="hf-7j8z" id="ptGlowIn"></div></div>
+          <div data-hf-id="hf-wbt0" id="ptPulse"><div data-hf-id="hf-b1no" id="ptShape"></div></div>
+        </div>
+
+        <canvas data-hf-id="hf-2fyf" id="dustFront" data-layout-ignore="" class="layer" width="2560" height="1440"></canvas>
+      </div>
+
+      <div data-hf-id="hf-b765" id="grain" data-layout-ignore="" class="layer"></div>
+    </div>
+
+    <script id="film">
+      (function () {
+        // 1. o gancho
+        const hook = "Nada aqui foi filmado."; // ◆
+        const T = window.FILM_T; // ◆
+        const W = T.W;
+        const H = T.H;
+        const $ = (s) => document.querySelector(s);
+        const root = $("#root");
+        const stage = $("#stage");
+        const camWrap = $("#camWrap");
+        const cam = $("#cam");
+        const tilt = $("#tilt");
+        const code = $("#code");
+        const pt = $("#pt");
+        const ptShape = $("#ptShape");
+        const ptPulse = $("#ptPulse");
+        const ptGlow = $("#ptGlow");
+        const ptGlowIn = $("#ptGlowIn");
+        const cream = $("#cream");
+        const glow = $("#glow");
+        const WAVE_Y = 958;
+        const PH = 28; // diâmetro do ponto como cabeça de leitura
+
+        // ---------- utilitários determinísticos ----------
+        function mulberry32(seed) {
+          return function () {
+            seed |= 0;
+            seed = (seed + 0x6d2b79f5) | 0;
+            let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          };
+        }
+        const ease = {};
+        const E = (n) => ease[n] || (ease[n] = gsap.parseEase(n));
+        // envelope por partes, função pura do tempo: [[t, v], [t, v, ease], ...]
+        function env(t, keys) {
+          if (t <= keys[0][0]) return keys[0][1];
+          for (let i = 1; i < keys.length; i++) {
+            const k = keys[i];
+            const p0 = keys[i - 1];
+            if (t <= k[0]) {
+              if (k[0] === p0[0]) return k[1];
+              const p = (t - p0[0]) / (k[0] - p0[0]);
+              return p0[1] + (k[1] - p0[1]) * (k[2] ? E(k[2])(p) : p);
+            }
+          }
+          return keys[keys.length - 1][1];
+        }
+        function box(el) {
+          const r = el.getBoundingClientRect();
+          const R = root.getBoundingClientRect();
+          const k = R.width / W;
+          const x = (r.left - R.left) / k;
+          const y = (r.top - R.top) / k;
+          const w = r.width / k;
+          const h = r.height / k;
+          return { x, y, w, h, r: x + w, b: y + h, cx: x + w / 2, cy: y + h / 2 };
+        }
+
+        // ---------- o painel de código mostra linhas reais deste script ----------
+        function esc(s) {
+          return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+        function highlight(line) {
+          const re =
+            /("(?:[^"\\]|\\.)*")|(\/\/.*$)|\b(const|let|new|function|return)\b|(\b\d+(?:\.\d+)?\b)|([A-Za-z_$][\w$]*)(?=\s*:)|([A-Za-z_$][\w$.]*)|(\s+)|([^\w\s])/g;
+          let out = "";
+          let m;
+          while ((m = re.exec(line))) {
+            if (m[1]) out += '<span class="str">' + esc(m[1]) + "</span>";
+            else if (m[2]) out += '<span class="com">' + esc(m[2]) + "</span>";
+            else if (m[3]) out += '<span class="kw">' + m[3] + "</span>";
+            else if (m[4]) out += '<span class="num">' + m[4] + "</span>";
+            else if (m[5]) out += '<span class="key">' + esc(m[5]) + "</span>";
+            else if (m[6]) out += '<span class="id">' + esc(m[6]) + "</span>";
+            else if (m[7]) out += m[7];
+            else out += '<span class="pun">' + esc(m[8]) + "</span>";
+          }
+          return out;
+        }
+        function hookHTML(line) {
+          // a string do gancho é montada letra a letra para a digitação
+          const i0 = line.indexOf('"');
+          const i1 = line.lastIndexOf('"');
+          const words = line.slice(i0 + 1, i1 - 1).split(" ");
+          const typed = words
+            .map((w) => '<span class="wd">' + [...w].map((c) => '<span class="ch">' + c + "</span>").join("") + "</span>")
+            .join(" ");
+          return (
+            '<span class="fade">' +
+            highlight(line.slice(0, i0)) +
+            '</span><span class="str"><span class="fade">"</span><span id="hk">' +
+            typed +
+            '<span class="dp" id="dotIn"></span></span><span class="fade">"</span></span><span class="fade">' +
+            highlight(line.slice(i1 + 1)) +
+            "</span>"
+          );
+        }
+        // linhas reais deste arquivo marcadas com o losango, extraídas por
+        // scripts/extract-code.mjs (o compilador remove comentários)
+        code.innerHTML = window.CODE_LINES.map((s, i) => {
+            return i === 0
+              ? '<div class="ln hookline">' + hookHTML(s) + "</div>"
+              : '<div class="ln">' + (highlight(s) || " ") + "</div>";
+          })
+          .join("");
+        const lines = [...code.querySelectorAll(".ln")];
+        const chars = [...code.querySelectorAll(".ch")];
+
+        // ---------- partículas, onda e grão: desenhados a partir do tempo ----------
+        const SW = window.SCORE_WAVE;
+        function waveAt(sec) {
+          const f = sec * SW.binsPerSecond;
+          const i = Math.floor(f);
+          if (i < 1 || i >= SW.peak.length - 2) return 0;
+          const a = f - i;
+          let p = 0;
+          let r = 0;
+          for (let k = -1; k <= 1; k++) {
+            const wgt = k === 0 ? 0.5 : 0.25;
+            p += wgt * (SW.peak[i + k] * (1 - a) + SW.peak[i + k + 1] * a);
+            r += wgt * (SW.rms[i + k] * (1 - a) + SW.rms[i + k + 1] * a);
+          }
+          return Math.min(1, (0.55 * p + 1.0 * r) / SW.scale);
+        }
+        function sprite(rgb) {
+          const c = document.createElement("canvas");
+          c.width = c.height = 128;
+          const g = c.getContext("2d");
+          const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+          gr.addColorStop(0, "rgba(" + rgb + ",1)");
+          gr.addColorStop(0.35, "rgba(" + rgb + ",0.55)");
+          gr.addColorStop(1, "rgba(" + rgb + ",0)");
+          g.fillStyle = gr;
+          g.fillRect(0, 0, 128, 128);
+          return c;
+        }
+        const SPR = { cream: sprite("240,238,230"), ink: sprite("31,30,29"), clay: sprite("217,119,87") };
+        const rnd = mulberry32(55);
+        const dust = Array.from({ length: 150 }, () => ({
+          x: rnd() * 2 - 1,
+          y: rnd() * 2 - 1,
+          z: 0.15 + rnd() * 0.85,
+          r: 2 + rnd() * 5,
+          ph: rnd() * Math.PI * 2,
+          f: 0.18 + rnd() * 0.3,
+          a: 0.05 + rnd() * 0.16,
+          clay: rnd() < 0.12,
+        }));
+        const bokeh = Array.from({ length: 9 }, (_, i) => ({
+          x: (i % 2 ? 1 : -1) * (0.55 + rnd() * 0.4),
+          y: rnd() * 1.8 - 0.9,
+          r: 70 + rnd() * 120,
+          ph: rnd() * 6.28,
+          f: 0.12 + rnd() * 0.15,
+          a: 0.035 + rnd() * 0.04,
+        }));
+        // profundidade da câmera para a paralaxe (espelha os movimentos do GSAP)
+        const DEPTH = [
+          [0, 1],
+          [2.95, 1.07, "sine.inOut"],
+          [4.05, 0.72, "expo.inOut"],
+          [5.6, 0.78, "sine.inOut"],
+          [6.0, 0.9, "power2.inOut"],
+          [9.0, 1.0, "sine.inOut"],
+          [11.85, 1.42, "power2.in"],
+          [12.0, 1.48, "power1.out"],
+          [13.4, 1.0, "expo.out"],
+          [18, 1.08, "sine.inOut"],
+        ];
+        function drawDust(g, t, tone, front) {
+          g.clearRect(0, 0, W, H);
+          const zoom = env(t, DEPTH);
+          if (!front) {
+            for (const p of dust) {
+              const s = 1 + (zoom - 1) * (0.4 + p.z * 1.6);
+              const x = W / 2 + (p.x * W * 0.62 + Math.sin(t * p.f + p.ph) * 40 * p.z) * s;
+              const y = H / 2 + (p.y * H * 0.62 + Math.cos(t * p.f * 0.8 + p.ph) * 28 * p.z) * s;
+              const r = p.r * (0.5 + p.z) * Math.sqrt(s);
+              g.globalAlpha = p.a * (0.35 + 0.65 * p.z) * (tone === "ink" ? 0.55 : 1);
+              g.drawImage(p.clay && tone !== "ink" ? SPR.clay : SPR[tone], x - r, y - r, r * 2, r * 2);
+            }
+          } else {
+            for (const p of bokeh) {
+              const s = 1 + (zoom - 1) * 2.6;
+              const x = W / 2 + (p.x * W * 0.55 + Math.sin(t * p.f + p.ph) * 70) * s;
+              const y = H / 2 + (p.y * H * 0.5 + Math.cos(t * p.f + p.ph) * 50) * s;
+              const r = p.r * s;
+              g.globalAlpha = p.a * (tone === "ink" ? 0.6 : 1);
+              g.drawImage(SPR[tone], x - r, y - r, r * 2, r * 2);
+            }
+          }
+          g.globalAlpha = 1;
+        }
+        // envelopes da onda (mesmas marcas do roteiro)
+        const LEN = [
+          [5.84, 0],
+          [6.3, 1, "expo.out"],
+          [11.3, 1],
+          [11.8, 0, "power3.in"],
+        ];
+        const AMP = [
+          [5.98, 0],
+          [6.7, 1, "elastic.out(1, 0.45)"],
+          [9.0, 1],
+          [11.2, 1.75, "power2.in"],
+          [11.75, 0, "power2.in"],
+        ];
+        const SPAN = [
+          [0, 3.4],
+          [9.0, 3.4],
+          [11.3, 2.1, "power2.in"],
+        ];
+        const ECHO = [
+          [6.0, 0],
+          [6.8, 0.7, "power2.out"],
+          [9.0, 0.7],
+          [11.2, 1.25, "power2.in"],
+          [11.7, 0, "power2.in"],
+        ];
+        const waveCv = $("#wave");
+        const wg = waveCv.getContext("2d");
+        const echoCv = document.createElement("canvas");
+        echoCv.width = W / 4;
+        echoCv.height = H / 4;
+        const eg = echoCv.getContext("2d");
+        function wavePath(g, t, len, amp, span, sc, lag) {
+          const cx = W / 2;
+          const half = (W / 2) * len;
+          const top = [];
+          for (let x = cx - half; x <= cx + half + 0.1; x += 4) {
+            const v = waveAt(t - lag + ((x - cx) / W) * span);
+            const edge = Math.min(1, (half - Math.abs(x - cx)) / 260 + 0.0001);
+            const notch = Math.min(1, Math.max(0, (Math.abs(x - cx) - 26) / 90));
+            top.push([x, v * amp * 150 * sc * edge * (sc === 1 ? notch : 1)]);
+          }
+          return top;
+        }
+        function drawWave(t) {
+          const ctx = wg;
+          ctx.clearRect(0, 0, W, H);
+          const len = env(t, LEN);
+          if (len <= 0.0005 || t >= 11.86) return;
+          const amp = env(t, AMP);
+          const span = env(t, SPAN);
+          const echo = env(t, ECHO);
+          const waveY = WAVE_Y;
+          // ecos: desenhados em 1/4 da resolução e ampliados (desfoque natural)
+          eg.clearRect(0, 0, echoCv.width, echoCv.height);
+          if (echo > 0.001) {
+            [
+              [2.4, 0.16, 0.14],
+              [1.6, 0.22, 0.07],
+            ].forEach(([sc, a, lag]) => {
+              const pts = wavePath(null, t, len, amp, span, sc, lag);
+              eg.beginPath();
+              pts.forEach(([x, d], i) => (i ? eg.lineTo(x / 4, (waveY - d) / 4) : eg.moveTo(x / 4, (waveY - d) / 4)));
+              for (let i = pts.length - 1; i >= 0; i--) eg.lineTo(pts[i][0] / 4, (waveY + pts[i][1]) / 4);
+              eg.closePath();
+              eg.globalAlpha = a * echo;
+              eg.fillStyle = "#D97757";
+              eg.fill();
+            });
+            eg.globalAlpha = 1;
+            ctx.drawImage(echoCv, 0, 0, W, H);
+          }
+          // onda principal: passado em argila, futuro em creme translúcido
+          const pts = wavePath(null, t, len, amp, span, 1, 0);
+          const grad = ctx.createLinearGradient(W / 2 - (W / 2) * len, 0, W / 2 + (W / 2) * len, 0);
+          grad.addColorStop(0, "rgba(217,119,87,0)");
+          grad.addColorStop(0.18, "rgba(217,119,87,0.75)");
+          grad.addColorStop(0.5, "rgba(217,119,87,1)");
+          grad.addColorStop(0.5, "rgba(240,238,230,0.42)");
+          grad.addColorStop(0.85, "rgba(240,238,230,0.22)");
+          grad.addColorStop(1, "rgba(240,238,230,0)");
+          ctx.beginPath();
+          pts.forEach(([x, v], i) => (i ? ctx.lineTo(x, waveY - v - 1.5) : ctx.moveTo(x, waveY - v - 1.5)));
+          for (let i = pts.length - 1; i >= 0; i--) {
+            const [x, v] = pts[i];
+            ctx.lineTo(x, waveY + v + 1.5); // ◆
+          }
+          ctx.closePath();
+          ctx.fillStyle = grad;
+          ctx.fill();
+        }
+        // grão de filme: 4 ladrilhos gerados uma vez, trocados a 24 qps
+        const tiles = [];
+        const gr = mulberry32(7);
+        for (let k = 0; k < 4; k++) {
+          const c = document.createElement("canvas");
+          c.width = c.height = 320;
+          const g = c.getContext("2d");
+          const img = g.createImageData(320, 320);
+          for (let i = 0; i < img.data.length; i += 4) {
+            const v = 128 + (gr() + gr() + gr() - 1.5) * 120;
+            img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
+            img.data[i + 3] = 255;
+          }
+          g.putImageData(img, 0, 0);
+          tiles.push('url("' + c.toDataURL("image/png") + '")');
+        }
+        const grain = $("#grain");
+        const dB = $("#dustBack").getContext("2d");
+        const dC = $("#creamDust").getContext("2d");
+        const dF = $("#dustFront").getContext("2d");
+        function frameAt(t) {
+          const after = t >= T.impact;
+          if (t < 12.6) drawDust(dB, t, "cream", false);
+          if (after) drawDust(dC, t, "ink", false);
+          drawDust(dF, t, t >= T.impact + 0.06 ? "ink" : "cream", true);
+          drawWave(t);
+          const f = Math.floor(t * 24);
+          const h1 = mulberry32(f * 31 + 3)();
+          const h2 = mulberry32(f * 17 + 11)();
+          grain.style.backgroundImage = tiles[f % 4];
+          grain.style.backgroundPosition = Math.floor(h1 * 320) + "px " + Math.floor(h2 * 320) + "px";
+          grain.style.opacity = after ? 0.065 : 0.1;
+          // a cabeça de leitura pulsa com a própria trilha
+          const live = t >= 5.95 && t < 11.3;
+          const v = live ? waveAt(t) : 0;
+          ptPulse.style.transform = "scale(" + (1 + 1.25 * v).toFixed(4) + ")";
+          ptGlowIn.style.opacity = (0.45 + 1.1 * v).toFixed(4);
+        }
+
+        // ---------- linha do tempo ----------
+        function build() {
+          // geometria medida uma única vez, sem transformações aplicadas
+          let hk = box($("#hk"));
+          gsap.set(code, { left: W / 2 - hk.cx, top: H / 2 - 12 - hk.cy });
+          hk = box($("#hk"));
+          const dotIn = $("#dotIn");
+          const d0 = box(dotIn);
+          const base = d0.b;
+          const DH = d0.w;
+          const fs = 200;
+          if (chars.length !== T.TYPE.length) throw new Error("gancho e timing.js divergem");
+          const charR = chars.map((c) => box(c).r);
+          const startX = box(chars[0]).x;
+          const cb = box(code);
+          const camS = Math.min(2150 / cb.w, 1080 / cb.h);
+          const camX = W / 2 - camS * cb.cx;
+          const camY = 690 - camS * cb.cy;
+          const np = box($("#namePt"));
+          const dp = { cx: np.cx, cy: np.cy, b: np.b, d: np.w };
+          const R = Math.hypot(Math.max(dp.cx, W - dp.cx), Math.max(dp.cy, H - dp.cy)) + 80;
+          const circle = (r) => "circle(" + r + "px at " + dp.cx + "px " + dp.cy + "px)";
+          const hookIdx = 0;
+
+          gsap.set(cam, { perspectiveOrigin: hk.cx + "px " + hk.cy + "px" });
+          gsap.set(camWrap, { transformOrigin: "50% " + WAVE_Y + "px" });
+          gsap.set(glow, { xPercent: -50, yPercent: -50, x: W / 2, y: 690 });
+          gsap.set(ptShape, { xPercent: -50, yPercent: -100 });
+          lines.forEach((ln, i) => {
+            const k = i - hookIdx;
+            gsap.set(ln, { z: -k * 260, filter: k > 1 ? "blur(" + (k - 1) * 5 + "px)" : "none" });
+          });
+          ["#ring1", "#ring2", "#edgeRing"].forEach((s, i) =>
+            gsap.set(s, { attr: i < 2 ? { cx: W / 2, cy: base - DH / 2 } : { cx: dp.cx, cy: dp.cy } })
+          );
+          gsap.set(".cr", { attr: { cx: dp.cx, cy: dp.cy } });
+          gsap.set("#nameInner", { transformOrigin: dp.cx - box($("#nameInner")).x + "px " + (dp.cy - box($("#nameInner")).y) + "px" });
+          gsap.set(stage, { transformOrigin: W / 2 + "px " + H / 2 + "px" });
+
+          const tl = gsap.timeline({ paused: true }); // ◆
+
+          // ===== Compasso 1 — o ponto cai, vira cursor e escreve =====
+          tl.fromTo(pt, { x: W / 2, y: 40 }, { y: base, duration: T.dotLand, ease: "power2.in" }, 0);
+          tl.fromTo(ptShape, { width: 18, height: 30 }, { width: 13, height: 110, duration: T.dotLand, ease: "power2.in" }, 0);
+          tl.to(ptShape, { width: 40, height: 11, duration: 0.045, ease: "power2.out" }, T.dotLand);
+          tl.to(ptShape, { width: DH, height: DH, duration: 0.14, ease: "back.out(3)" }, T.dotLand + 0.045);
+          tl.fromTo("#ring1", { attr: { r: 0, "stroke-width": 6 }, opacity: 0.9 }, { attr: { r: 520, "stroke-width": 1 }, opacity: 0, duration: 1.25, ease: "expo.out" }, T.dotLand);
+          tl.fromTo("#ring2", { attr: { r: 0, "stroke-width": 3 }, opacity: 0.45 }, { attr: { r: 300, "stroke-width": 0.6 }, opacity: 0, duration: 1.3, ease: "expo.out" }, T.dotLand + 0.09);
+          tl.fromTo(glow, { opacity: 0, scale: 0.6 }, { opacity: 0.7, scale: 1, duration: 1.4, ease: "power2.out" }, T.dotLand);
+          // dispara para o início da frase, esticado pela velocidade
+          tl.to(pt, { x: startX - 6, duration: 0.185, ease: "expo.inOut" }, T.whip);
+          tl.to(ptShape, { width: 84, height: 12, duration: 0.09, ease: "power2.in" }, T.whip);
+          tl.to(ptShape, { width: 12, height: 0.78 * fs, duration: 0.12, ease: "expo.out" }, T.whip + 0.09);
+          tl.to(pt, { y: base + 0.06 * fs, duration: 0.12, ease: "expo.out" }, T.whip + 0.09);
+          // digitação: letra a letra, cada palavra numa colcheia
+          T.TYPE.forEach((c, i) => {
+            tl.fromTo(chars[i], { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "power1.out" }, c.t);
+            tl.to(pt, { x: charR[i] + 0.04 * fs, duration: 0.045, ease: "power2.out" }, c.t);
+          });
+          // o cursor vira o ponto final
+          tl.to(pt, { x: d0.cx, y: base, duration: 0.22, ease: "expo.inOut" }, T.period - 0.06);
+          tl.to(ptShape, { width: DH, height: DH, duration: 0.3, ease: "back.out(2.4)" }, T.period - 0.06);
+          tl.set(dotIn, { opacity: 1 }, T.period + 0.3);
+          tl.set(pt, { autoAlpha: 0 }, T.period + 0.3);
+          // respiração da câmera durante a leitura
+          tl.fromTo(stage, { scale: 1 }, { scale: 1.035, duration: 2.15, ease: "sine.inOut" }, 0.8);
+
+          // ===== Compasso 2 — a frase era código =====
+          tl.to(stage, { scale: 1, duration: 0.5, ease: "power2.inOut" }, 2.95);
+          const pull = { x: camX, y: camY, scale: camS, duration: 1.05 }; // ◆
+          tl.fromTo(cam, { x: 0, y: 0, scale: 1 }, { ...pull, ease: "expo.inOut" }, T.pullBack); // ◆
+          tl.fromTo(tilt, { rotationX: 0, rotationY: 0 }, { rotationX: 10, rotationY: -15, duration: 1.3, ease: "power3.inOut" }, T.pullBack);
+          tl.to(tilt, { rotationX: 7, rotationY: -10, duration: 1.3, ease: "sine.inOut" }, T.pullBack + 1.3);
+          tl.to(".hookline .fade", { opacity: 1, duration: 0.45, ease: "power2.out" }, T.pullBack + 0.08);
+          lines.slice(1).forEach((ln, i) => {
+            tl.fromTo(ln, { opacity: 0, x: 220 + i * 60 }, { opacity: 1, x: 0, duration: 0.75, ease: "power3.out" }, T.pullBack + 0.1 + i * 0.045);
+          });
+          const focus = { filter: "blur(10px)", opacity: 0.3, duration: 0.9 }; // ◆
+          tl.fromTo(camWrap, { filter: "blur(0px)" }, { ...focus, ease: "power2.inOut" }, T.focus); // ◆
+          tl.to(glow, { opacity: 0.45, duration: 1.2, ease: "sine.inOut" }, T.pullBack);
+          tl.to(stage, { scale: 1.02, duration: 2.15, ease: "sine.inOut" }, 3.45);
+
+          function enter(sel, at) {
+            tl.fromTo(sel + " .wi", { yPercent: 112 }, { yPercent: 0, duration: 0.85, ease: "expo.out", stagger: 0.07 }, at);
+            tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2, ease: "power1.out" }, at);
+          }
+          function leave(sel, at) {
+            tl.to(sel + " .wi", { yPercent: -112, duration: 0.24, ease: "power3.in", stagger: 0.016 }, at);
+            tl.set(sel, { autoAlpha: 0 }, at + 0.42);
+          }
+          enter("#hl2", T.h2In);
+          leave("#hl2", T.h2Out);
+
+          // ===== Compasso 3 — o código colapsa numa linha: o som =====
+          tl.to(camWrap, { scaleY: 0.012, filter: "blur(3px)", opacity: 0.8, duration: 0.27, ease: "power3.in" }, T.collapse);
+          tl.to(camWrap, { opacity: 0, duration: 0.08, ease: "power1.out" }, T.collapse + 0.27);
+          tl.to(stage, { scale: 1, duration: 0.4, ease: "power2.in" }, 5.6);
+          tl.set(pt, { x: W / 2, y: WAVE_Y + PH / 2, autoAlpha: 1 }, 5.9);
+          tl.set(ptShape, { width: PH, height: PH, "--halo": "8px" }, 5.9);
+          tl.fromTo(ptShape, { scale: 0 }, { scale: 1, duration: 0.45, ease: "back.out(3)", immediateRender: false }, 5.9);
+          tl.fromTo(ptGlow, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 5.95);
+          tl.set(stage, { transformOrigin: dp.cx + "px " + dp.cy + "px" }, 6.0);
+          tl.to(stage, { scale: 1.025, duration: 3.0, ease: "sine.inOut" }, 6.0);
+          tl.to(glow, { y: WAVE_Y - 120, opacity: 0.55, duration: 1.0, ease: "power2.inOut" }, 5.8);
+          enter("#hl3", T.h3In);
+          leave("#hl3", T.h3Out);
+
+          // ===== Compasso 4 — tensão =====
+          enter("#hl4", T.h4In);
+          tl.to(stage, { scale: 1.09, duration: T.vacuum - T.tension, ease: "power2.in" }, T.tension);
+          tl.to(glow, { opacity: 1, scale: 1.4, duration: 2.2, ease: "power2.in" }, T.tension);
+          tl.to(ptGlow, { scale: 1.6, duration: 2.2, ease: "power2.in" }, T.tension);
+          tl.fromTo("#hl4", { filter: "blur(0px)" }, { scale: 0.8, y: 90, opacity: 0, filter: "blur(10px)", duration: 0.32, ease: "power2.in", immediateRender: false }, T.h4Out);
+          tl.set("#hl4", { visibility: "hidden" }, T.h4Out + 0.44);
+          // vácuo: tudo vira o ponto, que viaja até o decimal de 5.5
+          tl.to(pt, { x: dp.cx, y: dp.b, duration: 0.45, ease: "back.in(1.6)" }, 11.45); // ◆
+          tl.to(ptShape, { width: dp.d, height: dp.d, duration: 0.45, ease: "power2.inOut" }, 11.45);
+          tl.to(ptShape, { scale: 0.62, duration: 0.1, ease: "power2.in" }, 11.9);
+          tl.to(glow, { x: dp.cx, y: dp.cy, scale: 0.16, duration: 0.6, ease: "power3.in" }, 11.3);
+          tl.to(ptGlow, { scale: 0.3, opacity: 0.6, duration: 0.55, ease: "power3.in" }, 11.35);
+          tl.to(stage, { scale: 1.1, duration: 0.15, ease: "power1.out" }, T.vacuum);
+
+          // ===== Compasso 5 — CLÍMAX: o ponto explode em creme =====
+          tl.set(cream, { visibility: "visible" }, T.impact);
+          const flood = { duration: 0.9, ease: "expo.out" }; // ◆
+          tl.fromTo(cream, { clipPath: circle(0) }, { clipPath: circle(R), ...flood }, T.impact); // ◆
+          tl.fromTo("#edgeRing", { attr: { r: 0, "stroke-width": 14 }, opacity: 1 }, { attr: { r: R, "stroke-width": 2 }, opacity: 0, duration: 0.9, ease: "expo.out" }, T.impact);
+          // o ponto que viajou estoura sobre o decimal e cede lugar ao ponto do nome
+          tl.to(ptShape, { scale: 2.6, opacity: 0, "--halo": "0px", duration: 0.2, ease: "expo.out" }, T.impact);
+          tl.set(pt, { autoAlpha: 0 }, T.impact + 0.22);
+          tl.to(stage, { scale: 1, duration: 1.4, ease: "expo.out" }, T.impact);
+          tl.fromTo("#nameInner", { scale: 1.06 }, { scale: 1, duration: 1.5, ease: "back.out(1.6)" }, T.impact);
+          tl.fromTo("#nameInner", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, T.impact);
+          document.querySelectorAll(".cr").forEach((c, i) => {
+            tl.fromTo(c, { attr: { r: 30, "stroke-width": 2.5 }, opacity: i === 2 ? 0.5 : 0.2 }, { attr: { r: 1500 - i * 300, "stroke-width": 0.6 }, opacity: 0, duration: 2.8, ease: "power2.out" }, T.impact + 0.05 + i * 0.22);
+          });
+          tl.to(stage, { scale: 1.015, duration: 0.85, ease: "sine.inOut" }, 13.4);
+          // o ponto decimal respira a cada nota do motivo em maior
+          T.MOTIF.filter((n) => n.t > T.impact).forEach((n) => {
+            tl.to("#namePt", { scale: 1.32, duration: 0.07, ease: "power2.out" }, n.t);
+            tl.to("#namePt", { scale: 1, duration: 0.32, ease: "power2.inOut" }, n.t + 0.07);
+          });
+
+          // ===== Compasso 6 — cartela final =====
+          tl.to("#nameBox", { y: -96, scale: 0.86, duration: 0.95, ease: "power3.inOut" }, T.endCard);
+          tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.85, ease: "expo.out" }, T.endCard + 0.38);
+          tl.fromTo("#makerIn", { yPercent: 115 }, { yPercent: 0, duration: 0.85, ease: "expo.out" }, T.endCard + 0.5);
+          tl.fromTo("#modelIdIn", { yPercent: 115 }, { yPercent: 0, duration: 0.85, ease: "expo.out" }, T.endCard + 0.62);
+          // deriva que continua até o último quadro (sem parada total no fim)
+          tl.to(stage, { scale: 1.05, duration: 18 - 14.25 + 1.6, ease: "sine.inOut" }, 14.25);
+
+          // canvas: redesenhados a cada busca do HyperFrames, como função pura do tempo
+          window.addEventListener("hf-seek", (e) => frameAt(e.detail.time));
+          tl.eventCallback("onUpdate", () => frameAt(tl.time()));
+          frameAt(0);
+          window.__timelines["main"] = tl; // ◆
+        }
+
+        Promise.all([
+          document.fonts.load('400 200px "Newsreader"', hook),
+          document.fonts.load('italic 400 156px "Newsreader"', "códigosompróprio"),
+          document.fonts.load('400 160px "Inter"', "const"),
+          document.fonts.load('500 46px "Inter"', "Anthropic"),
+        ])
+          .then(() => document.fonts.ready)
+          .then(build);
+      })();
+    </script>
+  </body>
+</html>

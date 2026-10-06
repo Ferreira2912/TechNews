@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Render da trilha (OfflineAudioContext)</title>
+    <script src="../timing.js"></script>
+    <script src="score.js"></script>
+  </head>
+  <body>
+    <script>
+      // Chamado por scripts/render-audio.mjs. Renderiza a trilha inteira
+      // offline e devolve as amostras float32 de cada canal em base64.
+      window.renderScore = async function () {
+        var T = window.FILM_T;
+        var ctx = new OfflineAudioContext(2, Math.round(T.DURATION * T.SAMPLE_RATE), T.SAMPLE_RATE);
+        window.buildScore(ctx, T);
+        var buf = await ctx.startRendering();
+        var channels = [];
+        for (var c = 0; c < buf.numberOfChannels; c++) {
+          var bytes = new Uint8Array(buf.getChannelData(c).slice().buffer);
+          var bin = "";
+          for (var i = 0; i < bytes.length; i += 0x8000) {
+            bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+          }
+          channels.push(btoa(bin));
+        }
+        return { sampleRate: buf.sampleRate, length: buf.length, channels: channels };
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "claude-opus-5-5-trailer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Trailer de lançamento de 18 s do Claude Opus 5.5 — imagem em HTML/CSS/SVG/canvas/GSAP e trilha em Web Audio, renderizados com HyperFrames.",
+  "type": "module",
+  "scripts": {
+    "code": "node scripts/extract-code.mjs",
+    "audio": "node scripts/render-audio.mjs",
+    "chrome": "hyperframes browser ensure",
+    "check": "hyperframes check .",
+    "snapshot": "hyperframes snapshot . --at 0.3,1.5,2.6,3.6,4.8,7.5,10.2,11.9,12.1,13.5,17.5 --no-end -o snapshots",
+    "preview": "hyperframes preview",
+    "render": "hyperframes render . --fps 60 --quality high -o renders/claude-opus-5-5-trailer.mp4",
+    "build": "npm run code && npm run audio && npm run render"
+  },
+  "dependencies": {
+    "gsap": "3.15.0",
+    "hyperframes": "0.8.137",
+    "puppeteer-core": "25.12.0"
+  }
+}
