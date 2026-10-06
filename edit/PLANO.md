@@ -1,23 +1,28 @@
 # Indique e Viaje! (Parktur): plano de edição
 
 Escrito antes da construção dos gráficos. Os tempos estão em milissegundos da linha do tempo final,
-com 60 qps. **END = 38 300 ms** (2 298 quadros).
+com 60 qps. **END = 37 667 ms** (2 260 quadros).
+
+> Revisão depois da verificação final: o plano original tinha END = 38 300 ms. A verificação achou o
+> início da tomada 2 marcado no ambiente (e não em "Chegou") e três pausas internas acima de 250 ms
+> que não estavam na lista de compressão. Com a correção, S2, S3c e S6b ficaram mais curtos, S6a perdeu
+> um quadro, e os tempos abaixo já são os finais. Layouts e conteúdo não mudaram.
 
 ## Tabela de trechos (0 → END)
 
 | Trecho | Início | Fim | Duração | Layout | Fala (faixa final) | Conteúdo visual |
 | --- | ---: | ---: | ---: | :---: | --- | --- |
 | S1 | 0 | 4 500 | 4 500 | **B** dividido | E se eu te dissesse que indicar um amigo pode te auxiliar a pagar sua próxima viagem? | Gancho. A peça oficial "E se seus amigos ajudassem…" sobe como cartão de story sobre o fundo desfocado da própria peça. Capa no quadro 0. Riser termina em 4 500. |
-| S2 | 4 500 | 8 267 | 3 767 | **C** visual | Chegou o Indique e Viaje, a nova campanha aqui da Parktur. | Primeira menção: o selo INDIQUE E VIAJE! surge grande e centralizado, recua para a posição fixa e revela a peça principal (story mockup), com logotipo e botão de seta. |
-| S3a | 8 267 | 9 517 | 1 250 | **A** câmera | E é muito simples, | Fala direta ao espectador. |
-| S3b | 9 517 | 15 000 | 5 483 | **C** visual | você indica um amigo, um familiar ou um colega. Se essa pessoa fechar uma viagem com a Parktur, | Mecânica: cartão de indicação genérico (contato → amigo/familiar/colega) sendo enviado; passagem para um cartão de reserva Parktur que recebe o carimbo verde VIAGEM FECHADA. |
-| S3c | 15 000 | 19 367 | 4 367 | **B** dividido | você ganha R$ 100 de crédito para utilizar na sua próxima viagem | Valor isolado: box amarelo VOCÊ GANHA com contador R$ 0 → R$ 100 e "em crédito para sua próxima viagem", sobre foto de destino (peça 1). |
-| S4a | 19 367 | 21 583 | 2 217 | **A** câmera | e quem você indicar também ganha [é] | Frase de impacto, contato visual. |
-| S4b | 21 583 | 25 000 | 3 417 | **B** dividido | R$ 50 de benefício na contratação da viagem. | Valor isolado: box SEU INDICADO GANHA R$ 50 aplicado como desconto num cartão de contratação. |
-| S5a | 25 000 | 27 783 | 2 783 | **A** câmera | e tem mais, o seu crédito é acumulativo. | Frase de impacto (legenda em destaque: ACUMULATIVO). |
-| S5b | 27 783 | 32 250 | 4 467 | **C** visual | Então, quanto mais pessoas você indicar para viajar com a gente, mais você vai ganhar. | Tabela de acúmulo 1/3/5 indicações sincronizada com moedas empilhando e contador R$ 100 → R$ 300 → R$ 500. |
-| S6a | 32 250 | 34 617 | 2 367 | **B** dividido | Já pensou em alguém que tá querendo viajar? | Frase de curiosidade, como na peça "JÁ TEM ALGUÉM EM MENTE? 👀", com selo, logotipo e foto do lago (peça 3). |
-| S6b | 34 617 | 38 300 | 3 683 | **A** câmera | Então mande o nome pra gente e faça sua primeira indicação. | Encerramento/CTA: botão INDIQUE AGORA → com impacto, toque e pulsação. |
+| S2 | 4 500 | 8 033 | 3 533 | **C** visual | Chegou o Indique e Viaje, a nova campanha aqui da Parktur. | Primeira menção: o selo INDIQUE E VIAJE! surge grande e centralizado, recua para a posição fixa e revela a peça principal (story mockup), com logotipo e botão de seta. |
+| S3a | 8 033 | 9 283 | 1 250 | **A** câmera | E é muito simples, | Fala direta ao espectador. |
+| S3b | 9 283 | 14 767 | 5 483 | **C** visual | você indica um amigo, um familiar ou um colega. Se essa pessoa fechar uma viagem com a Parktur, | Mecânica: cartão de indicação genérico (contato → amigo/familiar/colega) sendo enviado; passagem para um cartão de reserva Parktur que recebe o carimbo verde VIAGEM FECHADA. |
+| S3c | 14 767 | 18 883 | 4 117 | **B** dividido | você ganha R$ 100 de crédito para utilizar na sua próxima viagem | Valor isolado: box amarelo VOCÊ GANHA com contador R$ 0 → R$ 100 e "em crédito para sua próxima viagem", sobre foto de destino (peça 1). |
+| S4a | 18 883 | 21 100 | 2 217 | **A** câmera | e quem você indicar também ganha [é] | Frase de impacto, contato visual. |
+| S4b | 21 100 | 24 517 | 3 417 | **B** dividido | R$ 50 de benefício na contratação da viagem. | Valor isolado: box SEU INDICADO GANHA R$ 50 aplicado como desconto num cartão de contratação. |
+| S5a | 24 517 | 27 300 | 2 783 | **A** câmera | e tem mais, o seu crédito é acumulativo. | Frase de impacto (legenda em destaque: ACUMULATIVO). |
+| S5b | 27 300 | 31 767 | 4 467 | **C** visual | Então, quanto mais pessoas você indicar para viajar com a gente, mais você vai ganhar. | Tabela de acúmulo 1/3/5 indicações sincronizada com moedas empilhando e contador R$ 100 → R$ 300 → R$ 500. |
+| S6a | 31 767 | 34 117 | 2 350 | **B** dividido | Já pensou em alguém que tá querendo viajar? | Frase de curiosidade, como na peça "JÁ TEM ALGUÉM EM MENTE? 👀", com selo, logotipo e foto do lago (peça 3). |
+| S6b | 34 117 | 37 667 | 3 550 | **A** câmera | Então mande o nome pra gente e faça sua primeira indicação. | Encerramento/CTA: botão INDIQUE AGORA → com impacto, toque e pulsação. |
 
 Regras conferidas:
 - Gancho em B e encerramento em A.

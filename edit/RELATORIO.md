@@ -9,36 +9,38 @@ sem nenhum arquivo de áudio externo.
 | Arquivo | Conteúdo |
 | --- | --- |
 | `final.mp4` | 1080×1920, 60 qps, H.264 High (CRF 14, preset slow, BT.709), AAC estéreo 48 kHz 320 kb/s |
-| `stems/voice.wav` | voz montada (J-cuts, pausas comprimidas), 38,300 s |
-| `stems/sfx.wav` | efeitos sintetizados, 38,300 s |
-| `stems/riser.wav` | riser grave do gancho, 38,300 s |
-| `stems/music.wav` | trilha sintetizada, 38,300 s |
+| `stems/voice.wav` | voz montada (J-cuts, pausas comprimidas), 37,667 s |
+| `stems/sfx.wav` | efeitos sintetizados, 37,667 s |
+| `stems/riser.wav` | riser grave do gancho, 37,667 s |
+| `stems/music.wav` | trilha sintetizada, 37,667 s |
 
 Todas as stems são WAV float 32 bits, 48 kHz, estéreo, com a duração exata do vídeo e começando em 0.
 A soma das quatro stems (com o limitador do master) é o áudio do `final.mp4`.
 
 ## END
 
-**END = 38 300 ms** (2 298 quadros a 60 qps). É o fim exclusivo da faixa de voz. Todas as camadas
+**END = 37 667 ms** (2 260 quadros a 60 qps). É o fim exclusivo da faixa de voz. Todas as camadas
 (vídeo, legendas, CTA, voz, efeitos, riser e música) terminam exatamente em END.
 
 ## Tabela de trechos
 
-A tabela foi escrita antes dos gráficos, em `PLANO.md`.
+A tabela foi escrita antes dos gráficos, em `PLANO.md`. Ela foi atualizada depois da verificação das
+pausas e junções (ver "Correções feitas na verificação"): mudaram S2, S3c, S6a, S6b e todos os
+tempos a partir de S2.
 
 | Trecho | Início (ms) | Fim (ms) | Duração | Layout | Fala | Quadros de origem (bruto, 60 qps) |
 | --- | ---: | ---: | ---: | :---: | --- | --- |
 | S1 | 0 | 4 500 | 4,50 s | **B** | E se eu te dissesse que indicar um amigo pode te auxiliar a pagar sua próxima viagem? | 0–270 |
-| S2 | 4 500 | 8 267 | 3,77 s | **C** | Chegou o Indique e Viaje, a nova campanha aqui da Parktur. | 285–511 |
-| S3a | 8 267 | 9 517 | 1,25 s | **A** | E é muito simples, | 519–594 |
-| S3b | 9 517 | 15 000 | 5,48 s | **C** | você indica um amigo, um familiar ou um colega. Se essa pessoa fechar uma viagem com a Parktur, | 594–945 (pausa interna 768–790 removida) |
-| S3c | 15 000 | 19 367 | 4,37 s | **B** | você ganha R$ 100 de crédito para utilizar na sua próxima viagem | 945–1207 |
-| S4a | 19 367 | 21 583 | 2,22 s | **A** | e quem você indicar também ganha, [é] | 1210–1343 |
-| S4b | 21 583 | 25 000 | 3,42 s | **B** | R$ 50 de benefício na contratação da viagem. | 1343–1548 |
-| S5a | 25 000 | 27 783 | 2,78 s | **A** | e tem mais, o seu crédito é acumulativo. | 1556–1723 |
-| S5b | 27 783 | 32 250 | 4,47 s | **C** | Então, quanto mais pessoas você indicar para viajar com a gente, mais você vai ganhar. | 1723–2002 (pausa interna 1919–1930 removida) |
-| S6a | 32 250 | 34 617 | 2,37 s | **B** | Já pensou em alguém que tá querendo viajar? | 2009–2151 |
-| S6b | 34 617 | 38 300 | 3,68 s | **A** | Então mande o nome pra gente e faça sua primeira indicação. | 2151–2372 |
+| S2 | 4 500 | 8 033 | 3,53 s | **C** | Chegou o Indique e Viaje, a nova campanha aqui da Parktur. | 289–511 (pausa 398–408 removida) |
+| S3a | 8 033 | 9 283 | 1,25 s | **A** | E é muito simples, | 519–594 |
+| S3b | 9 283 | 14 767 | 5,48 s | **C** | você indica um amigo, um familiar ou um colega. Se essa pessoa fechar uma viagem com a Parktur, | 594–945 (pausa 768–790 removida) |
+| S3c | 14 767 | 18 883 | 4,12 s | **B** | você ganha R$ 100 de crédito para utilizar na sua próxima viagem | 945–1207 (pausa 1075–1090 removida) |
+| S4a | 18 883 | 21 100 | 2,22 s | **A** | e quem você indicar também ganha, [é] | 1210–1343 |
+| S4b | 21 100 | 24 517 | 3,42 s | **B** | R$ 50 de benefício na contratação da viagem. | 1343–1548 |
+| S5a | 24 517 | 27 300 | 2,78 s | **A** | e tem mais, o seu crédito é acumulativo. | 1556–1723 |
+| S5b | 27 300 | 31 767 | 4,47 s | **C** | Então, quanto mais pessoas você indicar para viajar com a gente, mais você vai ganhar. | 1723–2002 (pausa 1919–1930 removida) |
+| S6a | 31 767 | 34 117 | 2,35 s | **B** | Já pensou em alguém que tá querendo viajar? | 2010–2151 |
+| S6b | 34 117 | 37 667 | 3,55 s | **A** | Então mande o nome pra gente e faça sua primeira indicação. | 2151–2372 (pausa 2247–2255 removida) |
 
 Regras conferidas:
 - O gancho está em B e o encerramento a partir do CTA está em A.
@@ -65,27 +67,39 @@ Regras conferidas:
   - Mantidos: indicado, indicação, crédito, Indique e Viaje.
 - A hesitação "é" (em "também ganha, é, R$ 50") está colada às palavras vizinhas, sem pausa, e um corte
   ali seria audível. Ela fica no áudio e sai das legendas.
-- Pausas internas acima de 250 ms foram comprimidas para 120 ms:
-  - tomada 3: 12,74–13,23 s do bruto;
-  - tomada 5: 31,93–32,23 s do bruto.
-  - Os cortes de imagem nessas emendas são secos e caem dentro de trechos C (o gráfico cobre a câmera).
+- Pausas internas: medidas com a mesma regra do fim de frase (janelas de 10 ms abaixo de −35 dB na voz
+  limpa). Todas as que passam de 250 ms foram comprimidas para 120 ms (ficam 60 ms de cada lado):
+
+  | Tomada | Pausa no bruto (s) | Duração | Entre | Onde cai o corte de imagem |
+  | --- | --- | ---: | --- | --- |
+  | 2 | 6,58–6,86 | 280 ms | "Viaje," / "A nova campanha" | S2 (C, gráfico cobre a câmera) |
+  | 3 | 12,74–13,23 | 490 ms | "colega." / "Se essa pessoa" | S3b (C) |
+  | 3 | 17,86–18,23 | 370 ms | "de crédito" / "para utilizar" | S3c (B): corte seco no cartão |
+  | 5 | 31,93–32,23 | 300 ms | "com a gente," / "mais você vai ganhar" | S5b (C) |
+  | 6 | 37,39–37,65 | 260 ms | "pra gente" / "e faça" | S6b (A): corte seco na câmera |
+
+  - Fica a de 240 ms em 23,94–24,18 (tomada 4), abaixo do limite.
+  - Os dois cortes secos visíveis (S3c e S6b) unem quadros com o apresentador olhando para a lente.
 - Fim verdadeiro de cada frase: última janela RMS de 10 ms com nível ≥ −35 dB, confirmada pela regra
   −32 dB/150 ms. Valores no bruto: 4,43 / 8,45 / 20,05 / 25,73 / 33,29 / 39,20 s.
-- Antes da primeira palavra ficam 40 ms.
+- Início de cada frase: primeira janela ≥ −35 dB (tomada 2: "Chegou" em 4,865 s; tomada 6: "Já" em 33,54 s).
+  O corte de imagem entra 40 ms antes da primeira palavra.
 
 ### Cortes, J-cut e junções
 
-| Junção (s) | Fim da fala anterior | Próxima fala | Silêncio na junção | J-cut (áudio antes da imagem) |
-| ---: | ---: | ---: | ---: | ---: |
-| 4,500 | 4,430 | 4,550 | 120 ms | 16,7 ms* |
-| 8,267 | 8,200 | 8,307 | 107 ms | 33,3 ms* |
-| 19,367 | 19,300 | 19,410 | 110 ms | 50 ms |
-| 25,000 | 24,930 | 25,042 | 112 ms | 50 ms |
-| 32,250 | 32,173 | 32,302 | 128 ms | 50 ms |
+Silêncio medido na voz montada com a regra do fim de frase (RMS de 10 ms abaixo de −35 dB na voz
+limpa, passo de 1 ms; ver Verificação).
 
-\* Nas tomadas 2 e 3, o bruto só tem 16,7 ms e 33,3 ms de áudio da própria tomada antes do corte
-(o resto pertence à tomada anterior). Para não puxar som de outra tomada, o J-cut foi limitado ao
-material disponível.
+| Junção (s) | Fim da fala anterior (s) | Próxima fala (s) | Silêncio medido | J-cut (áudio antes da imagem) |
+| ---: | ---: | ---: | ---: | ---: |
+| 4,500 | 4,430 | 4,548 | ⟨j1⟩ | 50 ms |
+| 8,033 | 7,967 | 8,073 | ⟨j2⟩ | 33,3 ms* |
+| 18,883 | 18,817 | 18,927 | ⟨j3⟩ | 50 ms |
+| 24,517 | 24,447 | 24,558 | ⟨j4⟩ | 50 ms |
+| 31,767 | 31,690 | 31,822 | ⟨j5⟩ | 50 ms |
+
+\* Na tomada 3, o bruto só tem 33,3 ms de áudio dessa tomada antes do corte (o resto pertence à tomada
+anterior). Para não puxar som de outra tomada, o J-cut ficou limitado ao material disponível.
 
 - A cauda de cada frase fica em volume cheio até chegar ao ruído de fundo (−55 dB). Depois sai em
   rampa de até 170 ms, sem nunca passar do início do som seguinte.
@@ -109,9 +123,9 @@ referência lado a lado, foi conferida antes do render (`work/review/*_sheet.jpg
 | Trecho | O que mostra | Inspiração |
 | --- | --- | --- |
 | S1 (B) | Quadro 0 só com o fundo (a costa de Amalfi da peça 1, desfocada, com véu roxo). A peça 1 inteira sobe como cartão de story (472×840, topo y 40, base 880), passa 8 px e assenta em 0,73 s (impacto). Depois, Ken Burns suave (1→1,02) e deriva do fundo. | peça 1 |
-| S2 (C) | Primeira menção: o selo INDIQUE E VIAJE! surge grande e centralizado (1,75×) em "Indique" e assenta (impacto). Depois recua para a posição fixa (73,138), o logotipo aparece e a peça 2 sobe como cartão flutuante (base y≈1226, impacto). O botão de seta aparece no fim. Deriva contínua de 1→1,025. | peça 2 (+ selo e logo das peças) |
+| S2 (C) | Primeira menção: o selo INDIQUE E VIAJE! surge grande e centralizado (1,75×) em "Indique" e assenta (impacto). Depois recua para a posição fixa (73,138), o logotipo aparece e a peça 2 sobe como cartão flutuante (base y≈1226, impacto). O botão de seta aparece no fim. Deriva contínua de 1→1,025. Todos os tempos saem das palavras (`at("Indique")`, `at("A")`, `at("nova")`, `at("aqui")`). | peça 2 (+ selo e logo das peças) |
 | S3b (C) | Demonstração da mecânica. Primeiro, cartão de interface INDICAR / "Escolha um contato" com as linhas Amigo, Familiar e Colega, que acendem na palavra falada; a janela cresce 0,86→1 em 0,55 s com a câmera parada. Botão ENVIAR INDICAÇÃO pressionado (click), avião de papel (envio) e "Indicação enviada". Passagem rápida de 0,5 s (power3.inOut, 0,25 s antes de "fechar"; o cartão anterior desfoca até 12 px e cai para 70%). Depois, cartão de reserva "Sua viagem" com o carimbo verde VIAGEM FECHADA (confirmação). | peças 2, 3 e 5 (linguagem visual) |
-| S3c (B) | Cartão de foto (amigas, peça 1) e box VOCÊ GANHA com contador R$ 0 → R$ 100 e "em crédito para sua próxima viagem" (impacto). Aproximação de 1,6 s (power2.inOut) até 1,5×. | peça 2 (box de valor) e peça 1 (foto) |
+| S3c (B) | Cartão de foto (amigas, peça 1) e box VOCÊ GANHA com contador R$ 0 → R$ 100 e "em crédito para sua próxima viagem" (impacto). Aproximação de 1,6 s (power2.inOut) até 1,5×. O corte seco da pausa "de crédito / para" acontece só no cartão da câmera; o gráfico continua. | peça 2 (box de valor) e peça 1 (foto) |
 | S4b (B) | Cartão de foto (praia, peça 5) com o box SEU INDICADO GANHA R$50 "de benefício na contratação" (impacto). Passagem rápida até o cartão "Contratação da viagem" (passagem); a janela cresce 1→1,2× e o desconto "Benefício Indique e Viaje − R$ 50" é carimbado (confirmação), com check verde. | peças 2 e 5 |
 | S5b (C) | Tabela da peça 4 (1 indicação = R$ 100 / 3 = R$ 300 / 5 = R$ 500). Cada linha acende na fala, com moedas empilhando e contador R$ 100 → R$ 300 → R$ 500 (três moedas). Deriva 1→1,03. Fundo: foto de Paris da peça 4, desfocada. | peça 4 (e peça 2) |
 | S6a (B) | Frase de curiosidade no visual da peça 3: cartão de foto do lago com chapéu, selo e logo fixos e "JÁ TEM ALGUÉM / EM MENTE? 👀" em amarelo. O título sobe por máscara, palavra por palavra; o 👀 entra em "alguém". Ken Burns só na foto. Sem efeitos sonoros. | peça 3 |
@@ -216,8 +230,8 @@ Nenhum valor, prazo ou regra fora dessa lista foi mostrado.
 **CTA (só no encerramento)**
 - Pílula roxa "INDIQUE AGORA →", com texto branco de 68 px/700, centralizada na área x 43, y 1344,
   994×276.
-- Entra em "mande" (34,967 s) com escala 0,72→1 em back.out e impacto leve ao assentar (35,137 s).
-- Em "indicação" (37,533 s), toque do dedo (círculo branco translúcido com onda), pulsação
+- Entra em "mande" (34,467 s) com escala 0,72→1 em back.out e impacto leve ao assentar (34,637 s).
+- Em "indicação" (36,900 s), toque do dedo (círculo branco translúcido com onda), pulsação
   1,0 → 1,06 → 1,0 e click.
 
 ## Efeitos sonoros
@@ -232,21 +246,21 @@ pico de amostra relativos ao pico da voz (−1,5 dBFS):
 | Tempo (s) | Trecho | Tipo | Var. | Pico (dBFS) | Evento |
 | ---: | --- | --- | :---: | ---: | --- |
 | 0,700 | S1 | impacto | 1 | −11,5 | cartão da peça 1 assenta |
-| 5,350 | S2 | impacto | 2 | −11,5 | selo INDIQUE E VIAJE! grande assenta |
-| 7,210 | S2 | impacto | 3 | −11,5 | cartão da peça 2 assenta |
-| 12,057 | S3b | click | 1 | −11,5 | botão ENVIAR INDICAÇÃO pressionado |
-| 12,097 | S3b | envio | 1 | −17,5 | avião de papel sai do botão |
-| 13,010 | S3b | passagem | 1 | −10,5 | ponto médio da passagem (12,760 → 13,260) |
-| 13,630 | S3b | confirmação | 1 | −11,5 | carimbo VIAGEM FECHADA assenta |
-| 15,620 | S3c | impacto | 4 | −11,5 | box VOCÊ GANHA assenta |
-| 21,883 | S4b | impacto | 1 | −11,5 | box SEU INDICADO GANHA R$50 assenta |
-| 23,680 | S4b | passagem | 2 | −10,5 | ponto médio da passagem (23,430 → 23,930) |
-| 24,220 | S4b | confirmação | 2 | −11,5 | desconto − R$ 50 carimbado na contratação |
-| 29,026 | S5b | moeda | 1 | −11,5 | 1ª moeda, R$ 100 |
-| 30,671 | S5b | moeda | 2 | −11,5 | contador chega a R$ 300 |
-| 31,918 | S5b | moeda | 3 | −11,5 | contador chega a R$ 500 |
-| 35,137 | S6b | impacto | 2 | −11,5 | pílula INDIQUE AGORA assenta |
-| 37,533 | S6b | click | 2 | −11,5 | toque do dedo na pílula |
+| 5,283 | S2 | impacto | 2 | −11,5 | selo INDIQUE E VIAJE! grande assenta ("Indique" + 0,18 s) |
+| 6,977 | S2 | impacto | 3 | −11,5 | cartão da peça 2 assenta ("nova" + 0,46 s) |
+| 11,823 | S3b | click | 1 | −11,5 | botão ENVIAR INDICAÇÃO pressionado |
+| 11,863 | S3b | envio | 1 | −17,5 | avião de papel sai do botão |
+| 12,776 | S3b | passagem | 1 | −10,5 | ponto médio da passagem (12,526 → 13,026) |
+| 13,396 | S3b | confirmação | 1 | −11,5 | carimbo VIAGEM FECHADA assenta |
+| 15,387 | S3c | impacto | 4 | −11,5 | box VOCÊ GANHA assenta ("ganha" + 0,24 s) |
+| 21,400 | S4b | impacto | 1 | −11,5 | box SEU INDICADO GANHA R$50 assenta |
+| 23,197 | S4b | passagem | 2 | −10,5 | ponto médio da passagem (22,947 → 23,447) |
+| 23,737 | S4b | confirmação | 2 | −11,5 | desconto − R$ 50 carimbado na contratação |
+| 28,543 | S5b | moeda | 1 | −11,5 | 1ª moeda, R$ 100 |
+| 30,188 | S5b | moeda | 2 | −11,5 | contador chega a R$ 300 |
+| 31,435 | S5b | moeda | 3 | −11,5 | contador chega a R$ 500 |
+| 34,637 | S6b | impacto | 2 | −11,5 | pílula INDIQUE AGORA assenta |
+| 36,900 | S6b | click | 2 | −11,5 | toque do dedo na pílula |
 
 Contagens:
 - 3 moedas (máx. 3);
@@ -274,20 +288,21 @@ Contagens:
 | Faixa | LUFS integrado | Pico verdadeiro |
 | --- | ---: | ---: |
 | voice | −14,0 | −1,5 dBTP |
-| sfx | −24,3 | −10,3 dBTP |
+| sfx | −24,4 | −10,3 dBTP |
 | riser | −26,5 | −15,5 dBTP |
 | music | −24,0 | −9,3 dBTP |
-| soma das stems (antes do limitador) | −13,5 | −0,1 dBTP |
+| soma das stems (antes do limitador) | −13,5 | +0,4 dBTP |
 | **master** | **−13,6** | **−1,3 dBTP** |
 | áudio dentro do final.mp4 (AAC) | ⟨mp4_lufs⟩ | ⟨mp4_tp⟩ |
 
-O master é a soma das stems sem mexer nos níveis. A soma passou de −1 dBTP (−0,1), então entrou um
+O master é a soma das stems sem mexer nos níveis. A soma passou de −1 dBTP (+0,4), então entrou um
 limitador transparente de pico verdadeiro:
 - detecção 4×, lookahead de 1,5 ms, liberação de 60 ms, teto de −1,3 dBTP;
-- redução máxima de 1,19 dB, com cerca de 2,4 s no total acima de 0,1 dB.
+- redução máxima de 1,71 dB, com cerca de 1,8 s no total acima de 0,1 dB.
 
 A voz também passou por um limitador igual, com teto de −1,5 dBTP, para chegar a −14 LUFS: o ganho de
-+6,8 dB levaria os picos a +2,4 dBFS. Esse limitador agiu em 23 transientes, com redução máxima de 4,1 dB.
++6,75 dB levaria os picos a cerca de +2,5 dBFS. Esse limitador agiu em 22 transientes, com redução
+máxima de 4,0 dB.
 
 ## Limpeza de áudio (`scripts/clean_voice.sh`)
 
@@ -357,6 +372,34 @@ A voz também passou por um limitador igual, com teto de −1,5 dBTP, para chega
 - **Fundos dos trechos C:** fotos das próprias peças, desfocadas e com véu roxo, em vez do fundo roxo
   sólido. O roxo sólido fica como reserva.
 
+## Correções feitas na verificação
+
+A primeira montagem (END 38 300 ms) passou pela verificação abaixo e foi corrigida antes da entrega:
+
+1. **Quadros da tomada errada nas fronteiras.**
+   - O mapa de quadros (saída → bruto) comparava tempos arredondados a 6 casas sem tolerância.
+   - Por isso, os quadros 496, 745, 1162 e 1500 apontavam para a tomada vizinha. Isso criaria um
+     quadro "relâmpago" da tomada anterior no início de S3a, S4a e S5a.
+   - O montador acusou o erro (mapa não monotônico). A tolerância agora é de menos de meio quadro.
+2. **Junção 1 com 180 ms de silêncio.**
+   - O início da tomada 2 estava marcado em 4,80 s, que é ambiente. A fala ("Chegou") começa em 4,865 s.
+   - Com o início real, a junção ficou com cerca de 136 ms.
+   - Antes de corrigir na origem, foi testado um esticamento de 1,1% da tomada 2 (Rubber Band). Ele
+     foi descartado: escondia o erro em vez de corrigir.
+3. **Pausas internas acima de 250 ms que não estavam na lista de compressão.**
+   - 280 ms (tomada 2), 370 ms (tomada 3) e 260 ms (tomada 6), medidas com a mesma regra de −35 dB.
+   - Foram comprimidas para 120 ms. Duas delas viram cortes secos visíveis (S3c e S6b).
+   - END passou para 37 667 ms.
+4. **Junção 5 no limite (146–161 ms, conforme a janela).**
+   - A tomada 6 entrava 1 quadro antes do necessário. Agora entra 40 ms antes de "Já" (33,50 s), e a
+     junção mede cerca de 144 ms.
+5. **Recorte da cabeça.**
+   - Havia halo cinza nas orelhas (vidro do fundo com alfa parcial) e um ponto rosa na fresta
+     pescoço/gola.
+   - Corrigido com a limpeza do matte descrita acima. O vídeo do layout B também desceu 20–45 px
+     para os ombros ficarem logo abaixo do topo do cartão.
+6. **Borrão de movimento escalonado.** Corrigido com o preenchimento por fluxo óptico.
+
 ## Verificação final
 
 ⟨verificacao⟩
@@ -367,14 +410,15 @@ A voz também passou por um limitador igual, com teto de −1,5 dBTP, para chega
 scripts/clean_voice.sh brutoIndiqueeViaje.mp4 work          # voz limpa
 .venv/bin/python scripts/asr_parakeet.py; .venv/bin/python scripts/asr_whisper.py   # transcrição
 .venv/bin/python scripts/faces.py                            # rosto/contato visual
-.venv/bin/python scripts/edl.py                              # EDL, trechos, palavras → work/edl.json, hf/data
+.venv/bin/python scripts/edl.py                              # EDL, trechos, palavras → work/edl.json
+.venv/bin/python scripts/segments.py                         # hf/data/segments.* + data-duration das composições
 .venv/bin/python scripts/matte.py <rvm.onnx> <f0> <f1> <aquecimento> work/matte/<B>.mkv   # S1, S3c, S4b, S6a
 .venv/bin/python scripts/build_voice.py                      # stems/voice.wav
-.venv/bin/python scripts/music.py 38.3 stems/music.wav
-.venv/bin/python scripts/riser.py 38.3 4.5 stems/voice.wav stems/riser.wav
-.venv/bin/python scripts/sfx.py 38.3 stems/voice.wav stems/sfx.wav
+.venv/bin/python scripts/captions.py                         # hf/data/captions.js + eventos do CTA
+.venv/bin/python scripts/music.py 37.666667 stems/music.wav
+.venv/bin/python scripts/riser.py 37.666667 4.5 stems/voice.wav stems/riser.wav
+.venv/bin/python scripts/sfx.py 37.666667 stems/voice.wav stems/sfx.wav
 .venv/bin/python scripts/master.py                           # work/master.wav + loudness
-.venv/bin/python scripts/captions.py                         # hf/data/captions.js
 (cd hf && npx hyperframes render comp/<C|B> --fps 240 --crf 10 -o ../work/gfx/<TRECHO>_240.mp4)
 (cd hf && npx hyperframes render comp/OVERLAY --format png-sequence --fps 60 -o ../work/overlay)
 .venv/bin/python scripts/compose.py --audio work/master.wav --out final.mp4

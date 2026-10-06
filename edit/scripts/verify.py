@@ -119,20 +119,30 @@ def ebur(path):
 R["loudness_mp4"] = ebur(tmp)
 R["stems_duracao_s"] = {s: round(sf.info(f"{ROOT}/stems/{s}.wav").frames / 48000, 6) for s in ["voice", "sfx", "riser", "music"]}
 
-# junções da voz: silêncio contínuo (RMS 10 ms abaixo do ruído de fundo + 6 dB) em torno de cada corte
+# junções e pausas da voz, com a mesma regra do fim de frase da EDL: janelas RMS de 10 ms (passo de 1 ms)
+# abaixo de −35 dB na voz limpa (= −35 dB + ganho aplicado na stem) contam como silêncio
 vo, _ = sf.read(f"{ROOT}/stems/voice.wav"); vm = vo[:, 0]
-w = int(0.01 * sr); nw = len(vm) // w
-rms = 20 * np.log10(np.sqrt((vm[:nw * w].reshape(nw, w) ** 2).mean(1)) + 1e-12)
-floor = np.percentile(rms, 5); thr = floor + 6
+gain = json.load(open(f"{ROOT}/work/voice_report.json"))["gain_db"]
+thr = -35 + gain; w, hop = int(0.01 * sr), int(0.001 * sr)
+cs = np.concatenate([[0.0], np.cumsum(vm ** 2)])
+starts = np.arange(0, len(vm) - w, hop)
+lv = 10 * np.log10((cs[starts + w] - cs[starts]) / w + 1e-24)
+quiet = lv < thr
+runs, r0 = [], None
+for i, q in enumerate(quiet):
+    if q and r0 is None: r0 = i
+    if not q and r0 is not None: runs.append((r0, i)); r0 = None
+def ms(a, b): return (b - a) + w // hop - 1          # comprimento real do trecho silencioso
 jun = []
+cuts = [j["cut_out"] for j in edl["junctions"]]
 for j in edl["junctions"]:
-    c = int(round(j["cut_out"] / 0.01))
-    lo = c
-    while lo > 0 and rms[lo - 1] < thr: lo -= 1
-    hi = c
-    while hi < nw and rms[hi] < thr: hi += 1
-    jun.append(dict(corte_s=round(j["cut_out"], 3), silencio_ms=(hi - lo) * 10, plano_edl_ms=j["gap_ms"]))
-R["juncoes_voz"] = dict(limiar_db=round(thr, 1), juncoes=jun)
+    c = j["cut_out"] * 1000
+    near = [ms(a, b) for a, b in runs if a <= c + 200 and b >= c - 200 and a > 0]
+    jun.append(dict(corte_s=round(j["cut_out"], 3), silencio_ms=max(near) if near else 0))
+internas = [dict(inicio_s=round(a / 1000, 3), fim_s=round((b + w // hop - 1) / 1000, 3), ms=ms(a, b)) for a, b in runs
+            if a > 200 and b < len(quiet) - 300 and ms(a, b) >= 200 and not any(a - 300 <= c * 1000 <= b + 300 for c in cuts)]
+R["juncoes_voz"] = dict(regra="RMS 10 ms (passo 1 ms) < −35 dB na voz limpa", limiar_stem_db=round(thr, 2), juncoes=jun,
+                        pausas_internas_200ms_ou_mais=internas)
 ri, _ = sf.read(f"{ROOT}/stems/riser.wav"); rm = np.abs(ri[:, 0])
 aud = np.nonzero(rm > 10 ** (-60 / 20))[0]
 R["riser"] = dict(inicio_audivel_s=round(aud[0] / sr, 4), fim_audivel_s=round(aud[-1] / sr, 4), juncao_s=4.5,
@@ -147,10 +157,15 @@ fmap = edl["frame_map"]
 fidx = {d["f"]: d for d in faces}
 caps = json.load(open(f"{ROOT}/work/captions.json"))
 S = 1210 / 1080
+def face_ok(d):
+    """Descarta detecções isoladas do YuNet (ex.: camisa/mãos): centro fora da mediana de ±12 quadros."""
+    near = [fidx[q] for q in range(d["f"] - 12, d["f"] + 13) if q in fidx]
+    my = np.median([n["y"] + n["h"] / 2 for n in near]); mx = np.median([n["x"] + n["w"] / 2 for n in near])
+    return abs(d["y"] + d["h"] / 2 - my) < 150 and abs(d["x"] + d["w"] / 2 - mx) < 150
 def face_out(i):
     k = [kk for kk, bb in bounds if bb <= i][-1]
     src = fmap[i][1]
-    near = [fidx[q] for q in range(src - 3, src + 4) if q in fidx]
+    near = [fidx[q] for q in sorted(range(src - 3, src + 4), key=lambda q: abs(q - src)) if q in fidx and face_ok(fidx[q])]
     if not near: return None
     d = near[0]
     if segs[k]["layout"] == "A": return (d["x"], d["y"], d["x"] + d["w"], d["y"] + d["h"])
@@ -158,16 +173,17 @@ def face_out(i):
         y0 = segs[k]["b"]["video_y"]
         return (d["x"] * S - 65, d["y"] * S + y0, (d["x"] + d["w"]) * S - 65, (d["y"] + d["h"]) * S + y0)
     return None
-probs = []
+probs = []; folga = []
 for c in caps:
     if c["kind"] == "x": continue
     y0b, y1b = c["band"]
     if y1b > 1650 or y0b < 110: probs.append(dict(texto=c["text"], problema="fora da área segura vertical"))
     for i in range(int(round(c["in"] * FPS)), int(round(c["out"] * FPS))):
         fb = face_out(i)
+        if fb: folga.append(y0b - fb[3])
         if fb and fb[3] > y0b - 5 and fb[1] < y1b:
             probs.append(dict(texto=c["text"], quadro=i, rosto_y=[round(fb[1]), round(fb[3])], faixa=[y0b, y1b])); break
-R["legendas"] = dict(blocos_visiveis=sum(c["kind"] != "x" for c in caps), ocultos=sum(c["kind"] == "x" for c in caps),
+R["legendas"] = dict(menor_folga_queixo_legenda_px=round(min(folga), 1) if folga else None, blocos_visiveis=sum(c["kind"] != "x" for c in caps), ocultos=sum(c["kind"] == "x" for c in caps),
                      largura_max_px=800, x=[140, 940], problemas=probs)
 json.dump(R, open(f"{ROOT}/work/verificacao.json", "w"), ensure_ascii=False, indent=1)
 print(json.dumps(R, ensure_ascii=False, indent=1))
