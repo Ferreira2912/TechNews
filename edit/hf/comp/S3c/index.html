@@ -14,14 +14,16 @@
         background: transparent;
       }
       /* Zona livre inferior deste trecho: y 1010–1650 (queixo em 957), x 60–920.
-         Box com 700 px de largura centrado em x = 490; centro vertical em y = 1300.
-         No tamanho máximo (×1,17) ocupa x 80–900 e y ≈ 1046 (topo da etiqueta) a 1516. */
+         A pegada inteira (incluindo a var(--sombra), alfa > 8) precisa caber nessa faixa no pico da
+         janela de demonstração (×1,15). A sombra de 120 px de desfoque passa ≈ 67 px dos lados e
+         ≈ 126 px abaixo do box, por isso o box tem 608 × 356 px, centrado em x = 490, y = 1290.
+         Medido nos snapshots: pegada máxima x ≈ 63–916 e y ≈ 1021–1640. */
       #grp {
         position: absolute;
-        left: 140px;
-        top: 1115px;
-        width: 700px;
-        height: 370px;
+        left: 186px;
+        top: 1112px;
+        width: 608px;
+        height: 356px;
         transform-origin: 50% 50%;
       }
       #box {
@@ -46,7 +48,7 @@
         top: -40px;
         bottom: -40px;
         left: 0;
-        width: 180px;
+        width: 160px;
         background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.16) 50%, rgba(255, 255, 255, 0) 100%);
         transform: skewX(-18deg);
       }
@@ -65,51 +67,73 @@
         position: absolute;
         left: 0;
         right: 0;
-        top: 44px;
-        bottom: 34px;
+        top: 56px;
+        bottom: 30px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
       }
       #box .valor {
-        font-size: 210px;
+        position: relative;
+        font-size: 214px;
         line-height: 0.86;
         color: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
       }
+      /* "R$ 0" / "R$ 88" durante a contagem não colam no número (o "1" tabular já abre espaço no 100) */
       #box .valor .rs {
         top: -0.06em;
+        margin-right: 0.1em;
       }
       #sublinhado {
-        width: 230px;
+        width: 190px;
         height: 8px;
-        margin-top: 18px;
+        margin-top: 14px;
         border-radius: 999px;
         background: var(--amarelo);
         transform-origin: 50% 50%;
       }
       #box .linha {
-        margin-top: 18px;
+        margin-top: 14px;
         font-weight: 400;
-        font-size: 38px;
+        font-size: 36px;
         line-height: 1.1;
         letter-spacing: -0.01em;
         color: #fff;
         white-space: nowrap;
       }
+      /* faíscas presas ao valor (cantos do "100" e do "R$"), sempre dentro do box */
       .faisca {
         position: absolute;
-        width: 46px;
-        height: 46px;
-        margin: -23px 0 0 -23px;
+        width: 52px;
+        height: 52px;
+        margin: -26px 0 0 -26px;
       }
       .faisca svg {
         display: block;
         width: 100%;
         height: 100%;
+      }
+      #f1 {
+        left: calc(100% + 4px);
+        top: 22px;
+      }
+      #f2 {
+        left: calc(100% + 18px);
+        top: 84px;
+        width: 28px;
+        height: 28px;
+        margin: -14px 0 0 -14px;
+      }
+      #f3 {
+        left: -14px;
+        top: 150px;
+        width: 34px;
+        height: 34px;
+        margin: -17px 0 0 -17px;
       }
     </style>
   </head>
@@ -120,18 +144,14 @@
           <div class="recorte"><div id="brilho"></div></div>
           <div class="etiqueta"><span>VOCÊ GANHA</span></div>
           <div class="conteudo">
-            <div class="valor"><span class="rs">R$</span><span id="num">0</span></div>
+            <div class="valor">
+              <span class="rs">R$</span><span id="num">0</span>
+              <div class="faisca" id="f1"><svg viewBox="0 0 40 40"><path d="M20 0 C21.6 13.2 26.8 18.4 40 20 C26.8 21.6 21.6 26.8 20 40 C18.4 26.8 13.2 21.6 0 20 C13.2 18.4 18.4 13.2 20 0 Z" fill="#FFC300" /></svg></div>
+              <div class="faisca" id="f2"><svg viewBox="0 0 40 40"><path d="M20 0 C21.6 13.2 26.8 18.4 40 20 C26.8 21.6 21.6 26.8 20 40 C18.4 26.8 13.2 21.6 0 20 C13.2 18.4 18.4 13.2 20 0 Z" fill="#FFC300" /></svg></div>
+              <div class="faisca" id="f3"><svg viewBox="0 0 40 40"><path d="M20 0 C21.6 13.2 26.8 18.4 40 20 C26.8 21.6 21.6 26.8 20 40 C18.4 26.8 13.2 21.6 0 20 C13.2 18.4 18.4 13.2 20 0 Z" fill="#FFC300" /></svg></div>
+            </div>
             <div id="sublinhado"></div>
             <div class="linha">em crédito para sua próxima viagem</div>
-          </div>
-          <div class="faisca" id="f1" style="left: 600px; top: 92px">
-            <svg viewBox="0 0 40 40"><path d="M20 0 C21.6 13.2 26.8 18.4 40 20 C26.8 21.6 21.6 26.8 20 40 C18.4 26.8 13.2 21.6 0 20 C13.2 18.4 18.4 13.2 20 0 Z" fill="#FFC300" /></svg>
-          </div>
-          <div class="faisca" id="f2" style="left: 640px; top: 150px; width: 26px; height: 26px; margin: -13px 0 0 -13px">
-            <svg viewBox="0 0 40 40"><path d="M20 0 C21.6 13.2 26.8 18.4 40 20 C26.8 21.6 21.6 26.8 20 40 C18.4 26.8 13.2 21.6 0 20 C13.2 18.4 18.4 13.2 20 0 Z" fill="#FFC300" /></svg>
-          </div>
-          <div class="faisca" id="f3" style="left: 82px; top: 228px; width: 32px; height: 32px; margin: -16px 0 0 -16px">
-            <svg viewBox="0 0 40 40"><path d="M20 0 C21.6 13.2 26.8 18.4 40 20 C26.8 21.6 21.6 26.8 20 40 C18.4 26.8 13.2 21.6 0 20 C13.2 18.4 18.4 13.2 20 0 Z" fill="#FFC300" /></svg>
           </div>
         </div>
       </div>
@@ -144,7 +164,7 @@
 
         const tEntra = at("ganha") - 0.05; // ≈ 0,33
         const tConta = at("R$ 100"); // ≈ 0,83
-        const tPousa = tConta + 0.7; // contador chega a 100
+        const tPousa = tConta + 0.7; // fim do contador (o 100 aparece ≈ 0,05 s antes, com snap)
         const tDemo = at("de") + 0.05; // ≈ 1,60 (atravessa o corte da filmagem em ≈ 2,15)
         const tDemoFim = tDemo + 0.6;
         const tSai = S.duration - 0.24; // saída curta, termina no corte para S4a
@@ -173,13 +193,13 @@
         // "de crédito": janela de demonstração 1,0 → 1,15 em torno do próprio centro
         tl.to("#grp", { scale: 1.15, duration: 0.6, ease: "power2.inOut" }, tDemo);
         // brilho atravessa o box enquanto a filmagem corta (≈ 2,15)
-        tl.to("#brilho", { x: 900, duration: 0.75, ease: "power2.inOut" }, tDemo + 0.3);
+        tl.to("#brilho", { x: 820, duration: 0.75, ease: "power2.inOut" }, tDemo + 0.3);
 
-        // deriva suave até o fim (≤ 2%)
-        tl.to("#grp", { scale: 1.17, y: -8, duration: tSai - tDemoFim, ease: "sine.inOut" }, tDemoFim);
+        // deriva suave até o fim: só sobe 10 px (a escala fica em 1,15 para a pegada caber em x 60–920)
+        tl.to("#grp", { y: -10, duration: tSai - tDemoFim, ease: "sine.inOut" }, tDemoFim);
 
         // saída curta no fim do trecho
-        tl.to("#box", { opacity: 0, scale: 0.94, y: 24, filter: "blur(8px)", duration: 0.22, ease: "power2.in" }, tSai);
+        tl.to("#box", { opacity: 0, scale: 0.94, y: 12, filter: "blur(8px)", duration: 0.22, ease: "power2.in" }, tSai);
 
         window.__timelines = window.__timelines || {};
         window.__timelines["S3c"] = tl;

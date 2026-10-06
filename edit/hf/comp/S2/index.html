@@ -8,35 +8,46 @@
     <script src="data/segments.js"></script>
     <link rel="stylesheet" href="shared/brand.css" />
     <style>
-      /* Layout C (gráfico inteiro): elemento principal com borda inferior entre y 1200 e 1230;
-         faixa de legendas (y 1267–1536) livre; botão de seta centrado em y≈1714. */
-      #cam {
+      /* Layout C (gráfico inteiro, sem câmera e sem imagens além do logotipo).
+         Elemento principal (título) com borda inferior entre y 1200 e 1230; faixa de legendas (y 1267–1536) livre;
+         linhas abaixo de y 900 terminam antes de x 940 (área dos botões do Instagram); botão de seta em y 1651. */
+      #fundo {
+        transform-origin: 540px 864px;
+      }
+      /* título em texto puro: frase oficial da peça 2, 4 linhas alinhadas à esquerda em x 73.
+         104 px × 0,95 = 98,8 px por linha → bloco de 395 px; topo 823 → borda inferior em y 1218 (cedilha ≈ 1228). */
+      #titulo {
         position: absolute;
-        inset: 0;
-        transform-origin: 540px 757px; /* centro do cartão da peça */
+        left: 73px;
+        top: 823px;
+        width: 880px;
+        font-size: 104px;
+        transform-origin: 0% 100%;
+        display: flex; /* flex: as margens negativas das máscaras não colapsam entre linhas */
+        flex-direction: column;
+        align-items: flex-start;
       }
-      /* fundo calmo: foto ensolarada desfocada + véu roxo, por cima do .fundo-roxo */
-      #fundoFoto {
+      /* cada linha sobe da sua própria máscara; o respiro (padding) evita cortar acentos e a cedilha */
+      #titulo .linha {
+        display: block;
+        overflow: hidden;
+        padding: 0.22em 0.06em 0.16em 0.04em;
+        margin: -0.22em -0.06em -0.16em -0.04em;
+      }
+      /* fio amarelo de abertura do título (sem texto, sem imagem) */
+      #fio {
         position: absolute;
-        inset: -120px;
-        background: url("assets/fotos/costa_amalfi.png") center 40% / cover no-repeat;
-        filter: blur(40px) saturate(1) brightness(0.92);
+        left: 4px;
+        top: -64px;
+        width: 128px;
+        height: 12px;
+        border-radius: 999px;
+        background: var(--amarelo);
       }
-      #fundoVeu {
-        position: absolute;
-        inset: -120px;
-        background: radial-gradient(circle at 50% 45%, rgba(99, 0, 94, 0.24) 0%, rgba(43, 0, 41, 0.74) 88%);
+      #titulo .txt {
+        display: block;
+        white-space: nowrap;
       }
-      /* peça principal (peca2) como cartão flutuante: 515 x 915, borda inferior em y = 1215 */
-      #peca {
-        left: 283px;
-        top: 300px;
-        width: 515px;
-        height: 915px;
-        border-radius: 15px; /* 3% da largura */
-        background: #2b0029 url("assets/pecas/peca2.png") center / cover no-repeat;
-      }
-      /* elementos fixos da campanha (fora da câmera) */
       #hud {
         position: absolute;
         inset: 0;
@@ -48,11 +59,13 @@
   </head>
   <body>
     <div id="root" data-composition-id="S2" data-start="0" data-width="1080" data-height="1920" data-duration="3.533333" data-fps="60">
-      <div class="fundo-roxo"></div>
-      <div id="cam">
-        <div id="fundoFoto"></div>
-        <div id="fundoVeu"></div>
-        <div id="peca" class="cartao"></div>
+      <div id="fundo" class="fundo-roxo"></div>
+      <div id="titulo" class="titulo">
+        <span id="fio"></span>
+        <span class="linha"><span class="txt">Sua <span class="am">próxima</span></span></span>
+        <span class="linha"><span class="txt"><span class="am">viagem</span> começa</span></span>
+        <span class="linha"><span class="txt">com uma</span></span>
+        <span class="linha"><span class="txt am">indicação.</span></span>
       </div>
       <div id="hud">
         <img id="logo" class="logo" src="assets/logo_parktur.png" alt="Parktur" />
@@ -65,10 +78,7 @@
       </div>
     </div>
     <script type="application/json" id="sfx-events">
-      [
-        { "t": 0.85, "type": "impacto", "nota": "selo INDIQUE E VIAJE! grande e centralizado assenta" },
-        { "t": 2.71, "type": "impacto", "nota": "cartão da peça oficial (peca2) assenta no centro" }
-      ]
+      [{ "t": 0.673, "type": "impacto", "nota": "selo INDIQUE E VIAJE! grande e centralizado assenta" }]
     </script>
     <script>
       (function () {
@@ -76,39 +86,53 @@
         const at = (w) => S.words.find((x) => x.w.startsWith(w)).t;
         const tl = gsap.timeline({ paused: true });
 
-        // selo: posição fixa (x73 y138, 538x106) → centro em (342, 191). Grande = 1,75x (942x186), centrado na horizontal
-        // e no centro óptico (y = 800): a pílula termina em y≈893, acima da área reservada à direita (x>940, y 900–1650).
+        // selo: posição fixa (x73 y138, 538x106) → centro em (342, 191). Grande = 1,75x (942x186), centrado na
+        // horizontal e em y = 800 (ocupa y 707–893). Sai dali antes de o título começar a subir.
         const SELO_X = 540 - 342;
         const SELO_Y = 800 - 191;
 
-        // quadro 0: só o fundo, parado e nítido
+        // quadro 0: só o fundo roxo, parado e nítido
         gsap.set("#selo", { x: SELO_X, y: SELO_Y, scale: 1.75 * 0.55, opacity: 0, transformOrigin: "50% 50%" });
         gsap.set("#logo", { opacity: 0, scale: 0.92, transformOrigin: "50% 50%" });
-        gsap.set("#peca", { opacity: 0, y: 160, scale: 0.95, transformOrigin: "50% 100%" });
-        gsap.set("#btn", { opacity: 0, scale: 0.82, transformOrigin: "50% 50%" });
+        gsap.set("#titulo .txt", { yPercent: 135 });
+        gsap.set("#fio", { scaleX: 0, transformOrigin: "0% 50%" });
+        gsap.set("#titulo", { scale: 1 });
+        gsap.set("#btn", { opacity: 0, scale: 0.6, transformOrigin: "50% 50%" });
 
-        // deriva suave da câmera (≤ 0,04) durante todo o trecho
-        tl.to("#cam", { scale: 1.025, duration: S.duration - 0.12, ease: "sine.inOut" }, 0.1);
+        // deriva suave do fundo durante todo o trecho
+        tl.to("#fundo", { scale: 1.04, duration: S.duration - 0.12, ease: "sine.inOut" }, 0.1);
 
-        // "Indique": o selo surge grande e centralizado, com leve ultrapassagem (impacto ao assentar ≈ 0,85 s)
+        // "Indique": o selo surge grande e centralizado, com leve ultrapassagem
+        // (back.out(1.6) atinge o tamanho final em 38,5% de 0,45 s → 0,173 s após tSelo = 0,07 s após "Indique")
         const tSelo = at("Indique") - 0.1;
         tl.to("#selo", { opacity: 1, duration: 0.16, ease: "power1.out" }, tSelo);
         tl.to("#selo", { scale: 1.75, duration: 0.45, ease: "back.out(1.6)" }, tSelo);
 
-        // "a nova campanha": o selo encolhe e viaja para a posição fixa (sem SFX)
+        // enquanto está grande, o selo respira levemente (sem ficar parado)
         const tVai = at("A") - 0.11;
+        tl.to("#selo", { scale: 1.75 * 1.025, duration: tVai - (tSelo + 0.45), ease: "sine.inOut" }, tSelo + 0.45);
+
+        // "a nova campanha": o selo encolhe e viaja para a posição fixa (sem SFX)
         tl.to("#selo", { x: 0, y: 0, scale: 1, duration: 0.6, ease: "power2.inOut" }, tVai);
 
-        // a peça principal sobe como cartão flutuante (impacto ao assentar ≈ 2,7 s)
-        const tPeca = at("nova") + 0.07;
-        tl.to("#peca", { opacity: 1, duration: 0.25, ease: "power1.out" }, tPeca);
-        tl.to("#peca", { y: 0, scale: 1, duration: 0.62, ease: "back.out(1.2)" }, tPeca);
-
         // logotipo aparece suave na posição fixa (sem SFX)
-        tl.to("#logo", { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, at("nova") + 0.15);
+        // (opacidade suave; escala com back.out leve, como as demais entradas)
+        tl.to("#logo", { opacity: 1, duration: 0.3, ease: "power2.out" }, at("nova") + 0.15);
+        tl.to("#logo", { scale: 1, duration: 0.5, ease: "back.out(1.4)" }, at("nova") + 0.15);
 
-        // botão de seta aparece suave no fim (marcador do próximo passo)
-        tl.to("#btn", { opacity: 1, scale: 1, duration: 0.45, ease: "power2.out" }, at("aqui") + 0.2);
+        // título em texto puro: linha a linha, cada uma sobe da sua máscara, quando o selo já liberou o centro
+        const tTit = tVai + 0.45;
+        tl.to("#fio", { scaleX: 1, duration: 0.5, ease: "power3.out" }, tTit - 0.08);
+        tl.to("#titulo .txt", { yPercent: 0, duration: 0.45, ease: "power3.out", stagger: 0.07 }, tTit);
+
+        // depois de assentar, deriva suave do bloco (cresce para cima/direita, borda inferior fixa)
+        const tAssenta = tTit + 0.07 * 3 + 0.45;
+        tl.to("#titulo", { scale: 1.018, duration: S.duration - tAssenta, ease: "sine.inOut" }, tAssenta);
+
+        // botão de seta entra no fim (marcador do próximo passo)
+        const tBtn = at("aqui") + 0.2;
+        tl.to("#btn", { opacity: 1, duration: 0.2, ease: "power1.out" }, tBtn);
+        tl.to("#btn", { scale: 1, duration: 0.5, ease: "back.out(1.8)" }, tBtn);
 
         window.__timelines["S2"] = tl;
       })();

@@ -1,17 +1,20 @@
 [
   {
-    "t": 0.3,
+    "word": "R$ 50",
+    "offset": 0.19,
     "type": "impacto",
-    "nota": "box SEU INDICADO GANHA R$50 assenta sobre a foto"
+    "nota": "box SEU INDICADO GANHA R$ 50 assenta sobre a filmagem (cruza a escala final em ≈ 0,20 s, já opaco)"
   },
   {
-    "t": 2.097,
+    "word": "contratação",
+    "offset": 0.0,
     "type": "passagem",
-    "nota": "ponto médio da passagem rápida da câmera até o cartão de contratação"
+    "nota": "ponto médio da passagem: o box sai pela esquerda e o cartão Contratação da viagem entra pela direita"
   },
   {
-    "t": 2.637,
+    "word": "contratação",
+    "offset": 0.55,
     "type": "confirmacao",
-    "nota": "desconto Benefício Indique e Viaje − R$ 50 carimbado no cartão de contratação"
+    "nota": "pílula Benefício Indique e Viaje − R$ 50 carimbada na vaga do cartão (pousa em ≈ 2,65 s, meio da janela de demonstração), check verde"
   }
 ]

@@ -8,139 +8,181 @@
     <script src="data/segments.js"></script>
     <link rel="stylesheet" href="shared/brand.css" />
     <style>
-      /* Layout dividido (B): conteúdo entre y 40 e 900; o ambiente some de 900 a 1060.
-         A cabeça do apresentador entra por cima a partir de y≈490 no centro: tudo que se lê fica em y 110–470. */
-      #ambiente {
-        position: absolute;
-        inset: 0;
-        -webkit-mask-image: linear-gradient(180deg, #000 0px, #000 900px, transparent 1060px);
-        mask-image: linear-gradient(180deg, #000 0px, #000 900px, transparent 1060px);
-      }
-      #cam {
-        position: absolute;
-        inset: 0;
-        /* origem no centro do box: a deriva cresce em volta dele e o mantém entre y 110 e 470 */
-        transform-origin: 306px 312px;
+      /* Camada transparente (layout A): o compositor aplica estes PNGs RGBA sobre a câmera intacta.
+         Zona livre inferior deste trecho: y 1050–1650 (queixo em 1000), x 60–920.
+         As duas estações ficam centradas em x = 490, y = 1310. */
+      html,
+      body {
+        background: transparent;
       }
 
-      /* ---------- cena 1: cartão de foto de destino (peça 5), borda inferior em y = 890 ---------- */
-      #foto {
-        left: 40px;
-        top: 40px;
-        width: 1000px;
-        height: 850px;
-        border-radius: 30px; /* 3% da largura */
-        background: #000;
-      }
-      /* rosto à direita, céu azul à esquerda (como na peça 5); o box fica sobre o céu */
-      #foto .img {
+      /* palco único da faixa livre: nenhum pixel (nem a cauda da var(--sombra), alfa > 8) sai de
+         x 60–920 nem de y 1050–1650. Os gráficos em si ficam sempre em x ≥ 100 e ≤ 880; a máscara
+         só esmaece a cauda da sombra em x 60–92 / 888–920 e serve de janela para a passagem
+         (o box sai pela esquerda, o cartão entra pela direita). */
+      #palco {
         position: absolute;
         inset: 0;
-        background: url("assets/fotos/praia_sorriso.png") 55% 50% / cover no-repeat;
+        -webkit-mask-image: linear-gradient(90deg, transparent 60px, #000 92px, #000 888px, transparent 920px);
+        mask-image: linear-gradient(90deg, transparent 60px, #000 92px, #000 888px, transparent 920px);
+        clip-path: inset(1050px 0 270px 0);
       }
-      #foto .escurece {
+
+      /* ---------- estação 1: box de valor (mesmo estilo do S3c) ---------- */
+      /* 700 × 390, x 140–840, y 1115–1505 (etiqueta a partir de 1079); na deriva (×1,03): y 1072–1511 */
+      #grpBox {
         position: absolute;
-        inset: 0;
-        background: rgba(20, 0, 20, 0.06);
+        left: 140px;
+        top: 1115px;
+        width: 700px;
+        height: 390px;
+        transform-origin: 50% 50%;
       }
       #box {
-        left: 60px;
-        top: 160px;
-        width: 488px;
-        height: 300px;
-      }
-      #box .etiqueta {
-        top: -31px;
-      }
-      #box .etiqueta > span {
-        height: 62px;
-        line-height: 62px;
-        padding: 0 24px;
-        font-size: 36px;
-      }
-      #box .valor {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 20px;
-        text-align: center;
-        font-size: 232px;
-      }
-      #box .corpo {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 22px;
-        text-align: center;
-        font-size: 32px;
-      }
-
-      /* ---------- cena 2: cartão de contratação (UI branca), no mundo à direita ---------- */
-      /* fundo da cena 2: cartão de foto (costa de Amalfi, peça 1) fora de foco, para o cartão de UI ficar na frente */
-      #foto2 {
-        left: 1140px;
-        top: 40px;
-        width: 1000px;
-        height: 850px;
-        border-radius: 30px;
-        background: #000;
-      }
-      #foto2 .img {
-        position: absolute;
-        inset: -24px;
-        background: url("assets/fotos/costa_amalfi.png") 50% 30% / cover no-repeat;
-        filter: blur(9px);
-      }
-      #foto2 .escurece {
         position: absolute;
         inset: 0;
-        background: rgba(43, 0, 41, 0.22);
-      }
-      /* tela após a passagem (câmera x = -1100): x 140–940, y 145–435; a 1,2x: x 60–1020, y 116–464 */
-      #contrato {
-        left: 1240px;
-        top: 145px;
-        width: 800px;
-        height: 290px;
-        border-radius: 24px; /* 3% da largura */
+        border: 4px solid var(--amarelo);
+        border-radius: 40px;
+        background: var(--roxo); /* totalmente opaco: o logotipo da camisa não aparece através do box */
+        box-shadow: var(--sombra);
         box-sizing: border-box;
-        padding: 28px 34px 0;
+        transform-origin: 50% 50%;
+      }
+      #box .recorte {
+        position: absolute;
+        inset: 0;
+        border-radius: 36px;
+        overflow: hidden;
+      }
+      #brilho {
+        position: absolute;
+        top: -40px;
+        bottom: -40px;
+        left: 0;
+        width: 180px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.16) 50%, rgba(255, 255, 255, 0) 100%);
+        transform: skewX(-18deg);
+      }
+      #box .etiqueta {
+        top: -36px;
+      }
+      #box .etiqueta > span {
+        box-sizing: border-box;
+        height: 68px;
+        line-height: 62px;
+        padding: 0 34px;
+        border: 3px solid var(--amarelo);
+        font-size: 44px;
+      }
+      #box .conteudo {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 44px;
+        bottom: 34px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      #box .valor {
+        font-size: 230px;
+        line-height: 0.86;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #box .valor .rs {
+        top: -0.06em;
+      }
+      #sublinhado {
+        width: 200px;
+        height: 8px;
+        margin-top: 18px;
+        border-radius: 999px;
+        background: var(--amarelo);
+        transform-origin: 50% 50%;
+      }
+      #box .linha {
+        margin-top: 18px;
+        font-weight: 400;
+        font-size: 38px;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        color: #fff;
+        white-space: nowrap;
+      }
+      .faisca {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        margin: -30px 0 0 -30px;
+      }
+      .faisca svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* ---------- estação 2: cartão de contratação (UI branca) ---------- */
+      /* 672 × 302, x 154–826, y 1159–1461; na demonstração + respiro (×1,16): x 100–880, y 1135–1485.
+         Com a var(--sombra) a pegada cabe em x 60–920 (a máscara do #palco esmaece só a cauda). */
+      #grpCartao {
+        position: absolute;
+        left: 154px;
+        top: 1159px;
+        width: 672px;
+        height: 302px;
+        transform-origin: 50% 50%;
+      }
+      #contrato {
+        position: absolute;
+        inset: 0;
+        border-radius: 24px; /* ≈ 3% da largura */
+        box-sizing: border-box;
+        padding: 30px 36px 0;
         color: var(--roxo);
-        overflow: visible; /* o carimbo do benefício pode passar da borda enquanto desce */
+        overflow: visible; /* o carimbo do benefício passa um pouco da borda enquanto desce */
+        transform-origin: 50% 50%;
       }
       #contrato .cab {
         display: flex;
         align-items: center;
-        gap: 18px;
-        height: 54px;
+        gap: 20px;
+        height: 56px;
       }
       #contrato .ico {
-        width: 54px;
-        height: 54px;
-        border-radius: 15px;
+        flex: none;
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
         background: var(--roxo);
         display: flex;
         align-items: center;
         justify-content: center;
       }
       #contrato .ico svg {
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
         transform: rotate(90deg);
       }
       #contrato .tit {
         font-weight: 700;
-        font-size: 40px;
+        font-size: 44px;
         letter-spacing: -0.02em;
         white-space: nowrap;
       }
-      /* linhas neutras (sem valores inventados) */
+      /* linhas neutras (sem dados inventados) */
       #contrato .ln {
         display: flex;
         justify-content: space-between;
         align-items: center;
         height: 18px;
-        margin-top: 20px;
+        margin-top: 18px;
+      }
+      #contrato .ln.primeira {
+        margin-top: 28px;
       }
       #contrato .ln i,
       #contrato .ln b {
@@ -152,60 +194,69 @@
       #contrato .ln b {
         background: #e2d6e1;
       }
-      #contrato .ln.primeira {
-        margin-top: 26px;
-      }
       /* vaga do benefício: contorno tracejado até o desconto ser carimbado */
       #contrato .vaga {
         position: absolute;
-        left: 24px;
-        right: 24px;
-        bottom: 24px;
-        height: 76px;
+        left: 22px;
+        right: 22px;
+        bottom: 26px;
+        height: 80px;
         border-radius: 999px;
-        border: 3px dashed #dccfdb;
+        border: 3px dashed #d6c6d4;
         box-sizing: border-box;
       }
       #desc {
         position: absolute;
-        left: 24px;
-        right: 24px;
-        bottom: 24px;
-        height: 76px;
+        left: 22px;
+        right: 22px;
+        bottom: 26px;
+        height: 80px;
         border-radius: 999px;
         background: var(--amarelo);
         color: var(--roxo);
         display: flex;
         align-items: center;
-        padding: 0 30px 0 14px;
+        padding: 0 26px 0 12px;
         box-sizing: border-box;
         box-shadow: 0 10px 24px rgba(99, 0, 94, 0.18);
+        transform-origin: 50% 50%;
       }
       #chk {
+        position: relative;
         flex: none;
-        width: 50px;
-        height: 50px;
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
         background: var(--verde);
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: 16px;
+        margin-right: 14px;
       }
       #chk svg {
         width: 30px;
         height: 30px;
       }
+      #anel {
+        position: absolute;
+        left: 12px;
+        top: 14px;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        border: 4px solid var(--verde);
+        box-sizing: border-box;
+      }
       #desc .dt {
         flex: 1;
         font-weight: 700;
-        font-size: 32px;
+        font-size: 34px;
         letter-spacing: -0.02em;
         white-space: nowrap;
       }
       #desc .dv {
         font-weight: 800;
-        font-size: 40px;
+        font-size: 42px;
         letter-spacing: -0.03em;
         white-space: nowrap;
       }
@@ -213,25 +264,30 @@
   </head>
   <body>
     <div id="root" data-composition-id="S4b" data-start="0" data-width="1080" data-height="1920" data-duration="3.416667" data-fps="60">
-      <div class="fundo-roxo"></div>
-      <div id="ambiente">
-        <div id="cam">
-          <div id="foto" class="cartao">
-            <div class="img"></div>
-            <div class="escurece"></div>
-            <div class="grad-leitura"></div>
-          </div>
-          <div id="box" class="box-valor">
+      <div id="palco">
+        <div id="grpBox">
+          <div id="box">
+            <div class="recorte"><div id="brilho"></div></div>
             <div class="etiqueta"><span>SEU INDICADO GANHA</span></div>
-            <div class="valor"><span class="rs">R$</span>50</div>
-            <div class="corpo">de benefício na contratação</div>
+            <div class="conteudo">
+              <div class="valor"><span class="rs">R$</span>50</div>
+              <div id="sublinhado"></div>
+              <div class="linha">de benefício na contratação</div>
+            </div>
+            <div class="faisca" id="f1" style="left: 612px; top: 96px">
+              <svg viewBox="0 0 40 40"><path d="M20 0 C21.6 13.2 26.8 18.4 40 20 C26.8 21.6 21.6 26.8 20 40 C18.4 26.8 13.2 21.6 0 20 C13.2 18.4 18.4 13.2 20 0 Z" fill="#FFC300" /></svg>
+            </div>
+            <div class="faisca" id="f2" style="left: 640px; top: 160px; width: 32px; height: 32px; margin: -16px 0 0 -16px">
+              <svg viewBox="0 0 40 40"><path d="M20 0 C21.6 13.2 26.8 18.4 40 20 C26.8 21.6 21.6 26.8 20 40 C18.4 26.8 13.2 21.6 0 20 C13.2 18.4 18.4 13.2 20 0 Z" fill="#FFC300" /></svg>
+            </div>
+            <div class="faisca" id="f3" style="left: 82px; top: 238px; width: 38px; height: 38px; margin: -19px 0 0 -19px">
+              <svg viewBox="0 0 40 40"><path d="M20 0 C21.6 13.2 26.8 18.4 40 20 C26.8 21.6 21.6 26.8 20 40 C18.4 26.8 13.2 21.6 0 20 C13.2 18.4 18.4 13.2 20 0 Z" fill="#FFC300" /></svg>
+            </div>
           </div>
+        </div>
 
-          <div id="foto2" class="cartao" data-layout-allow-overflow>
-            <div class="img"></div>
-            <div class="escurece"></div>
-          </div>
-          <div id="contrato" class="cartao" data-layout-allow-overflow>
+        <div id="grpCartao">
+          <div id="contrato" class="cartao">
             <div class="cab">
               <div class="ico">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -240,10 +296,11 @@
               </div>
               <div class="tit">Contratação da viagem</div>
             </div>
-            <div class="ln primeira"><i style="width: 250px"></i><b style="width: 150px"></b></div>
-            <div class="ln"><i style="width: 330px"></i><b style="width: 120px"></b></div>
+            <div class="ln primeira"><i style="width: 270px"></i><b style="width: 150px"></b></div>
+            <div class="ln"><i style="width: 350px"></i><b style="width: 120px"></b></div>
             <div class="vaga"></div>
             <div id="desc">
+              <div id="anel"></div>
               <div id="chk">
                 <svg viewBox="0 0 30 30" aria-hidden="true">
                   <path d="M7 15.5l5.5 5.5L23.5 9" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -256,13 +313,6 @@
         </div>
       </div>
     </div>
-    <script type="application/json" id="sfx-events">
-      [
-        { "t": 0.3, "type": "impacto", "nota": "box SEU INDICADO GANHA R$50 assenta sobre a foto" },
-        { "t": 2.097, "type": "passagem", "nota": "ponto médio da passagem rápida da câmera até o cartão de contratação" },
-        { "t": 2.637, "type": "confirmacao", "nota": "desconto Benefício Indique e Viaje − R$ 50 carimbado no cartão de contratação" }
-      ]
-    </script>
     <script>
       (function () {
         const S = window.SEGMENTS.S4b;
@@ -270,37 +320,67 @@
         const tl = gsap.timeline({ paused: true });
         const D = S.duration;
 
-        // quadro 0: cartão de foto parado e nítido; o box ainda não existe
-        gsap.set("#box", { opacity: 0, scale: 0.86, transformOrigin: "50% 50%" });
-        gsap.set("#contrato", { scale: 1, transformOrigin: "50% 50%" });
-        gsap.set("#desc", { opacity: 0, scale: 1.18, transformOrigin: "50% 50%" });
+        const tIn = Math.max(0.03, at("R$ 50") + 0.013); // ≈ 0,03 (o valor é falado logo no início)
+        const tPass = at("contratação") - 0.25; // ≈ 1,85 → ponto médio exatamente em "contratação"
+        const tZoom = tPass + 0.52; // cartão parado: janela de demonstração
+        const tStamp = tZoom + 0.06; // a pílula desce no meio da demonstração
+        const tPousa = tStamp + 0.22; // ≈ 2,65: pílula assenta (confirmação)
+        const tOut = D - 0.2; // saída curta, termina no corte para S5a
+
+        // quadro 0: nada visível
+        gsap.set("#grpBox", { scale: 1, y: 0 });
+        gsap.set("#box", { opacity: 0, scale: 0.86, y: 50, x: 0, filter: "blur(0px)" });
+        gsap.set("#sublinhado", { scaleX: 0 });
+        gsap.set("#brilho", { x: -260 });
+        gsap.set(".faisca", { scale: 0, rotation: -45, opacity: 0 });
+        gsap.set("#grpCartao", { x: 900, opacity: 0.7, scale: 1, y: 0, filter: "blur(12px)" });
+        gsap.set("#contrato", { scale: 1 });
+        gsap.set("#desc", { opacity: 0, scale: 1.18 });
         gsap.set("#chk", { scale: 0, transformOrigin: "50% 50%" });
+        gsap.set("#anel", { scale: 1, opacity: 0, transformOrigin: "50% 50%" });
 
-        // "R$ 50": o box chega logo após o quadro 0, com leve ultrapassagem (impacto ~0,30 s)
-        const t0 = Math.max(0.03, at("R$ 50") + 0.013);
-        tl.to("#box", { opacity: 1, duration: 0.16, ease: "power1.out" }, t0);
-        tl.to("#box", { scale: 1, duration: 0.4, ease: "back.out(1.6)" }, t0);
+        // "R$ 50": o box entra de baixo com leve ultrapassagem; back.out(1.6) cruza a escala 1 em 1/2,6 da duração
+        // (≈ 0,20 s, já 100% opaco) → impacto em "R$ 50" + 0,19; pico da ultrapassagem ≈ 0,30 s
+        tl.to("#box", { opacity: 1, duration: 0.16, ease: "power1.out" }, tIn);
+        tl.to("#box", { scale: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, tIn);
 
-        // deriva suave da câmera (Ken Burns, variação 0,025) em volta do box até a passagem
-        const tPass = at("contratação") - 0.25;
-        tl.to("#cam", { scale: 1.025, duration: tPass - 0.45, ease: "sine.inOut" }, 0.45);
+        // faíscas pequenas no pouso
+        tl.to("#f1", { scale: 1, rotation: 0, opacity: 1, duration: 0.32, ease: "back.out(2.2)" }, tIn + 0.2);
+        tl.to("#f2", { scale: 1, rotation: 0, opacity: 1, duration: 0.3, ease: "back.out(2.2)" }, tIn + 0.27);
+        tl.to("#f3", { scale: 1, rotation: 0, opacity: 1, duration: 0.32, ease: "back.out(2.2)" }, tIn + 0.33);
+        tl.to(".faisca", { scale: 0, rotation: 45, opacity: 0, duration: 0.35, ease: "power2.in", stagger: 0.07 }, tIn + 0.7);
 
-        // única passagem rápida: 0,5 s power3.inOut, começa 0,25 s antes de "contratação" (passagem no ponto médio)
-        tl.to("#cam", { x: -1100, scale: 1, duration: 0.5, ease: "power3.inOut" }, tPass);
+        // brilho atravessa o box logo depois de assentar
+        tl.to("#brilho", { x: 900, duration: 0.8, ease: "power2.inOut" }, tIn + 0.42);
 
-        // câmera parada: o cartão de contratação demonstra a ação (1 → 1,2x em 0,55 s, power2.inOut)
-        const tZoom = tPass + 0.53;
-        tl.to("#contrato", { scale: 1.2, duration: 0.55, ease: "power2.inOut" }, tZoom);
+        // "benefício": sublinhado amarelo se desenha do centro
+        tl.to("#sublinhado", { scaleX: 1, duration: 0.45, ease: "power3.out" }, at("benefício") - 0.12);
 
-        // o benefício é carimbado na vaga tracejada (assenta em ~2,64 s) e o check verde confirma
-        const tStamp = tZoom + 0.04;
-        tl.to("#desc", { opacity: 1, duration: 0.12, ease: "power1.out" }, tStamp);
+        // deriva suave até a passagem (≤ 3%)
+        tl.to("#grpBox", { scale: 1.03, y: -6, duration: tPass - 0.5, ease: "sine.inOut" }, 0.5);
+
+        // passagem (0,5 s power3.inOut): o box sai pela esquerda, o cartão entra pela direita no mesmo lugar;
+        // a máscara do #palco recorta os dois suavemente nas bordas x 60–92 / 888–920
+        tl.to("#box", { x: -900, opacity: 0.7, filter: "blur(14px)", duration: 0.5, ease: "power3.inOut" }, tPass);
+        tl.to("#grpCartao", { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.inOut" }, tPass);
+
+        // cartão parado: janela de demonstração 1,0 → 1,15 (power2.inOut 0,55 s)
+        tl.to("#contrato", { scale: 1.15, duration: 0.55, ease: "power2.inOut" }, tZoom);
+
+        // a pílula do benefício é carimbada na vaga tracejada e o check verde confirma
+        tl.to("#desc", { opacity: 1, duration: 0.1, ease: "power1.out" }, tStamp);
         tl.to("#desc", { scale: 1, duration: 0.22, ease: "power2.in" }, tStamp);
-        tl.to("#chk", { scale: 1, duration: 0.3, ease: "back.out(2)" }, tStamp + 0.22);
+        tl.to("#contrato .vaga", { opacity: 0, duration: 0.1, ease: "power1.out" }, tPousa);
+        tl.to("#chk", { scale: 1, duration: 0.3, ease: "back.out(2)" }, tPousa);
+        tl.fromTo("#anel", { scale: 1, opacity: 0.8 }, { scale: 2.1, opacity: 0, duration: 0.5, ease: "power2.out", immediateRender: false }, tPousa + 0.08);
 
-        // respiro final: o cartão continua crescendo muito pouco (sem parada morta)
-        tl.to("#contrato", { scale: 1.215, duration: D - (tZoom + 0.55), ease: "sine.inOut" }, tZoom + 0.55);
+        // respiro: o cartão continua crescendo muito pouco até a saída (sem parada morta)
+        tl.to("#contrato", { scale: 1.16, duration: tOut - (tZoom + 0.55), ease: "sine.inOut" }, tZoom + 0.55);
 
+        // saída curta no fim do trecho
+        tl.to("#grpCartao", { opacity: 0, y: 24, scale: 0.96, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, tOut);
+
+        window.__timelines = window.__timelines || {};
         window.__timelines["S4b"] = tl;
       })();
     </script>
